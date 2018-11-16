@@ -1,0 +1,1 @@
+move .\EdmaLib_Data\Release\w55fa92_edma.lib ..\..\Lib

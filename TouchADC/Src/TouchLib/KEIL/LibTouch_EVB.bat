@@ -1,0 +1,1 @@
+move .\LibTouch_Data\LibTouch_EVB\w55fa92_ts_adc.lib ..\..\..\Lib

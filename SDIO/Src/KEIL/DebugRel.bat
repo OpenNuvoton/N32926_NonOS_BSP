@@ -1,0 +1,1 @@
+move .\dev_sdio_Data\DebugRel\W55FA92_SDIO.lib ..\..\Lib

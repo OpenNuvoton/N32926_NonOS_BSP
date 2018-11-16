@@ -1,0 +1,15 @@
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\Smpl_HM1375.c
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\SYSLIB\Lib\wblib.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\SYSLIB\Lib\W55FA92_reg.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\SYSLIB\Lib\wberrcode.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\SYSLIB\Lib\wbio.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\SYSLIB\Lib\wbtypes.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\Lib\W55FA92_VideoIn.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\..\..\GPIO\lib\W55FA92_GPIO.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: C:\Keil_v5\ARM\ARMCC\include\stdio.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: C:\Keil_v5\ARM\ARMCC\include\stdlib.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: C:\Keil_v5\ARM\ARMCC\include\string.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\I2CS\DrvI2C.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\demo.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\HM1375\HM1375_YUV_HD720.dat
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm1375.o: ..\..\HM1375\HM1375_VGA_PCLK_96MHz.dat
