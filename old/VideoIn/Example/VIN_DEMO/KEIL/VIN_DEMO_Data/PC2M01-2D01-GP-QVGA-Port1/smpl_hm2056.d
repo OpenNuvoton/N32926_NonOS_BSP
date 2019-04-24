@@ -1,0 +1,15 @@
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\Smpl_HM2056.c
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\SYSLIB\Lib\wblib.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\SYSLIB\Lib\W55FA92_reg.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\SYSLIB\Lib\wberrcode.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\SYSLIB\Lib\wbio.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\SYSLIB\Lib\wbtypes.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\Lib\W55FA92_VideoIn.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\..\..\GPIO\lib\W55FA92_GPIO.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: C:\Keil_v5\ARM\ARMCC\include\stdio.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: C:\Keil_v5\ARM\ARMCC\include\stdlib.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: C:\Keil_v5\ARM\ARMCC\include\string.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\I2CS\DrvI2C.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\demo.h
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\HM2056\HM2056_VGA.dat
+.\vin_demo_data\pc2m01-2d01-gp-qvga-port1\smpl_hm2056.o: ..\..\HM2056\HM2056_FullMode_HD720P.dat

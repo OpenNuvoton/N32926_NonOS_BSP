@@ -1,0 +1,1 @@
+move .\aes_Data\DebugRel\W55FA92_AES.lib ..\..\Lib

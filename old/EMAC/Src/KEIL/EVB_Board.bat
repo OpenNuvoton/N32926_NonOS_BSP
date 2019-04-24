@@ -1,0 +1,1 @@
+move .\EMACLib_Data\EVB_Board\EMACLib.lib ..\..\Lib

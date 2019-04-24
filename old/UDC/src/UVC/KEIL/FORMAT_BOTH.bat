@@ -1,0 +1,1 @@
+move .\UVC_Data\FORMAT_BOTH\w55fa92_UVC.lib ..\..\..\Lib

@@ -1,0 +1,1 @@
+move .\VPE_Data\DebugRel\W55FA92_VPE.lib ..\..\..\Lib

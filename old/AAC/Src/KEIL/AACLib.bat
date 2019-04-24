@@ -1,0 +1,1 @@
+move .\AACLib_Data\AACLib\w55fa92_AAC.lib ..\..\Lib

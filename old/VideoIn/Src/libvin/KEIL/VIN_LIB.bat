@@ -1,0 +1,1 @@
+move .\libvin_Data\VIN_LIB\W55FA92_VideoIn.lib ..\..\..\Lib

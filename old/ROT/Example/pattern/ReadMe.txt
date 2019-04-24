@@ -1,0 +1,1 @@
+Put whole pattern folder to SD root directory. 

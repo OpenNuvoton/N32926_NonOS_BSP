@@ -1,0 +1,1 @@
+move .\DrvRSCodec_Data\DebugRel\W55FA92_RS.lib ..\..\Lib
