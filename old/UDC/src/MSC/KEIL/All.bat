@@ -1,1 +1,0 @@
-move .\MSC_Data\All\w55fa92_MSC_All.lib ..\..\..\Lib

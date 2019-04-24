@@ -1,1 +1,0 @@
-move .\UAVC_Data\FORMAT_BOTH\w55fa92_UAVC.lib ..\..\..\Lib

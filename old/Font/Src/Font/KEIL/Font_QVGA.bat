@@ -1,1 +1,0 @@
-move .\Font_Data\Font_QVGA\Font_QVGA.lib ..\..\..\Lib

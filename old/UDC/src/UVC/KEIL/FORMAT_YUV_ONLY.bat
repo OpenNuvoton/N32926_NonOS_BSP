@@ -1,1 +1,0 @@
-move .\UVC_Data\FORMAT_YUV_ONLY\w55fa92_UVC_YUV_Only.lib ..\..\..\Lib

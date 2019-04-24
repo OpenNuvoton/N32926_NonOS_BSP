@@ -1,1 +1,0 @@
-move .\MSC_CDROM_Data\All\w55fa92_MSC_All_CDROM.lib ..\..\..\Lib

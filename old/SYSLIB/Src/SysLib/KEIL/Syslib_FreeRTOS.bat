@@ -1,1 +1,0 @@
-move .\SysLib_Data\Syslib\W55FA92_syslib_freertos.lib ..\..\..\Lib

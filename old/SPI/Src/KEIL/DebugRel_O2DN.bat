@@ -1,1 +1,0 @@
-move .\dev_spi_Data\DebugRel\w55fa92_SPI_O2DN.lib ..\..\Lib

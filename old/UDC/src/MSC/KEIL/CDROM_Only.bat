@@ -1,1 +1,0 @@
-move .\MSC_CDROM_Data\CDROM_Only\w55fa92_MSC_CDROM_Only.lib ..\..\..\Lib

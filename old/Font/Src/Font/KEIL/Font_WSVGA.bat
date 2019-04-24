@@ -1,1 +1,0 @@
-move .\Font_Data\Font_WSVGA\Font_WSVGA.lib ..\..\..\Lib

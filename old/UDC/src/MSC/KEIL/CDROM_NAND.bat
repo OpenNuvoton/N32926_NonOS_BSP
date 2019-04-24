@@ -1,1 +1,0 @@
-move .\MSC_CDROM_Data\NAND\w55fa92_MSC_NAND_CDROM.lib ..\..\..\Lib
