@@ -328,7 +328,8 @@ VOID vpostSetDataBusPin(E_DRVVPOST_DATABUS eDataBus)
 #if 0 // for FPGA
 		outpw(0xB00000F0, (inpw(0xB00000F0)&0xFFFFF000)|0x00000555);  // enable LVDATA[23:18] pins	
 #else
-		outpw(REG_GPBFUN1, (inpw(REG_GPBFUN1)&0xFFF00000)|0x00022222);  // enable LVDATA[23:18] pins	
+		outpw(REG_GPBFUN0, (inpw(REG_GPBFUN0)&0x0FFFFFFF)|0x20000000); 	// enable LVDATA[18] pin
+		outpw(REG_GPBFUN1, (inpw(REG_GPBFUN1)&0xFFF00000)|0x00022222);  // enable LVDATA[23:19] pins	
 #endif		
 	}
 }
