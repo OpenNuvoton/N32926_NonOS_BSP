@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "usbd.h"
 #include "HID.h"
 #ifdef HID_KEYPAD  
-	#include "w55fa92_ts_adc.h"
+	#include "W55FA92_ADC.h"
 #endif
 	
 int main(void)

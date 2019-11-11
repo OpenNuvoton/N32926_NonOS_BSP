@@ -29,11 +29,19 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_spu.h"
+#include "W55FA92_SPU.h"
 
-__align (32) UINT8 g_AudioPattern[] = {
-		#include "pcm16_raw.dat"
+#if defined (__GNUC__) && !(__CC_ARM)
+__attribute__ ((aligned (32))) UINT8 g_AudioPattern[] = {
+		#include "PCM16_raw.dat"
 };
+#else
+__align (32) UINT8 g_AudioPattern[] = {
+		#include "PCM16_raw.dat"
+};
+#endif
+
+
 #define SMIC_CTRL_REG	0xB1000050
 
 void delay(UINT32 kk)
@@ -65,8 +73,14 @@ int main(void)
 	UINT32 u32TestChannel, uSamplingRate;	
 	UINT8 u8SrcFormat;
 
+#if 1
+	/* enable U10 ISD8101 in N9H26 HMI demo board */
+	outpw(REG_GPAFUN0, inpw(REG_GPAFUN0)&~MF_GPA0);	// enable LPCLK pin
+	outpw(REG_GPIOA_OMD, REG_GPIOA_OMD| 0x00000001);
+	outpw(REG_GPIOA_DOUT, inpw(REG_GPIOA_DOUT)| 0x00000001);
+#endif
 		DrvSPU_Open();
-		
+
 //		uSamplingRate = eDRVSPU_FREQ_32000;
 		uSamplingRate = eDRVSPU_FREQ_44100;		
 		
@@ -103,8 +117,9 @@ int main(void)
 
 //		DrvSPU_SetVolume(0x1a1a);
 		DrvSPU_StartPlay();
+		sysprintf("Start Playing...\n");
 
-//    while(1);	
+    while(1);
 		
 	return(0);
 }

@@ -1,6 +1,4 @@
-#include "syslib/wbtypes.h"
-#include "syslib/wbio.h"
-#include "syslib/wblib.h"
+#include "wblib.h"
 
 const char _UnicodeTable[];
 const char _Big5CodeTable[];

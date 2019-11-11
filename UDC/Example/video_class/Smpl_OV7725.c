@@ -2,7 +2,7 @@
 #include "W55FA92_VideoIn.h"
 #include "W55FA92_GPIO.h"
 #include "demo.h"
-#include "w55fa92_i2c.h"
+#include "W55FA92_I2C.h"
 
 #include "DrvI2C.h"
 

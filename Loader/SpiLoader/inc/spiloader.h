@@ -8,7 +8,7 @@
 #define __UPLL_240__
 
 /* Enable 4 bit mode */
-#define __OTP_4BIT__
+//#define __OTP_4BIT__
 //#define __N32926O2DN__
 
 #define __RTC_HW_PWOFF__

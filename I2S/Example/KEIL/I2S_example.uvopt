@@ -103,6 +103,7 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <nTsel>6</nTsel>
@@ -167,6 +168,9 @@
         <newCpu>0</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <LintExecutable></LintExecutable>
       <LintConfigFile></LintConfigFile>
     </TargetOption>
@@ -177,6 +181,7 @@
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
@@ -188,8 +193,10 @@
       <TopLine>22</TopLine>
       <CurrentLine>28</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Src\I2S_example.c</PathWithFileName>
-      <FilenameWithoutPath>I2S_example.c</FilenameWithoutPath>
+      <PathWithFileName>..\Src\I2S_Example.c</PathWithFileName>
+      <FilenameWithoutPath>I2S_Example.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -204,6 +211,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\standalone.c</PathWithFileName>
       <FilenameWithoutPath>standalone.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -218,6 +227,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\wb_init.s</PathWithFileName>
       <FilenameWithoutPath>wb_init.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -230,8 +241,10 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\Lib\w55fa92_i2s.lib</PathWithFileName>
-      <FilenameWithoutPath>w55fa92_i2s.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\Lib\W55FA92_I2S.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_I2S.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -244,8 +257,10 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</PathWithFileName>
-      <FilenameWithoutPath>W55FA92_syslib.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_SYSLib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -260,6 +275,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\NVTFAT\lib\W55FA92_nvtfat.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_nvtfat.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -274,6 +291,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\SIC\Lib\W55FA92_SIC.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_SIC.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
   </Group>
 

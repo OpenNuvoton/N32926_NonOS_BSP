@@ -4,8 +4,11 @@
 #include "W55FA92_GPIO.h"
 #include "demo.h"
 #include "DrvI2C.h"
+#ifdef __GNUC__
+#include "GM7150/sensor_gm7150.h"
+#else
 #include "GM7150\sensor_gm7150.h"
-
+#endif
 
 
 typedef struct
@@ -41,7 +44,11 @@ struct OV_RegTable{
 
 static struct OV_RegValue g_sGM7150_Init[]=
 {
+#ifdef __GNUC__
+	#include "GM7150/GM7150.dat"
+#else
 	#include "GM7150\GM7150.dat"
+#endif
 };
 static struct OV_RegTable g_OV_InitTable[] =
 {//8 bit slave address, 8 bit data. 

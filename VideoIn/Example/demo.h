@@ -32,7 +32,7 @@
 //#define WT8861
 //#define TW9912
 //#define OV7725_VGA
-//#define NT99141_VGA
+#define NT99141_VGA
 //#define NT99141_HD
 //#define NT99142_VGA
 //#define NT99142_SVGA
@@ -43,7 +43,7 @@
 //#define NT99160_HD
 //#define HM1375_VGA
 //#define HM1375_HD
-#define HM2056_HD
+//#define HM2056_HD
 //#define HM2056_VGA
 //#define HM1246_VGA
 //#define HM1246_HD
@@ -173,7 +173,7 @@
 #define OPT_LCM_HEIGHT		480
 #define OPT_PREVIEW_WIDTH		640
 #define OPT_PREVIEW_HEIGHT		480
-#elif defined(__LCM_320x240__)
+#elif defined(__LCM_320x240__) || defined(__LCM_QVGA__)
 #define OPT_STRIDE				320
 #define OPT_LCM_WIDTH			320
 #define OPT_LCM_HEIGHT		240
@@ -185,6 +185,12 @@
 #define OPT_LCM_HEIGHT		272
 #define OPT_PREVIEW_WIDTH		364
 #define OPT_PREVIEW_HEIGHT		272
+#elif defined(__LCM_WVGA__) || defined(__LCM_800x480__)
+#define OPT_STRIDE				800
+#define OPT_LCM_WIDTH			800
+#define OPT_LCM_HEIGHT		480
+#define OPT_PREVIEW_WIDTH		640
+#define OPT_PREVIEW_HEIGHT		480
 #else
 	#error "Please select one sensor"
 #endif
@@ -273,6 +279,7 @@ UINT32 Smpl_OV7670_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu
 UINT32 Smpl_OV7725_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_NT99141_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_NT99141_HD(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+UINT32 Smpl_NT99141_VGA_MotionDetection(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_NT99141_DEV1_HD_DEV2_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_NT99050(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_NT99160_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
@@ -301,6 +308,12 @@ UINT32 Smpl_GM7150_TwoFields(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UIN
 UINT32 Smpl_TVP5150_OneField(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_TVP5150_TwoFields(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 UINT32 Smpl_TW9900_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+UINT32 Smpl_HM2056_HD(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+UINT32 Smpl_HM2056_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+void Smpl_HM2056_LightMode(void);
+UINT32 Smpl_HM1246_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+UINT32 Smpl_HM1246_HD720P(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
+UINT32 Smpl_HM1246_SXGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu8FrameBuffer2);
 void Delay(UINT32 nCount);
 
 //Smpl_VPOST.C

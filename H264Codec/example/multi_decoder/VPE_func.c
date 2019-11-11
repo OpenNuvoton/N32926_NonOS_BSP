@@ -12,12 +12,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_vpe.h"
-#include "nvtfat.h"
+#include "W55FA92_VPE.h"
+#include "NVTFAT.h"
 #include "W55FA92_SIC.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_VPOST.h"
 #include "h264.h"
 
 #define LCM_WIDTH 	320
@@ -129,28 +129,28 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 				vpeIoctl(VPE_IOCTL_SET_SRC_OFFSET,		
 							(UINT32)0,	/* Src Left offset */
 							(UINT32)0,	/* Src right offset */
-							NULL);	
+							0);	
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)0,				/* Dst right offset */
-							NULL);	
+							0);	
 						
 				vpeIoctl(VPE_IOCTL_SET_SRC_DIMENSION,						
 							640,
 							480,
-							NULL);
+							0);
 																						
 				vpeIoctl(VPE_IOCTL_SET_COLOR_RANGE,
 							FALSE,
 							FALSE,
-							NULL);			
+							0);			
 							
 				vpeIoctl(VPE_IOCTL_SET_FILTER,
 							//VPE_SCALE_3X3,			//Removed 
 							//VPE_SCALE_DDA,			//OK
 							VPE_SCALE_BILINEAR,		//
-							NULL,
-							NULL);		
+							0,
+							0);		
 				
 				vpeIoctl(VPE_IOCTL_SET_3X3_COEF,
 							0x0,						//Central weight =0 ==> Hardware bulid in coefficience. 
@@ -167,13 +167,13 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 					vpeIoctl(VPE_IOCTL_SET_DSTBUF_ADDR,
 							//(UINT32)VPOSDISPLAYBUFADDR,
 							(UINT32)dec_mmap_addr,
-							NULL,
-							NULL);	
+							0,
+							0);	
 								
 					vpeIoctl(VPE_IOCTL_SET_DST_DIMENSION,	
 								u32Width,
 								u32Height,
-								NULL);											
+								0);											
 								
 	return 0;
 }	
@@ -181,9 +181,9 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 INT32 VPE_trigger(void)
 {
 					vpeIoctl(VPE_IOCTL_TRIGGER,
-								NULL,
-								NULL,
-								NULL);	
+								0,
+								0,
+								0);	
 	return 0;
 }
 
@@ -208,9 +208,9 @@ int FormatConversion(void* data, char* pDstBuf, int decoded_img_width, int decod
 			{
 				ERRCODE errcode;
 				errcode = vpeIoctl(VPE_IOCTL_CHECK_TRIGGER,	//TRUE==>Not complete, FALSE==>Complete
-									NULL,					
-									NULL,
-									NULL);
+									0,
+									0,
+									0);
 				if(errcode==0)
 					break;								
 			}while(1);    
@@ -218,7 +218,7 @@ int FormatConversion(void* data, char* pDstBuf, int decoded_img_width, int decod
 			vpeIoctl(VPE_IOCTL_SET_SRC_DIMENSION,						
 						decoded_img_width,
 						decoded_img_height,
-						NULL);
+						0);
 						
 			{
 			 //int width,height;
@@ -236,7 +236,7 @@ int FormatConversion(void* data, char* pDstBuf, int decoded_img_width, int decod
 			vpeIoctl(VPE_IOCTL_SET_DST_DIMENSION,	
 						width,
 						height,
-						NULL);		
+						0);
 			}			
 						
 			if (decoded_img_width <	LCM_WIDTH/2)
@@ -244,20 +244,20 @@ int FormatConversion(void* data, char* pDstBuf, int decoded_img_width, int decod
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)LCM_WIDTH - width ,	/* Dst right offset */
-							NULL);												
+							0);
 			}
 			else
 			{
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)LCM_WIDTH/2,				/* Dst right offset */
-							NULL);			
+							0);
 			}			
 				
 			vpeIoctl(VPE_IOCTL_SET_DSTBUF_ADDR,
 					(UINT32)pDstBuf,
-					NULL,
-					NULL);					
+					0,
+					0);
 										        
 			vpeIoctl(VPE_IOCTL_SET_SRCBUF_ADDR,
 					(UINT32)pict->data[0],				

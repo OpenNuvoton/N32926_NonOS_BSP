@@ -1,0 +1,1 @@
+move .\AudioRecord_Data\DebugRel\W55FA92_AUR.lib ..\..\Lib

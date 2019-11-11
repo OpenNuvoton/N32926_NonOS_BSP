@@ -8,7 +8,7 @@
 #include <string.h>
 #include "wblib.h"
 
-#include "w55fa92_i2c.h"
+#include "W55FA92_I2C.h"
 #include "DrvI2CH.h"
 
 volatile PFN_DRVI2CH_INT_CALLBACK g_pfnI2CHCallback = {0};
@@ -394,22 +394,13 @@ DrvI2CH_Open(
 //	outp32(PINFUN1, inp32(PINFUN1) | (0x0F << 16));
 
 	// enable I2C engine clock 
-#ifdef OPT_FPGA_DEBUG
-	outp32(REG_AHBCLK, inp32(REG_AHBCLK) | SD_CKE);
 	outp32(REG_APBCLK, inp32(REG_APBCLK) | I2C_CKE);	
-#else	
-	outp32(REG_APBCLK, inp32(REG_APBCLK) | I2C_CKE);	
-#endif
 
 	// reset I2C engine 
 	outp32(REG_APBIPRST, inp32(REG_APBIPRST) | I2CRST);
 	outp32(REG_APBIPRST, inp32(REG_APBIPRST) & ~I2CRST);	
 
-#ifdef OPT_FPGA_DEBUG
-	u32ApbKHz =  EXT_CRYSTAL;
-#else
 	u32ApbKHz = sysGetAPBClock()/1000;
-#endif 
 
 	n32Divider = u32ApbKHz/(5*u32I2cClock)-1;
 	if(n32Divider<=1)
@@ -440,12 +431,7 @@ void DrvI2CH_Close(void)
 	outp32(REG_APBIPRST, inp32(REG_APBIPRST) | I2CRST);
 	outp32(REG_APBIPRST, inp32(REG_APBIPRST) & ~I2CRST);	
 
-#ifdef OPT_FPGA_DEBUG
-	outp32(REG_AHBCLK, inp32(REG_AHBCLK) & ~SD_CKE);
 	outp32(REG_APBCLK, inp32(REG_APBCLK) & ~I2C_CKE);	
-#else	
-	outp32(REG_APBCLK, inp32(REG_APBCLK) & ~I2C_CKE);	
-#endif
 
 }
 

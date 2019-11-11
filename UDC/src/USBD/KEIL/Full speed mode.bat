@@ -1,1 +1,1 @@
-move .\usbd_Data\Full_speed_mode\w55fa92_UDC_Fullspeed.lib ..\..\..\Lib
+move .\usbd_Data\Full_speed_mode\W55FA92_UDC_Fullspeed.lib ..\..\..\Lib

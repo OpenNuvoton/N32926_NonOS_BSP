@@ -35,8 +35,8 @@
 #include "wblib.h"
 
 
-#include "w55fa92_reg.h"
-#include "w55fa92_spi.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SPI.h"
 
 static PFN_DRVSPI_CALLBACK g_pfnSPI0callback = NULL;
 static PFN_DRVSPI_CALLBACK g_pfnSPI1callback = NULL;

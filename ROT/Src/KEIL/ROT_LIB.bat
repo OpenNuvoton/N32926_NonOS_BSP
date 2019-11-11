@@ -1,0 +1,1 @@
+move W55FA92_ROT.lib ..\..\Lib

@@ -2,8 +2,8 @@
 #include <string.h>
 
 #include "port.h"
-#include "w55fa92_reg.h"
-#include "h264dec.h"
+#include "W55FA92_reg.h"
+#include "H264Dec.h"
 #include "wbtypes.h"
 #include "wblib.h"
 #include "register.h"

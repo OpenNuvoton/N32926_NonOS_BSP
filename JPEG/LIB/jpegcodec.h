@@ -9,7 +9,7 @@
 
 //Include header file
 #include "wbio.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 
 #define E_FAIL		0
 #define E_SUCCESS	1

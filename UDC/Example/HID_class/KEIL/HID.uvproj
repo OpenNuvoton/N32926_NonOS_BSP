@@ -138,7 +138,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -426,9 +426,9 @@
               <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_ts_adc.lib</FileName>
+              <FileName>W55FA92_ADC.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\TouchADC\Lib\w55fa92_ts_adc.lib</FilePath>
+              <FilePath>..\..\..\..\TouchADC\Lib\W55FA92_ADC.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -566,7 +566,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -854,9 +854,9 @@
               <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_ts_adc.lib</FileName>
+              <FileName>W55FA92_ADC.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\TouchADC\Lib\w55fa92_ts_adc.lib</FilePath>
+              <FilePath>..\..\..\..\TouchADC\Lib\W55FA92_ADC.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -994,7 +994,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1282,9 +1282,9 @@
               <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_ts_adc.lib</FileName>
+              <FileName>W55FA92_ADC.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\TouchADC\Lib\w55fa92_ts_adc.lib</FilePath>
+              <FilePath>..\..\..\..\TouchADC\Lib\W55FA92_ADC.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -1422,7 +1422,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1710,9 +1710,9 @@
               <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_ts_adc.lib</FileName>
+              <FileName>W55FA92_ADC.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\TouchADC\Lib\w55fa92_ts_adc.lib</FilePath>
+              <FilePath>..\..\..\..\TouchADC\Lib\W55FA92_ADC.lib</FilePath>
             </File>
           </Files>
         </Group>

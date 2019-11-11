@@ -8,10 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"	
-#include "nvtfat.h"
-#include "w55fa92_sic.h"
-#include "w55fa92_vpost.h"
-#include "w55fa92_vpe.h"
+#include "NVTFAT.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_VPOST.h"
+#include "W55FA92_VPE.h"
 
 #include "favc_avcodec.h"
 #include "favc_version.h"
@@ -374,7 +374,7 @@ int DecodeH264(char *src264File, char *src264info)
 			vpeIoctl(VPE_IOCTL_SET_SRC_DIMENSION,						
 						decoded_img_width,
 						decoded_img_height,
-						NULL);
+						0);
 						
 			{
 			 int width,height;
@@ -392,7 +392,7 @@ int DecodeH264(char *src264File, char *src264info)
 			vpeIoctl(VPE_IOCTL_SET_DST_DIMENSION,	
 						width,
 						height,
-						NULL);		
+						0);
 			}			
 						
 			if (decoded_img_width <	LCM_WIDTH)
@@ -400,14 +400,14 @@ int DecodeH264(char *src264File, char *src264info)
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)LCM_WIDTH - decoded_img_width ,	/* Dst right offset */
-							NULL);												
+							0);
 			}
 			else
 			{
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)0,				/* Dst right offset */
-							NULL);			
+							0);
 			}						
 										        
 			vpeIoctl(VPE_IOCTL_SET_SRCBUF_ADDR,
@@ -421,9 +421,9 @@ int DecodeH264(char *src264File, char *src264info)
 			{
 				ERRCODE errcode;
 				errcode = vpeIoctl(VPE_IOCTL_CHECK_TRIGGER,	//TRUE==>Not complete, FALSE==>Complete
-									NULL,					
-									NULL,
-									NULL);
+									0,
+									0,
+									0);
 				if(errcode==0)
 					break;								
 			}while(1);		    		
@@ -506,7 +506,7 @@ int main(void)
     //fmiSD_Set_clock(200);
 
 	fsInitFileSystem();
-	fmiInitDevice(); 
+	sicOpen(); 
 	if (sicSdOpen0() <=0)
 	{
 		Console_Printf("Error in initialize SD card !!\n");

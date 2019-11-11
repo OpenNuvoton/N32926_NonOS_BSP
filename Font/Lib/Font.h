@@ -44,29 +44,28 @@ typedef	struct
 
 #define _BPP_				2
 #define _BORDER_WIDTH_		2			//2 Pixels		
-#ifdef _DEMO_WVGA_
+#ifdef _DEMO_WQVGA_
 	#define _FONT_STRIDE_	480
 	#define _FONT_LINE_		47			//480/10 = 48,
 	#define _LCM_WIDTH_		480
 	#define _LCM_HEIGHT_	272
-#endif
-#ifdef _DEMO_QVGA_
+#elif defined(_DEMO_QVGA_)
 	#define _FONT_STRIDE_	320
 	#define _FONT_LINE_		31			//320/10 = 32,
 	#define _LCM_WIDTH_		320
 	#define _LCM_HEIGHT_	240
-#endif
-#ifdef _DEMO_VGA_
+#elif defined(_DEMO_VGA_)
 	#define _FONT_STRIDE_	640
 	#define _FONT_LINE_		63			//640/10 = 64,
 	#define _LCM_WIDTH_		640
 	#define _LCM_HEIGHT_	480
-#endif
-#ifdef _DEMO_WSVGA_
+#elif defined(_DEMO_WVGA_)
 	#define _FONT_STRIDE_	800
 	#define _FONT_LINE_		79			//800/10 = 80,
 	#define _LCM_WIDTH_		800
 	#define _LCM_HEIGHT_	480
+#else
+#error  "Wrong Dimension"
 #endif
 
 

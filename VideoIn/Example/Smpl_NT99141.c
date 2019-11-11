@@ -34,7 +34,11 @@ extern UINT8 u8MDO[];
 
 struct NT_RegValue g_sNT99141_Init[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_Init.dat"
+#else
 	#include "NT99141\NT99141_Init.dat"
+#endif
 };
 
 #if !defined(__PCLK_48MHZ__) && !defined(__PCLK_60MHZ__)&&!defined(__PCLK_74MHZ__)
@@ -55,43 +59,79 @@ struct NT_RegValue g_sNT99141_VGA[] =
 #ifdef __PCLK_48MHZ__
 struct NT_RegValue g_sNT99141_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_HD720_PCLK_48MHz.dat"
+#else
 	#include "NT99141\NT99141_HD720_PCLK_48MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_SVGA_PCLK_48MHz.dat"
+#else
 	#include "NT99141\NT99141_SVGA_PCLK_48MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_VGA_PCLK_48MHz.dat"
+#else
 	#include "NT99141\NT99141_VGA_PCLK_48MHz.dat"
+#endif
 };
 #endif
 #ifdef __PCLK_60MHZ__
 struct NT_RegValue g_sNT99141_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_HD720_PCLK_60MHz.dat"
+#else
 	#include "NT99141\NT99141_HD720_PCLK_60MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_SVGA_PCLK_60MHz.dat"
+#else
 	#include "NT99141\NT99141_SVGA_PCLK_60MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_VGA_PCLK_60MHz.dat"
+#else
 	#include "NT99141\NT99141_VGA_PCLK_60MHz.dat"
+#endif
 };
 #endif
 #ifdef __PCLK_74MHZ__
 struct NT_RegValue g_sNT99141_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_HD720_PCLK_74MHz.dat"
+#else
 	#include "NT99141\NT99141_HD720_PCLK_74MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_SVGA_PCLK_74MHz.dat"
+#else
 	#include "NT99141\NT99141_SVGA_PCLK_74MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99141_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99141/NT99141_VGA_PCLK_74MHz.dat"
+#else
 	#include "NT99141\NT99141_VGA_PCLK_74MHz.dat"
+#endif
 };
 #endif
 

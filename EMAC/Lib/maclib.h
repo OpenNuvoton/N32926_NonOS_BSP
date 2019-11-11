@@ -10,7 +10,7 @@
 #ifndef W55FA92_MAC_LIB_H
 #define W55FA92_MAC_LIB_H
 
-#include "w55fa92_reg.h"	
+#include "W55FA92_reg.h"	
 #include "wbtypes.h"
 
 //#define UART_printf printf 

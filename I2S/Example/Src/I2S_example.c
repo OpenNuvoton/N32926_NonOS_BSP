@@ -4,8 +4,8 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_i2s.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_I2S.h"
 
 //#define OPT_FGPA_DEBUG
 
@@ -19,7 +19,11 @@ volatile S_DRVI2S_PLAY g_sPlay;
 volatile S_DRVI2S_RECORD g_sRrecord;
 
 //#include "SONG.h"
+#if defined (__GNUC__) && !(__CC_ARM)
+__attribute__ ((aligned (32))) char g_baAudioBuf[BUFSIZE];
+#else
 __align (32) char g_baAudioBuf[BUFSIZE];
+#endif
 
 
 //====================================================================================
@@ -42,6 +46,7 @@ int main(void)
 	g_sRrecord.eSampleRate = eDRVI2S_FREQ_44100;
 	g_sRrecord.eChannel = eDRVI2S_RECORD_STEREO;						
 	g_sRrecord.eFormat = eDRVI2S_I2S;	
+
 	DrvI2S_StartRecord((S_DRVI2S_RECORD*) &g_sRrecord);	
 	sysprintf(" I2S start Playing stereo in 44.1 kHz sampling rate \n\n");
 
@@ -55,8 +60,8 @@ int main(void)
 	sysprintf(" I2S start Recording stereo in 44.1 kHz sampling rate \n\n");
 
 	
-//	while(1)
-	while(ii++<1000000)
+	while(1)
+//	while(ii++<1000000)
 	{
 	    while (inp32(REG_I2S_ACTL_RSR) & R_DMA_RIA_IRQ)
 	    {

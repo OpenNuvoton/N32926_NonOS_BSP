@@ -290,9 +290,9 @@ INT32 sysSetTimerReferenceClock(INT32 nTimeNo, UINT32 uClockRate)
 INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 {
 	int volatile i;
-	UINT32 _mTicr;
-	//UINT32 _mTcr;
-
+	//UINT32 _mTicr, _mTcr;
+    UINT32 _mTicr;
+	
 	//_mTcr = 0x60000000 | (nOpMode << 27);
 	switch (nTimeNo)
 	{
@@ -314,8 +314,8 @@ INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 			
 			_sys_uTimer0Count = 0;
 			_mTicr = _sys_uTimer0ClockRate / uTicksPerSecond;
-			outpw(REG_TCSR0, (inpw(REG_TCSR0) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable
 			outpw(REG_TICR0, _mTicr);
+			outpw(REG_TCSR0, (inpw(REG_TCSR0) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable			
 			break;
 		case TIMER1:
 			_sys_bIsTimer1Initial = TRUE;
@@ -335,8 +335,8 @@ INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 			
 			_sys_uTimer1Count = 0;
 			_mTicr = _sys_uTimer1ClockRate / uTicksPerSecond;
-			outpw(REG_TCSR1, (inpw(REG_TCSR1) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable
 			outpw(REG_TICR1, _mTicr);
+			outpw(REG_TCSR1, (inpw(REG_TCSR1) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable			
 			break;
 		case TIMER2:
 			_sys_bIsTimer2Initial = TRUE;
@@ -356,8 +356,8 @@ INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 			
 			_sys_uTimer2Count = 0;
 			_mTicr = _sys_uTimer2ClockRate / uTicksPerSecond;
-			outpw(REG_TCSR2, (inpw(REG_TCSR2) & 0x87FFFF00) | ((nOpMode | 0xC)<<27)); //0xC means CEN and IE were enable
 			outpw(REG_TICR2, _mTicr);
+			outpw(REG_TCSR2, (inpw(REG_TCSR2) & 0x87FFFF00) | ((nOpMode | 0xC)<<27)); //0xC means CEN and IE were enable			
 			break;	
 		case TIMER3:
 			_sys_bIsTimer3Initial = TRUE;
@@ -377,8 +377,8 @@ INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 			
 			_sys_uTimer1Count = 0;
 			_mTicr = _sys_uTimer3ClockRate / uTicksPerSecond;
-			outpw(REG_TCSR3, (inpw(REG_TCSR3) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable
 			outpw(REG_TICR3, _mTicr);
+			outpw(REG_TCSR3, (inpw(REG_TCSR3) & 0x87FFFF00) | ((nOpMode | 0xC)<<27));  //0xC means CEN and IE were enable			
 			break;
 		case WDTIMER:
 			outp32(REG_APBCLK, inp32(REG_APBCLK) | WDCLK_CKE);	

@@ -1,4 +1,4 @@
-#include "w55fa92_gnand.h"
+#include "W55FA92_GNAND.h"
 
 typedef void (*PFN_MSCD_CDROM_CALLBACK)(PUINT32 pu32address, UINT32 u32Offset, UINT32 u32LengthInByte);
 

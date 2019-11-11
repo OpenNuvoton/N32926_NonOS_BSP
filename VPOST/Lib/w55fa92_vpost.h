@@ -7,7 +7,7 @@
 /****************************************************************************
  * 
  * FILENAME
- *     w55FA92_vpost.h
+ *     W55FA92_VPOST.h
  *
  * VERSION
  *     0.1 
@@ -41,7 +41,7 @@
 #include "wbio.h"
 #include "wblib.h"
 
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 
 
 //#define HAVE_HANNSTAR_HSD043I9W1
@@ -441,9 +441,56 @@ INT32 vpostLCMInit(PLCDFORMATEX plcdformatex, UINT32 *pFramebuf);
 							
 
 /* function prototype */
-#if 0
-#endif							
-							
+VOID vpostVAStartTrigger(void);
+VOID vpostVAStopTrigger(void);
+VOID vpostVAStartTrigger_MPUContinue(void);
+VOID vpostVAStartTrigger_MPUSingle(void);
+VOID vpostVAStopTriggerMPU(void);
+BOOL vpostAllocVABuffer(PLCDFORMATEX plcdformatex,UINT32 nBytesPixel);
+BOOL vpostAllocVABufferFromAP(UINT32 *pFramebuf);
+BOOL vpostClearVABuffer(void);
+BOOL vpostFreeVABuffer(void);
+VOID vpostSetLCDEnable(BOOL bYUVBL, UINT8 ucVASrcType, BOOL bLCDRun);
+VOID vpostSetLCDConfig(BOOL bLCDSynTv, UINT8 u8LCDDataSel, UINT8 u8LCDTYPE);
+VOID vpostsetLCM_TimingType(E_DRVVPOST_TIMING_TYPE eTimingTpye);
+VOID vpostSetLCM_TypeSelect(E_DRVVPOST_LCM_TYPE eType);
+VOID vpostSetSerialSyncLCM_Interface(E_DRVVPOST_8BIT_SYNCLCM_INTERFACE eInterface);
+VOID vpostSetSerialSyncLCM_ColorOrder(
+	E_DRVVPOST_SERAIL_SYNCLCM_COLOR_ORDER eEvenLineOrder,
+	E_DRVVPOST_SERAIL_SYNCLCM_COLOR_ORDER eOddLineOrder	
+);
+VOID vpostSetSerialSyncLCM_CCIR656ModeSelect(E_DRVVPOST_CCIR656_MODE eMode);
+VOID vpostSetParalelSyncLCM_Interface(E_DRVVPOST_PARALLEL_SYNCLCM_INTERFACE eInterface);
+VOID vpostSetFrameBuffer_DataType(E_DRVVPOST_FRAME_DATA_TYPE eType);
+VOID vpostSetFrameBuffer_BaseAddress(UINT32 u32BufferAddress);
+VOID vpostSetYUVEndianSelect(E_DRVVPOST_ENDIAN eEndian);
+VOID vpostSetDataBusPin(E_DRVVPOST_DATABUS eDataBus);
+VOID vpostSetDataBusPin_noDE(E_DRVVPOST_DATABUS eDataBus);
+VOID vpostSetDataBusPin_onlyDE(E_DRVVPOST_DATABUS eDataBus);
+VOID vpostSetSyncLCM_HTiming(S_DRVVPOST_SYNCLCM_HTIMING *psHTiming);
+VOID vpostSetSyncLCM_VTiming(S_DRVVPOST_SYNCLCM_VTIMING *psVTiming);
+VOID vpostSetSyncLCM_ImageWindow(S_DRVVPOST_SYNCLCM_WINDOW *psWindow);
+VOID vpostSetSyncLCM_SignalPolarity(S_DRVVPOST_SYNCLCM_POLARITY *psPolarity);
+VOID vpostSetLCM_ImageSource(E_DRVVPOST_IMAGE_SOURCE eSource);
+VOID vpostMPULCDWriteAddr16Bit(unsigned short u16AddrIndex);
+VOID vpostMPULCDWriteData16Bit(unsigned short  u16WriteData);
+VOID vpostEnableInt(E_DRVVPOST_INT eInt);
+VOID vpostDisableInt(E_DRVVPOST_INT eInt);
+VOID vpostClearInt(E_DRVVPOST_INT eInt);
+BOOL vpostIsIntEnabled(E_DRVVPOST_INT eInt);
+int vpostInstallCallBack(
+	E_DRVVPOST_INT eIntSource,
+	PFN_DRVVPOST_INT_CALLBACK	pfnCallback,
+	PFN_DRVVPOST_INT_CALLBACK 	*pfnOldCallback
+);
+VOID vpostSetMPULCM_ImageWindow(S_DRVVPOST_MPULCM_WINDOW *psWindow);
+VOID vpostSetMPULCM_TimingConfig(S_DRVVPOST_MPULCM_TIMING *psTiming);
+VOID vpostSetMPULCM_BusModeSelect(E_DRVVPOST_MPULCM_DATABUS eBusMode);
+VOID vpostSetFrameBuffer_Size(S_DRVVPOST_FRAME_SIZE* psSize);
+
+INT vpostLCMInit_FW050TFT_800x480(PLCDFORMATEX plcdformatex, UINT32 *pFramebuf);
+INT32 vpostLCMDeinit_FW050TFT_800x480(VOID);
+													
 							
 #endif   /* _NUC930_VPOST_H_  */
 

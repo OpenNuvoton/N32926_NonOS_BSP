@@ -4,9 +4,12 @@
 	#include "port.h"
 	#include "favc_avcodec.h"
 	
+#ifndef TRUE    
 	#define TRUE	1
+#endif
+#ifndef FALSE    
 	#define FALSE	0
-
+#endif
 	#define FRAME_DONE 0x1
 	#define HW_BS_EMPTY 0x2
 	#define PREPARE_DECODE 0x4

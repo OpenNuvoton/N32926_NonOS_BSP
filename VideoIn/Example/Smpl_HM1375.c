@@ -35,11 +35,19 @@ extern UINT8 u8PlanarFrameBuffer[];
 struct HM_RegValue g_sHM1375_HD720[] = 
 {
 	//#include "HM1375\HM1375_HD720_PCLK_78MHz.dat"	//good old table
+#ifdef __GNUC__
+	#include "HM1375/HM1375_YUV_HD720.dat"
+#else
 	#include "HM1375\HM1375_YUV_HD720.dat"
+#endif
 };
 struct HM_RegValue g_sHM1375_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "HM1375/HM1375_VGA_PCLK_96MHz.dat"
+#else
 	#include "HM1375\HM1375_VGA_PCLK_96MHz.dat"
+#endif
 };
 
 struct HM_RegTable g_HM1375_InitTable[] =

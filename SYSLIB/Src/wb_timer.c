@@ -290,9 +290,10 @@ INT32 sysSetTimerReferenceClock(INT32 nTimeNo, UINT32 uClockRate)
 INT32 sysStartTimer(INT32 nTimeNo, UINT32 uTicksPerSecond, INT32 nOpMode)
 {
 	int volatile i;
-	UINT32 _mTicr, _mTcr;
-
-	_mTcr = 0x60000000 | (nOpMode << 27);
+	//UINT32 _mTicr, _mTcr;
+    UINT32 _mTicr;
+	
+	//_mTcr = 0x60000000 | (nOpMode << 27);
 	switch (nTimeNo)
 	{
 		case TIMER0:

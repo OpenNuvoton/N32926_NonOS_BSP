@@ -3,9 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "wbio.h"
-#include "wbtypes.h"
-#include "W55fa92_vpost.h"
+#include "wblib.h"
+#include "W55FA92_VPOST.h"
 #include "demo.h"
 
 extern VOID vpostEnableInt(E_DRVVPOST_INT eInt);

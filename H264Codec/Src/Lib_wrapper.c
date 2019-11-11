@@ -2,14 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include "memory.h"
-#include "avcdec.h"
+#include "AVCdec.h"
 #include "decoder.h"
 #include "encoder.h"
 #include "wbtypes.h"
 #include "W55FA92_reg.h"
 #include "favc_module.h"
 
-#include "h264dec.h"
+#include "H264Dec.h"
 #include "wblib.h"
 
 #include "favc_avcodec.h"
@@ -32,12 +32,13 @@ int H264EncodeIntHandler(void);
 extern DECODER *cur_dec;
 extern int frame_end_flag,slice_end_flag,BITBufferEmptyOK,Enc_FrameDone_flag;
 
-extern init_favc_dec(void);
+extern int init_favc_dec(void);
 extern int init_favc_dec_ex(int handle);
-extern init_favc_enc(void);
+extern int init_favc_enc(void);
 extern int init_favc_enc_ex(int handle);
-extern cleanup_favc_enc(void);
-extern cleanup_favc_dec(void);
+extern void cleanup_favc_enc(void);
+extern void cleanup_favc_dec(void);
+extern void cleanup_favc_enc_ex(int handle);
 
 
 int H264Dec_Open(void)
@@ -165,7 +166,7 @@ void H264Enc_Close_ex(int handle)
 		h264_encoder_destroy(enc_data[handle].enc_handle);
 		enc_data[handle].enc_handle = 0;
 		favc_encoder_release_ex(handle);
-		cleanup_favc_enc_ex();
+		cleanup_favc_enc_ex(handle);
 		
 		enc_idx &= (~(ENC_IDX_MASK_n(handle)) );			
 }

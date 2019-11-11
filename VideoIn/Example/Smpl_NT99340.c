@@ -32,7 +32,11 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct NT_RegValue g_sNT99340_Init[] = 
 {
+#ifdef __GNUC__
+	#include "NT99340/NT99340_Init.dat"
+#else
 	#include "NT99340\NT99340_Init.dat"
+#endif
 };
 /*
 #if !defined(__PCLK_48MHZ__) && !defined(__PCLK_60MHZ__)
@@ -53,15 +57,27 @@ struct NT_RegValue g_sNT99340_HD720[] =
 //#ifdef __PCLK_64MHZ__
 struct NT_RegValue g_sNT99340_QXGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99340/NT99340_QXGA_PCLK_64MHz.dat"
+#else
 	#include "NT99340\NT99340_QXGA_PCLK_64MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99340_FULLHD[] = 
 {
+#ifdef __GNUC__
+	#include "NT99340/NT99340_FULLHD_PCLK_64MHz.dat"
+#else
 	#include "NT99340\NT99340_FULLHD_PCLK_64MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99340_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99340/NT99340_HD720_PCLK_64MHz.dat"
+#else
 	#include "NT99340\NT99340_HD720_PCLK_64MHz.dat"
+#endif
 };
 //#endif
 

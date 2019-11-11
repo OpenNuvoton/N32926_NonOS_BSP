@@ -9,7 +9,7 @@
 #include <string.h>
 #include <time.h>
 #include "wblib.h"
-#include "w55fa92_edma.h"
+#include "W55FA92_EDMA.h"
 #include "DrvCRC.h"
 
 #define MAX_DATA_LENGTH		(16*1024)
@@ -19,7 +19,11 @@
  *---------------------------------------------------------------------------*/
 CHAR g_CrcMode[][10] = { "CRC-CCITT", "CRC-8", "CRC-16", "CRC-32" };
 UINT32 g_CrcMask[] = { 0xFFFF, 0xFF, 0xFFFF, 0xFFFFFFFF };
+#if defined (__GNUC__)
+uint8_t g_uSrcMemBuffer[MAX_DATA_LENGTH] __attribute__((aligned (4)));
+#else
 __align (4) UINT8 g_uSrcMemBuffer[MAX_DATA_LENGTH];
+#endif
 
 void SystemInit(void)
 {

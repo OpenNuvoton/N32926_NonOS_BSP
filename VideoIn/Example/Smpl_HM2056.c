@@ -34,12 +34,20 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct HM_RegValue g_sHM2056_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "HM2056/HM2056_VGA.dat"
+#else
 	#include "HM2056\HM2056_VGA.dat"
+#endif
 };
 
 struct HM_RegValue g_sHM2056_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "HM2056/HM2056_FullMode_HD720P.dat"
+#else
 	#include "HM2056\HM2056_FullMode_HD720P.dat"
+#endif
 };
 
 struct HM_RegTable g_HM2056_InitTable[] =

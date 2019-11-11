@@ -29,8 +29,8 @@ extern PFN_SYS_UART_CALLBACK (pfnUartIntHandlerTable)[2][2];    /* defined on wb
 UINT32 _sys_uHUARTClockRate = EXTERNAL_CRYSTAL_CLOCK;
 PVOID  _sys_pvOldHuartVect;
 
-#define sysHuartTxBufReadNextOne()	(((_sys_uHuartTxHead+1)==HUART_BUFFSIZE)? NULL: _sys_uHuartTxHead+1)
-#define sysHuartTxBufWriteNextOne()	(((_sys_uHuartTxTail+1)==HUART_BUFFSIZE)? NULL: _sys_uHuartTxTail+1)
+#define sysHuartTxBufReadNextOne()	(((_sys_uHuartTxHead+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxHead+1)
+#define sysHuartTxBufWriteNextOne()	(((_sys_uHuartTxTail+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxTail+1)
 #define HUART_BUFFSIZE	256
 UINT8 _sys_ucHuartTxBuf[HUART_BUFFSIZE];
 UINT32 volatile _sys_uHuartTxHead, _sys_uHuartTxTail;
@@ -232,7 +232,7 @@ INT32 sysInitializeHUART(WB_UART_T *uart)
     outpw(REG_UART_TOR+0, 0x20);
 
     /* hook HUART interrupt service routine */
-    _sys_uHuartTxHead = _sys_uHuartTxTail = NULL;
+    _sys_uHuartTxHead = _sys_uHuartTxTail = (UINT32)NULL;
     _sys_pvOldHuartVect = sysInstallISR(IRQ_LEVEL_1, IRQ_HUART, (PVOID)sysHuartISR);
     sysEnableInterrupt(IRQ_HUART);
 

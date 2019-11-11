@@ -7,11 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_sic.h"
-#include "w55fa92_gnand.h"
-#include "nvtfat.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_GNAND.h"
+#include "NVTFAT.h"
 #include "Font.h"
 #include "writer.h"
 
@@ -72,9 +72,16 @@ NDRV_T _nandDiskDriver1 =
 /**********************************/
 #define COMPARE_LEN     128*1024
 
-__align(32) UINT8 infoBufArray[0x40000];
-__align(32) UINT8 StorageBufferArray[0x50000];
-__align(32) UINT8 CompareBufferArray[0x50000];
+#if defined (__GNUC__)
+    UINT8 infoBufArray[0x40000] __attribute__((aligned (32)));
+    UINT8 StorageBufferArray[0x50000] __attribute__((aligned (32)));
+    UINT8 CompareBufferArray[0x50000] __attribute__((aligned (32)));
+#else
+    __align(32) UINT8 infoBufArray[0x40000];
+    __align(32) UINT8 StorageBufferArray[0x50000];
+    __align(32) UINT8 CompareBufferArray[0x50000];
+#endif
+
 UINT32 infoBuf, StorageBuffer, CompareBuffer, BufferSize=0;
 UINT32 NAND_BACKUP_BASE;
 UINT8 *tmpBackPtr;

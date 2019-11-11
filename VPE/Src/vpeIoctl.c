@@ -28,9 +28,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_vpe.h"	//Export
+#include "W55FA92_VPE.h"	//Export
 
 UINT32 u32VpeYBufAddr, u32VpeUBufAddr, u32VpeVBufAddr, u32VpeDstBufAddr; 
 

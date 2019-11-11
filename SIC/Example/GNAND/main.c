@@ -15,10 +15,10 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
-#include "w55fa92_GNAND.h"
-#include "gnand_global.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_GNAND.h"
+#include "GNAND_Global.h"
 #include "fmi.h"
 
 /*-----------------------------------------------------------------------------
@@ -53,9 +53,16 @@ UINT32 u32ExtFreq, u32UPllHz, u32SysHz, u32CpuHz, u32Hclk1Hz, u32ApbHz, u32APllH
 // define number and size for internal buffer
 #define SECTOR_SIZE         512
 #define SECTOR_MAX_COUNT    1024
-#define BUF_SIZE    (SECTOR_SIZE * SECTOR_MAX_COUNT)
-__align (32) UINT8 g_ram0[BUF_SIZE];
-__align (32) UINT8 g_ram1[BUF_SIZE];
+#define BUF_SIZE            (SECTOR_SIZE * SECTOR_MAX_COUNT)
+
+#if defined (__GNUC__)
+    UINT8 g_ram0[BUF_SIZE] __attribute__((aligned (32)));
+    UINT8 g_ram1[BUF_SIZE] __attribute__((aligned (32)));
+#else
+    __align (32) UINT8 g_ram0[BUF_SIZE];
+    __align (32) UINT8 g_ram1[BUF_SIZE];
+#endif
+
 UINT8 *ptr_g_ram0;
 UINT8 *ptr_g_ram1;
 
@@ -352,9 +359,14 @@ int main(void)
     //--- get and show system clock setting
     get_system_clock();
 
-    srand(time(NULL));
+    //srand(time(NULL));
 
     sysprintf("\n=====> W55FA92 Non-OS GNAND Library Sampe Code [tick %d] <=====\n", sysGetTicks(0));
+
+    //--- enable cache feature
+    sysDisableCache();
+    sysFlushCache(I_D_CACHE);
+    sysEnableCache(CACHE_WRITE_BACK);
 
     ptr_g_ram0 = (UINT8 *)((UINT32)g_ram0 | 0x80000000);    // non-cache
     ptr_g_ram1 = (UINT8 *)((UINT32)g_ram1 | 0x80000000);    // non-cache

@@ -38,7 +38,11 @@ struct SP_RegValue g_sSP1628_Init[] =
 
 struct SP_RegValue g_sSP1628_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "SP1628/SP1628_72M_720p_fix 25fps.dat"			//6/17
+#else
 	#include "SP1628\SP1628_72M_720p_fix 25fps.dat"			//6/17	
+#endif
 	//#include "SP1628\SP1628_72M_720p_25_28fps.dat" 	//6/16
 	//#include "SP1628\SP1628_60M_720p_18_20fps_8.dat"
 	//#include "SP1628\SP1628_48M_720p_16_18fps_9.dat"
@@ -47,12 +51,20 @@ struct SP_RegValue g_sSP1628_HD720[] =
 struct SP_RegValue g_sSP1628_SVGA[] = 
 {
 	//{0, 0}
+#ifdef __GNUC__
+	#include "SP1628/SP1628_48M_720p_16_18fps_9.dat"
+#else
 	#include "SP1628\SP1628_48M_720p_16_18fps_9.dat"
+#endif
 };
 struct SP_RegValue g_sSP1628_VGA[] = 
 {
 	//{0, 0}
+#ifdef __GNUC__
+	#include "SP1628/SP1628_48M_720p_16_18fps_9.dat"
+#else
 	#include "SP1628\SP1628_48M_720p_16_18fps_9.dat"
+#endif
 };
 
 struct SP_RegTable g_SP1628_InitTable[] =

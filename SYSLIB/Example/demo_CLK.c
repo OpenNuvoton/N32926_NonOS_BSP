@@ -230,27 +230,23 @@ void DemoAPI_ChangeMPLL(void)
 	UINT32 tmp;
 	while(1)
 	{
-			static UINT32 u32Toggle=0;
-			
+
 			sysprintf("UPLL to 192MHz. SYS/CPU = 48MHz, HCLK1 = 24MHz\n");
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/4);	
 			sysprintf("MPLL to 360MHz. MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000);	
-			u32Toggle=1;
 			DramMaxSpeed();			
 				
 			sysprintf("UPLL to 240MHz. SYS/CPU = 120MHz, HCLK1 = 60MHz\n");
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/2);	
 			sysprintf("MPLL to 312MHz, MCLK = 156MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 312000000, 312000000);
-			u32Toggle=1;
 			DramMaxSpeed();
 			
 			sysprintf("UPLL to 144MHz. SYS/CPU = 72MHz, HCLK1 = 36MHz\n");
 			sysSetSystemClock(eSYS_UPLL, 144000000, 144000000/2);			
 			sysprintf("MPLL to 288MHz,  MCLK = 144MHz\n");
 			sysSetDramClock(eSYS_MPLL, 288000000, 288000000);
-			u32Toggle=1;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 					
@@ -258,7 +254,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 216000000, 216000000/3);			
 			sysprintf("MPLL to 192MHz, MCLK= 96MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 192000000, 192000000);				
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -266,7 +261,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/6);	
 			sysprintf("MPLL to 336MHz, MCLK= 168MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 336000000, 336000000);						
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -274,7 +268,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/4);	;
 			sysprintf("MPLL to 240MHz, MCLK= 120MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 240000000, 240000000);	
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -282,7 +275,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/8);
 			sysprintf("MPLL to 316MHz, MCLK= 158MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 316000000, 316000000);	
-			u32Toggle=1;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 					
@@ -290,7 +282,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/8);		
 			sysprintf("MPLL to 216MHz,  MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 216000000, 216000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -298,7 +289,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 316000000, 316000000/2);		
 			sysprintf("MPLL to 360MHz, MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000);				
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -306,7 +296,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/32);	
 			sysprintf("MPLL to 264MHz, , MCLK= 132MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 264000000, 264000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 												
@@ -314,7 +303,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 316000000, 316000000/3);				
 			sysprintf("MPLL to 216MHz, MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 216000000, 216000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -322,7 +310,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/4);
 			sysprintf("MPLL to 360MHz, MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000,360000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -330,7 +317,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/4);
 			sysprintf("MPLL to 360MHz, MCLK= 90MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/2);	
-		//	u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 						
@@ -338,7 +324,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/8);			
 			sysprintf("MPLL to 360MHz, MCLK= 22.5MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/8);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -346,7 +331,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/2);	
 			sysprintf("MPLL to 216MHz, MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 216000000, 216000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -354,7 +338,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/20);	
 			sysprintf("MPLL to 360MHz, MCLK= 22.5MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/8);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 								
@@ -362,7 +345,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/2);
 			sysprintf("MPLL to 360MHz, MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000);					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -371,7 +353,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/40);
 			sysprintf("MPLL to 360MHz, MCLK= 9MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/20);						
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -379,7 +360,6 @@ void DemoAPI_ChangeMPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/(8*8));
 			sysprintf("MPLL to 320MHz, MCLK= 2.5MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 320000000, 320000000/(8*8));					
-			u32Toggle=0;
 		//	for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -391,13 +371,11 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 	UINT32 tmp;
 	while(1)
 	{
-			static UINT32 u32Toggle=0;
 			
 			sysprintf("UPLL to 192MHz. SYS/CPU = 48MHz, HCLK1 = 24MHz\n");
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/4);	
 			sysprintf("APLL to 360MHz. MCLK= 90MHz\n");						
 			sysSetDramClock(eSYS_APLL, 360000000, 360000000/2);	
-			u32Toggle=1;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();			
 
@@ -405,7 +383,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/2);	
 			sysprintf("MPLL to 312MHz, MCLK = 156MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 312000000, 312000000);
-			u32Toggle=1;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -413,7 +390,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 144000000, 144000000/2);			
 			sysprintf("APLL to 288MHz,  MCLK = 144MHz\n");
 			sysSetDramClock(eSYS_APLL, 288000000, 288000000);
-			u32Toggle=1;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 					
@@ -421,7 +397,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/6);			
 			sysprintf("MPLL to 192MHz, MCLK= 96MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 192000000, 192000000);				
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -429,7 +404,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/6);	
 			sysprintf("APLL to 336MHz, MCLK= 168MHz\n");						
 			sysSetDramClock(eSYS_APLL, 336000000, 336000000);						
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -437,7 +411,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/4);	;
 			sysprintf("APLL to 240MHz, MCLK= 120MHz\n");						
 			sysSetDramClock(eSYS_APLL, 240000000, 240000000);	
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -445,7 +418,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/8);
 			sysprintf("MPLL to 316MHz, MCLK= 158MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 316000000, 316000000);	
-			u32Toggle=1;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 					
@@ -453,7 +425,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 240000000, 240000000/8);		
 			sysprintf("APLL to 216MHz,  MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_APLL, 216000000, 216000000);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -461,7 +432,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 316000000, 316000000/2);		
 			sysprintf("MPLL to 360MHz, MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000);				
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 
@@ -469,7 +439,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/32);	
 			sysprintf("MPLL to 264MHz, , MCLK= 132MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 264000000, 264000000);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 												
@@ -477,7 +446,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 316000000, 316000000/3);				
 			sysprintf("MPLL to 216MHz, MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 216000000, 216000000);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -485,7 +453,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/4);
 			sysprintf("MPLL to 360MHz, MCLK= 90MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/2);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -493,7 +460,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/4);
 			sysprintf("MPLL to 360MHz, MCLK= 90MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/2);				
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 						
@@ -501,7 +467,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/8);			
 			sysprintf("MPLL to 360MHz, MCLK= 45MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/4);				
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -509,7 +474,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/2);	
 			sysprintf("MPLL to 216MHz, MCLK= 108MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 216000000, 216000000);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -517,7 +481,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/20);	
 			sysprintf("MPLL to 360MHz, MCLK= 10MHz\n");	//(MCLK>HCLK)
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/18);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -527,7 +490,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/2);
 			sysprintf("MPLL to 360MHz, MCLK= 180MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -536,7 +498,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 192000000, 192000000/40);
 			sysprintf("MPLL to 360MHz, MCLK= 5MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 360000000, 360000000/36);					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			
@@ -544,7 +505,6 @@ void DemoAPI_ChangeMPLL_FromOtherPLL(void)
 			sysSetSystemClock(eSYS_UPLL, 360000000, 360000000/(8*8));
 			sysprintf("MPLL to 320MHz, MCLK= 10MHz\n");						
 			sysSetDramClock(eSYS_MPLL, 320000000, 320000000/(4*4));					
-			u32Toggle=0;
 			for(tmp=0; tmp<1000000; tmp++);
 			DramMaxSpeed();
 			

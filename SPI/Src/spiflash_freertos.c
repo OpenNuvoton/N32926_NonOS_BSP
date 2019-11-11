@@ -35,8 +35,8 @@
 #include <string.h>
 #include "wblib.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_spi.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SPI.h"
 
 UINT8 g_u8Is4ByteMode;
 //#define SPI_CLOCK_MODE	0
@@ -162,6 +162,30 @@ int usiStatusWrite1(UINT32 spiPort, UINT32 SSPin, UINT8 data0, UINT8 data1)
 	spiActive(spiPort);
 
 	outpw(REG_SPI0_TX0 + 0x400 * spiPort, data1);
+	spiTxLen(spiPort, 0, 8);
+	spiActive(spiPort);
+
+	spiSSDisable(spiPort, SSPin);
+
+	// check status
+	usiCheckBusy(spiPort, SSPin);
+
+	return Successful;
+}
+
+int usiStatusWrite2(UINT32 spiPort, UINT32 SSPin, UINT8 data0)
+{
+	usiWriteEnable(spiPort, SSPin);
+
+	spiSSEnable(spiPort, SSPin, SPI_CLOCK_MODE);
+
+	// status command
+	outpw(REG_SPI0_TX0 + 0x400 * spiPort, 0x31);
+	spiTxLen(spiPort, 0, 8);
+	spiActive(spiPort);
+
+	// write status
+	outpw(REG_SPI0_TX0 + 0x400 * spiPort, data0);
 	spiTxLen(spiPort, 0, 8);
 	spiActive(spiPort);
 
@@ -462,9 +486,9 @@ INT spiFlashWrite(UINT32 spiPort, UINT32 SSPin, UINT32 addr, UINT32 len, UINT8 *
 						spiTxLen(spiPort, 0, 8);
 						outpw(REG_SPI0_TX0 + 0x400 * spiPort, *ptr);						
 						spiActive(spiPort);
-						ptr++;			
-						page -=1;
+						ptr++;							
 					}
+					page = 0;
 				}
 			}
 			
@@ -614,9 +638,9 @@ INT spiFlashQuadWrite(UINT32 spiPort, UINT32 SSPin, UINT32 addr, UINT32 len, UIN
 						spiTxLen(spiPort, 0, 8);
 						outpw(REG_SPI0_TX0 + 0x400 * spiPort, *ptr);						
 						spiActive(spiPort);
-						ptr++;			
-						page -=1;
+						ptr++;							
 					}
+					page = 0;
 				}
 			}
 			
@@ -796,9 +820,9 @@ INT spiEONFlashQuadWrite(UINT32 spiPort, UINT32 SSPin, UINT32 addr, UINT32 len, 
 						spiTxLen(spiPort, 0, 8);
 						outpw(REG_SPI0_TX0 + 0x400 * spiPort, *ptr);						
 						spiActive(spiPort);
-						ptr++;			
-						page -=1;
+						ptr++;							
 					}
+					page = 0;
 				}
 			}
 			

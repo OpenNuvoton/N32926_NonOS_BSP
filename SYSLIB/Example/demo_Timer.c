@@ -298,7 +298,7 @@ void DemoAPI_Timer3(void)
 
 void DemoAPI_WDT(void)
 {
-	unsigned int btime, etime;
+	//unsigned int btime, etime;
 	UINT32 u32ExtFreq;
 	
 	u32ExtFreq = sysGetExternalClock();
@@ -313,24 +313,28 @@ void DemoAPI_WDT(void)
 	sysprintf("The first WDT interrupt should not reset system by clear WTR bit\n");
 	//sysSetWatchDogTimerInterval(WDT_INTERVAL_1);  /* The reset time is about 0.371 base on 12MHz*/ 
 	//sysSetWatchDogTimerInterval(WDT_INTERVAL_2);  /* The reset time is about 5.614s base on 12MHz*/
-	sysStartTimer(WDTIMER, NULL, NULL); 			/* Enable WDT timer */
+	sysStartTimer(WDTIMER, (UINT32)NULL, (UINT32)NULL); 			/* Enable WDT timer */
 	sysSetWatchDogTimerInterval(WDT_INTERVAL_3);  /* The reset time is about 22.391s base on 12MHz*/ 
 	sysInstallWatchDogTimerISR(IRQ_LEVEL_1, (PVOID)WatchDog_ISR);
 	sysEnableWatchDogTimer();
 	sysEnableWatchDogTimerReset();
 	
 	IsWdtTimeOut = FALSE;
+#if 0	
 	btime = sysGetTicks(TIMER0);
+#endif	
 	sysprintf("Pass time\n");	
 	while (IsWdtResetFlagSet == FALSE)
 	{
-		//if (IsWdtTimeOut == TRUE)
+#if 0	//Clear reset flag		
+		if (IsWdtTimeOut == TRUE)
 		{
 			IsWdtTimeOut = FALSE;
 			etime =sysGetTicks(TIMER0);
-			//if (((etime - btime)%10) == 0)
-				//sysClearWatchDogTimerInterruptStatus	
-		}			
+			if (((etime - btime)%10) == 0)
+				sysClearWatchDogTimerInterruptStatus();	
+		}	
+#endif		
 	}
 	sysStopTimer(WDTIMER);
 	DBG_PRINTF("Finish watch dog timer testing...\n");

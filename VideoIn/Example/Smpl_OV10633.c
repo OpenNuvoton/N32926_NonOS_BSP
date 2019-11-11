@@ -32,15 +32,27 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct NT_RegValue g_sOV10633_Init[] = 
 {
+#ifdef __GNUC__
+	#include "OV10633/OV10633_Init.dat"
+#else
 	#include "OV10633\OV10633_Init.dat"
+#endif
 };
 struct NT_RegValue g_sOV10633_HD720[] = 
 {
-	#include "OV10633\OV10633_HD720.dat"				    
+#ifdef __GNUC__
+	#include "OV10633/OV10633_HD720.dat"
+#else
+	#include "OV10633\OV10633_HD720.dat"
+#endif
 };
 struct NT_RegValue g_sOV10633_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "OV10633/OV10633_VGA.dat"
+#else
 	#include "OV10633\OV10633_VGA.dat"
+#endif
 };
 
 struct NT_RegTable g_OV10633_InitTable[] =

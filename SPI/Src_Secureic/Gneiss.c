@@ -11,7 +11,7 @@
 
 #include "wblib.h"
 #include "Gneiss.h"
-#include "w55fa92_spi.h"
+#include "W55FA92_SPI.h"
 
 /* public array use for RPMC algorithm */
 unsigned char message[16];	// Message data use for insturction input

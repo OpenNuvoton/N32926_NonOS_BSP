@@ -7,9 +7,9 @@
 #include "string.h"
 #include "stdlib.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_spu.h"
-#include "spu.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SPU.h"
+#include "SPU.h"
 
 extern const int N_table[32];
 extern const int sp_Digi_table[11];
@@ -23,7 +23,11 @@ extern const int ear_Ana_table[11];
 /* buffer */
 UINT8	*_pucPlayAudioBuff;
 
+#if defined (__GNUC__) && !(__CC_ARM)
+__attribute__ ((aligned (256))) UINT8 playbuffer[FRAG_SIZE];
+#else
 __align(256) UINT8 playbuffer[FRAG_SIZE];
+#endif
 
 void spuSwitchVolume(int uDirection)		// 1: for speaker -> earphone; 0: for earphone -> speaker
 {

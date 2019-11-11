@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_edma.h"
+#include "W55FA92_EDMA.h"
 
 #define EDMA_USE_IRQ
 

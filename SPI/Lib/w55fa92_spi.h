@@ -106,9 +106,11 @@ spiInstallCallBack(
 
 #ifdef __FreeRTOS__
 int usiStatusWrite1(UINT32 spiPort, UINT32 SSPin, UINT8 data0, UINT8 data1);
+int usiStatusWrite2(UINT32 spiPort, UINT32 SSPin, UINT8 data0);
 int usiStatusRead(UINT32 spiPort, UINT32 SSPin, UINT8 cmd, PUINT8 data);
 #else
 int usiStatusWrite1(UINT8 data0, UINT8 data1);
+int usiStatusWrite2(UINT8 data0);
 int usiStatusRead(UINT8 cmd, PUINT8 data);
 #endif
 

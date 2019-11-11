@@ -221,7 +221,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>4</FileNumber>
+      <FileNumber>0</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -230,12 +230,12 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\Lib\w55fa92_AAC.lib</PathWithFileName>
-      <FilenameWithoutPath>w55fa92_AAC.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\Lib\W55FA92_AAC.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_AAC.lib</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>5</FileNumber>
+      <FileNumber>0</FileNumber>
       <FileType>4</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -244,8 +244,8 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</PathWithFileName>
-      <FilenameWithoutPath>W55FA92_syslib.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_SYSLib.lib</FilenameWithoutPath>
     </File>
   </Group>
 

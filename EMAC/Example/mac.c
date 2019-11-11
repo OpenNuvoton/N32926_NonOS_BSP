@@ -28,6 +28,7 @@
  *     None
  *     
  *************************************************************************************************/
+#include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include "maclib.h"
@@ -247,11 +248,19 @@ void _InitVar()
 #endif
 #endif
 
+#if defined (__GNUC__)
+	static uint8_t rxFDBuff[sizeof(S_FrameDescriptor)*MaxRxFrameDescriptors] __attribute__((aligned (4))); //[0x200];	// 16x32
+	static uint8_t txFDBuff[sizeof(S_FrameDescriptor)*MaxTxFrameDescriptors] __attribute__((aligned (4))); //[0x100];	// 16x16
+	static uint8_t rxFBBuff[sizeof(S_MACFrame)*MaxRxFrameDescriptors] __attribute__((aligned (4))); //[0xC000]; //0x600 x 32
+	static uint8_t txFBBuff[sizeof(S_MACFrame)*MaxTxFrameDescriptors] __attribute__((aligned (4))); //[0x6000]; //0x600 x 16
+	static uint8_t txPaBuff[sizeof(S_MACFrame)] __attribute__((aligned (4))); //[0x600];
+#else
   static __align(4) UINT8 rxFDBuff[sizeof(S_FrameDescriptor)*MaxRxFrameDescriptors]; //[0x200];	// 16x32
   static __align(4) UINT8 txFDBuff[sizeof(S_FrameDescriptor)*MaxTxFrameDescriptors]; //[0x100];	// 16x16
   static __align(4) UINT8 rxFBBuff[sizeof(S_MACFrame)*MaxRxFrameDescriptors]; //[0xC000]; //0x600 x 32 
   static __align(4) UINT8 txFBBuff[sizeof(S_MACFrame)*MaxTxFrameDescriptors]; //[0x6000]; //0x600 x 16
   static __align(4) UINT8 txPaBuff[sizeof(S_MACFrame)]; //[0x600];
+#endif
   
   rxFDBaseAddr = (UINT32)rxFDBuff;
   txFDBaseAddr = (UINT32)txFDBuff;

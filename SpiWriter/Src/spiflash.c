@@ -1,5 +1,5 @@
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
 
 //#define __DEBUG__

@@ -105,7 +105,7 @@
         <tRbox>1</tRbox>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>7</nTsel>
+        <nTsel>6</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -497,48 +497,6 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>15</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>107115576</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>19903068</TopLine>
-      <CurrentLine>1315588</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\Font\Lib\Font_QVGA.lib</PathWithFileName>
-      <FilenameWithoutPath>Font_QVGA.lib</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>16</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>107115576</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>19903068</TopLine>
-      <CurrentLine>1315588</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\Font\Lib\Font_SVGA.lib</PathWithFileName>
-      <FilenameWithoutPath>Font_SVGA.lib</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>17</FileNumber>
-      <FileType>4</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>107115576</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>19903068</TopLine>
-      <CurrentLine>1315588</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\Font\Lib\Font_WSVGA.lib</PathWithFileName>
-      <FilenameWithoutPath>Font_WSVGA.lib</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
       <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
@@ -564,6 +522,20 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\SPI\Lib\w55fa92_Secureic.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_Secureic.lib</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>4</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\Font\Lib\W55FA92_Font_QVGA.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_Font_QVGA.lib</FilenameWithoutPath>
     </File>
   </Group>
 

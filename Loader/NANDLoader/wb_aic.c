@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include "wblib.h"
 #define WB_MIN_INT_SOURCE  1
-//#define WB_MAX_INT_SOURCE  31
+//#define WB_MAX_INT_SOURCE 31
 #define WB_MAX_INT_SOURCE  47
 //#define WB_NUM_OF_AICREG   32
 #define WB_NUM_OF_AICREG   48
@@ -145,7 +145,21 @@ sys_pvFunPtr sysFiqHandlerTable[] = { 0,
                                 };
 
 /* Interrupt Handler */
+#ifdef __FreeRTOS__
+VOID sysIrqHandler(UINT32 _mIPER, UINT32 _mISNR)
+{
+	_mIPER = _mIPER >> 2;
+	if (_mISNR != 0)
+		if (_mIPER == _mISNR)
+			(*sysIrqHandlerTable[_mIPER])();
+	outpw(REG_AIC_EOSCR, 1);
+}
+#else
+#if defined (__GNUC__) && !(__CC_ARM)
+static void __attribute__ ((interrupt("IRQ"))) sysIrqHandler(void)
+#else
 __irq VOID sysIrqHandler()
+#endif
 {
 	if (_sys_bIsHWMode)
 	{
@@ -176,8 +190,12 @@ __irq VOID sysIrqHandler()
 		
 	}
 }
-
+#endif
+#if defined (__GNUC__) && !(__CC_ARM)
+static void __attribute__ ((interrupt("FIQ"))) sysFiqHandler(void)
+#else
 __irq VOID sysFiqHandler()
+#endif
 {
 	if (_sys_bIsHWMode)
 	{
@@ -212,7 +230,9 @@ VOID WB_Interrupt_Shell()
 {
 
 }
-
+#if !defined(__CC_ARM)
+#pragma diag_suppress 191
+#endif
 VOID sysInitializeAIC()
 {
 	//PVOID _mOldIrqVect, _mOldFiqVect;
@@ -220,11 +240,13 @@ VOID sysInitializeAIC()
 	*((unsigned volatile *)0x18) = 0xe59ff018;
 	*((unsigned volatile *)0x1C) = 0xe59ff018;   
 
+#ifndef __FreeRTOS__
 	//_mOldIrqVect = *(PVOID volatile *)0x38;
-	*(PVOID volatile *)0x38 = (PVOID)sysIrqHandler;
+	*(PVOID *)0x38 = (PVOID)sysIrqHandler;
+#endif
 
 	//_mOldFiqVect = *(PVOID volatile *)0x3C;
-	*(PVOID volatile *)0x3C = (PVOID)sysFiqHandler;
+	*(PVOID *)0x3C = (PVOID)sysFiqHandler;
 
 	if (sysGetCacheState() == TRUE)
 		sysFlushCache(I_CACHE);
@@ -266,7 +288,7 @@ ERRCODE sysEnableInterrupt(INT_SOURCE_E eIntNo)
 
 PVOID sysInstallExceptionHandler(INT32 nExceptType, PVOID pvNewHandler)
 {
-	PVOID _mOldVect=0;
+	PVOID _mOldVect;
 
 	switch (nExceptType)
 	{
@@ -317,7 +339,7 @@ PVOID sysInstallIrqHandler(PVOID pvNewISR)
 //OK
 PVOID sysInstallISR(INT32 nIntTypeLevel, INT_SOURCE_E eIntNo, PVOID pvNewISR)
 {
-	PVOID  _mOldVect=0;
+	PVOID  _mOldVect;
 	UINT32 _mRegValue;
 
 	if (!_sys_bIsAICInitial)
@@ -416,30 +438,52 @@ ERRCODE sysSetInterruptType(INT_SOURCE_E eIntNo, UINT32 uIntSourceType)
 //OK
 ERRCODE sysSetLocalInterrupt(INT32 nIntState)
 {
-	INT32 temp;
+#if defined (__GNUC__) && !(__CC_ARM)
+
+# else
+    INT32 temp;
+#endif
 
 	switch (nIntState)
 	{
 		case ENABLE_IRQ:
 		case ENABLE_FIQ:
 		case ENABLE_FIQ_IRQ:
+#if defined (__GNUC__) && !(__CC_ARM)
+			__asm
+            (
+                "mrs    r0, CPSR  \n"
+                "bic    r0, r0, #0x80  \n"
+                "msr    CPSR_c, r0  \n"
+            );
+#else
 			__asm
 			{
 			   MRS    temp, CPSR
 			   AND    temp, temp, nIntState
 			   MSR    CPSR_c, temp
 			}
+#endif
 		break;
 
 		case DISABLE_IRQ:
 		case DISABLE_FIQ:
 		case DISABLE_FIQ_IRQ:
+#if defined ( __GNUC__ ) && !(__CC_ARM)
+			__asm
+            (
+                "MRS    r0, CPSR  \n"
+                "ORR    r0, r0, #0x80  \n"
+                "MSR    CPSR_c, r0  \n"
+            );
+#else
 			__asm
 			{
 			   MRS    temp, CPSR
 			   ORR    temp, temp, nIntState
 			   MSR    CPSR_c, temp
 			}
+#endif
 		   break;
 
 		default:
@@ -467,12 +511,18 @@ UINT32	sysGetInterruptHighEnableStatus(void)
 BOOL sysGetIBitState()
 {
 	INT32 temp;
-
+#if defined (__GNUC__) && !(__CC_ARM)
+	__asm
+    (
+        "MRS %0, CPSR   \n"
+        :"=r" (temp) : :
+    );
+#else
 	__asm
 	{
 		MRS	temp, CPSR
 	}
-
+#endif
 	if (temp & 0x80)
 		return FALSE;
 	else

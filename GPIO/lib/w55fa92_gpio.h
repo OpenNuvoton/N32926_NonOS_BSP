@@ -29,7 +29,7 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 
 #define GPIO_PORTA		1
 #define GPIO_PORTB		2

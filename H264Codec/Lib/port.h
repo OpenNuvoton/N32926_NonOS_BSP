@@ -24,7 +24,9 @@ typedef unsigned short	Uint16;
 #define ptr_t uint32_t
 #define		CACHE_BIT31 0x80000000
 
+#ifndef NULL
 #define	NULL	0
+#endif
 #define mdelay	sysDelay
 
 

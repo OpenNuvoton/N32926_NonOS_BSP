@@ -14,11 +14,11 @@
 #include "wblib.h"
 #endif
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sdio.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SDIO.h"
 
 #include "sdio_fmi.h"
-#include "nvtfat.h"
+#include "NVTFAT.h"
 
 /*-----------------------------------------------------------------------------
  * Define message display level
@@ -54,7 +54,12 @@
 UINT32 _fmiSDIO_uR3_CMD=0;
 UINT32 _fmiSDIO_uR7_CMD=0;
 
-__align(4096) UCHAR _fmi_ucSDIOHCBuffer[512];
+#if defined (__GNUC__)
+    UCHAR _fmi_ucSDIOHCBuffer[512] __attribute__((aligned (4096)));
+#else
+    __align(4096) UCHAR _fmi_ucSDIOHCBuffer[512];
+#endif
+
 UINT8 *_fmi_pSDIOHCBuffer;
 
 

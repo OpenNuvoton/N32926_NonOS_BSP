@@ -1,1 +1,1 @@
-move .\MSC_CDROM_Data\SPI\w55fa92_MSC_SPI_CDROM.lib ..\..\..\Lib
+move .\MSC_CDROM_Data\SPI\W55FA92_MSC_SPI_CDROM.lib ..\..\..\Lib

@@ -32,19 +32,35 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct NT_RegValue g_sNT99252_Init[] = 
 {
+#ifdef __GNUC__
+	#include "NT99252/NT99252_Init.dat"
+#else
 	#include "NT99252\NT99252_Init.dat"
+#endif
 };
 struct NT_RegValue g_sNT99252_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99252/NT99252_SVGA_PCLK_64MHz.dat"
+#else
 	#include "NT99252\NT99252_SVGA_PCLK_64MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99252_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99252/NT99252_HD720_PCLK_64MHz.dat"
+#else
 	#include "NT99252\NT99252_HD720_PCLK_64MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99252_UXGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99252/NT99252_UXGA_PCLK_64MHz.dat"
+#else
 	#include "NT99252\NT99252_UXGA_PCLK_64MHz.dat"
+#endif
 };
 
 struct NT_RegTable g_NT99252_InitTable[] =

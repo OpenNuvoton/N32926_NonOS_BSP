@@ -7,12 +7,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Font.h"
-#include "nvtfat.h"
-
-__align(32) UINT8 u8Font[]=
+#include "NVTFAT.h"
+#if defined (__GNUC__)
+UINT8 u8Font[] __attribute__((aligned (32))) =
+{
+    #include "Font.dat"
+};
+#else
+__align(32) UINT8 u8Font[] =
 {
 	#include "Font.dat"
 };
+#endif
 #define FONT_FILE_PATH	"X:\\Font.bin"
 		
 

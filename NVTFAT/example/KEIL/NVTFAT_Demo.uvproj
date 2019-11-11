@@ -10,6 +10,8 @@
       <TargetName>FAT_NAND_Demo</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -30,6 +32,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -71,6 +74,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -79,6 +84,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -97,6 +104,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -126,6 +134,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -136,9 +145,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -164,9 +175,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -213,6 +229,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -345,11 +362,21 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_GNAND</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\lib;..\..\..\SYSLIB\Lib;..\..\..\GNAND\Lib;..\..\..\SIC\Lib;..\..\..\SDIO\Lib;..\..\..\USB_Core_2.0\Lib</IncludePath>
+              <IncludePath>..\..\lib;..\..\..\SYSLIB\Lib;..\..\..\GNAND\Lib;..\..\..\SIC\Lib;..\..\..\SDIO\Lib;..\..\..\USB_Core_2.0\Lib;..\..\..\USB_Core_2.0\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -361,6 +388,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -377,6 +406,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -394,11 +424,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -419,6 +444,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -435,6 +461,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -456,19 +492,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -481,14 +517,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -498,6 +539,8 @@
       <TargetName>FAT_SD_Demo</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -518,6 +561,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -559,6 +603,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -567,6 +613,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -585,6 +633,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -614,6 +663,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -624,9 +674,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -652,9 +704,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -701,6 +758,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -833,11 +891,21 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_SD ENABLE_SD_ONE_PART</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\lib;..\..\..\SYSLIB\Lib;..\..\..\GNAND\Lib;..\..\..\SIC\Lib;..\..\..\SDIO\Lib;..\..\..\USB_Core_2.0\Lib</IncludePath>
+              <IncludePath>..\..\lib;..\..\..\SYSLIB\Lib;..\..\..\GNAND\Lib;..\..\..\SIC\Lib;..\..\..\SDIO\Lib;..\..\..\USB_Core_2.0\Lib;..\..\..\USB_Core_2.0\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -849,6 +917,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -865,6 +935,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -882,11 +953,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -907,6 +973,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -923,6 +990,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -944,19 +1021,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -969,14 +1046,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -986,6 +1068,8 @@
       <TargetName>FAT_SD_TWO_PART</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -1006,6 +1090,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -1047,6 +1132,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -1055,6 +1142,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -1073,6 +1162,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -1102,6 +1192,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -1112,9 +1203,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1140,9 +1233,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -1189,6 +1287,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -1321,6 +1420,16 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_SD ENABLE_SD_TWO_PART</Define>
@@ -1337,6 +1446,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1353,6 +1464,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -1370,11 +1482,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -1395,6 +1502,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -1411,6 +1519,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -1432,19 +1550,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -1457,14 +1575,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1474,6 +1597,8 @@
       <TargetName>FAT_SD_FOUR_PART</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -1494,6 +1619,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -1535,6 +1661,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -1543,6 +1671,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -1561,6 +1691,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -1590,6 +1721,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -1600,9 +1732,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1628,9 +1762,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -1677,6 +1816,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -1809,6 +1949,16 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_SD ENABLE_SD_FOUR_PART</Define>
@@ -1825,6 +1975,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1841,6 +1993,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -1858,11 +2011,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -1883,6 +2031,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -1899,6 +2048,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -1920,19 +2079,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -1945,14 +2104,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1962,6 +2126,8 @@
       <TargetName>FAT_USBH</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -1982,6 +2148,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -2023,6 +2190,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -2031,6 +2200,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -2049,6 +2220,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -2078,6 +2250,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -2088,9 +2261,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -2116,9 +2291,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -2165,6 +2345,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -2297,6 +2478,16 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_USB_HOST</Define>
@@ -2313,6 +2504,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -2329,6 +2522,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -2346,11 +2540,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -2371,6 +2560,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -2387,6 +2577,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -2408,19 +2608,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -2433,14 +2633,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2450,6 +2655,8 @@
       <TargetName>FAT_RAM_SD_Demo</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -2470,6 +2677,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -2511,6 +2719,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -2519,6 +2729,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -2537,6 +2749,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -2566,6 +2779,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -2576,9 +2790,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -2604,9 +2820,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -2653,6 +2874,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -2785,6 +3007,16 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_RAM ENABLE_SD ENABLE_SD_ONE_PART</Define>
@@ -2801,6 +3033,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -2817,6 +3051,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -2836,11 +3071,6 @@
               <FilePath>..\Demo_CommandShell.c</FilePath>
             </File>
             <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
-            </File>
-            <File>
               <FileName>RAMDiskDriver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\RAMDiskDriver.c</FilePath>
@@ -2856,19 +3086,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -2881,14 +3111,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2898,6 +3133,8 @@
       <TargetName>FAT_SDIO1_Demo</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TMPA900CMXBG</Device>
@@ -2918,6 +3155,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile></SFDFile>
+          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -2959,6 +3197,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopB1X>0</nStopB1X>
+            <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
@@ -2967,6 +3207,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -2985,6 +3227,7 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
+          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARM.DLL</SimDllName>
@@ -3014,6 +3257,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
+            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -3024,9 +3268,11 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
+            <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>18</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -3052,9 +3298,14 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
+          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
+          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -3101,6 +3352,7 @@
             <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>0</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -3233,6 +3485,16 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
+            <uC99>0</uC99>
+            <uGnu>0</uGnu>
+            <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>ENABLE_SDIO_1 ENABLE_SD_ONE_PART</Define>
@@ -3249,6 +3511,8 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
+            <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -3265,6 +3529,7 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0xF8002000</DataAddressRange>
+            <pXoBase></pXoBase>
             <ScatterFile>..\..\..\N32926\N32926.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -3282,11 +3547,6 @@
               <FileName>Demo_CommandShell.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Demo_CommandShell.c</FilePath>
-            </File>
-            <File>
-              <FileName>NVTFAT_ERROR.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NVTFAT_ERROR.C</FilePath>
             </File>
             <File>
               <FileName>RAMDiskDriver.c</FileName>
@@ -3307,6 +3567,7 @@
                   <StopOnExitCode>11</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
                 </CommonProperty>
                 <FileArmAds>
                   <Cads>
@@ -3323,6 +3584,16 @@
                     <wLevel>0</wLevel>
                     <uThumb>2</uThumb>
                     <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
                       <Define></Define>
@@ -3344,19 +3615,19 @@
               <FilePath>..\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -3369,14 +3640,19 @@
               <FilePath>..\..\..\SDIO\Lib\W55FA92_SDIO.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_usbh.lib</FileName>
+              <FileName>W55FA92_USBH.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_usbh.lib</FilePath>
+              <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_USBH.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_UMAS.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\USB_Core_2.0\Lib\W55FA92_UMAS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>NVTFAT_ERROR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NVTFAT_ERROR.c</FilePath>
             </File>
           </Files>
         </Group>

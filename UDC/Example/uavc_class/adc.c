@@ -29,9 +29,8 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "W55FA92_AudioRec.h"
-#include "W55FA92_edma.h"
-//#include "nvtfat.h"
+#include "W55FA92_AUR.h"
+#include "W55FA92_EDMA.h"
 #include "DrvEDMA.h"
 #include "usbd.h"
 #include "videoclass.h"
@@ -55,9 +54,13 @@ void Send_AudioOneMSPacket(PUINT32 pu32Address, PUINT32 pu32Length);
 
 
 //static volatile INT8 g_i8PcmReady = FALSE;
+#if defined (__GNUC__)
+INT16 g_pi16SampleBuf[E_AUD_BUF/2] __attribute__((aligned(32)));		/* Keep max 16K sample rate */
+INT16 g_pi16AudioBuf[E_AUD_BUF/2*4*4] __attribute__((aligned(32)));
+#else
 __align(32) INT16 g_pi16SampleBuf[E_AUD_BUF/2];		/* Keep max 16K sample rate */
 __align(32) INT16 g_pi16AudioBuf[E_AUD_BUF/2*4];
-
+#endif
 volatile UINT8 bPlaying = FALSE;
 volatile UINT32 g_u32IgnoreNo;
 
@@ -68,8 +71,12 @@ volatile INT16  s_i16RecInSample;
 UINT32 g_u32RecorderByte;
 UINT32 g_u32SampleCount;
 
+#if defined (__GNUC__)
 // recorder
+INT32 g_i32RecorderAttr[5] __attribute__((aligned(32))) = {
+#else
 __align(4) INT32 g_i32RecorderAttr[5] = {
+#endif
 0,        // mute off
 FU_VOLUME_CUR,    //2560,     // current volume,
 FU_VOLUME_MIN,      //-32768,   // min

@@ -163,8 +163,10 @@ typedef struct
 	void (*SetMotionDet)(BOOL bEnable, BOOL bBlockSize,	BOOL bSaveMode);
 	void (*SetMotionDetEx)(UINT32 u32Threshold, UINT32 u32OutBuffer, UINT32 u32LumBuffer);					
 	void (*SetInputType)(UINT32 u32FieldEnable, E_VIDEOIN_TYPE eInputType,	BOOL bFieldSwap);
-	void(*SetStandardCCIR656)(BOOL);
-	void(*SetShadowRegister)(void);
+	void (*SetStandardCCIR656)(BOOL);
+	void (*SetShadowRegister)(void);
+        void (*SetFieldDetection)(BOOL bDetPosition,BOOL bFieldDetMethod);
+	void (*GetFieldDetection)(PBOOL pbDetPosition,PBOOL pbFieldDetMethod);
 }VINDEV_T;
 
 INT32 register_vin_device(UINT32 u32port, VINDEV_T* pVinDev );

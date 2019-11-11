@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "nvtfat.h"
+#include "NVTFAT.h"
 #include "demo.h"
 
 INT32 WriteFile(char* szAsciiName, 

@@ -8,14 +8,14 @@
 #include <string.h>
 #include "wblib.h"
 #include "spiloader.h"
-#include "w55fa92_reg.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_VPOST.h"
 #ifdef __Security__
 #include "Gneiss.h"
 #endif
 #include "tag.h"
 #ifdef USB_HOST
-#include "usb.h"
+#include "USB.h"
 #endif
 
 #define LOAD_IMAGE			0

@@ -14,7 +14,7 @@
 #define __DRVEDMA_H__
 
 #include "wbio.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 
 #ifdef  __cplusplus
 extern "C"

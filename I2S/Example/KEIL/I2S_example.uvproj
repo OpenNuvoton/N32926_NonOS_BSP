@@ -43,8 +43,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\I2S_example_Data\DebugRel\</OutputDirectory>
-          <OutputName>I2S_example</OutputName>
+          <OutputDirectory>.\I2S_Example_Data\DebugRel\</OutputDirectory>
+          <OutputName>I2S_Example</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -136,6 +136,7 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
+            <RestoreTracepoints>0</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>6</TargetSelection>
@@ -349,7 +350,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Lib;..\..\..\SYSLIB\Lib;..\..\..\NVTFAT\lib;..\..\..\SIC\Lib</IncludePath>
+              <IncludePath>..\..\Lib;..\..\..\SYSLIB\Lib;..\..\..\NVTFAT\Lib;..\..\..\SIC\Lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -391,9 +392,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>I2S_example.c</FileName>
+              <FileName>I2S_Example.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\I2S_example.c</FilePath>
+              <FilePath>..\Src\I2S_Example.c</FilePath>
             </File>
             <File>
               <FileName>standalone.c</FileName>
@@ -406,14 +407,14 @@
               <FilePath>..\Src\wb_init.s</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_i2s.lib</FileName>
+              <FileName>W55FA92_I2S.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\Lib\w55fa92_i2s.lib</FilePath>
+              <FilePath>..\..\Lib\W55FA92_I2S.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_nvtfat.lib</FileName>

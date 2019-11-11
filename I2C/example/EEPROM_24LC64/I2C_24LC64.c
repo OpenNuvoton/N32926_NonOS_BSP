@@ -28,7 +28,7 @@
 #include <string.h>
 #include "wblib.h"
 
-#include "w55fa92_i2c.h"
+#include "W55FA92_I2C.h"
 
 
 /* If test I2C on module board, should configure switch of GPIOH pins. */

@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef _w55fa92_REG_H
-#define _w55fa92_REG_H
+#ifndef _W55FA92_REG_H
+#define _W55FA92_REG_H
 
 /*
    Register map

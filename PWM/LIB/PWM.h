@@ -12,7 +12,7 @@
 /* Includes of system headers                                                                              */
 /*---------------------------------------------------------------------------------------------------------*/
 #include "wbio.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 
 
 #ifdef  __cplusplus

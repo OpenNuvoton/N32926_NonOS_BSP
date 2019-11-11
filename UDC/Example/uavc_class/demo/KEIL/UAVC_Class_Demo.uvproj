@@ -537,9 +537,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>
@@ -1081,9 +1081,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>
@@ -1625,9 +1625,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>
@@ -2169,9 +2169,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>
@@ -2713,9 +2713,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>
@@ -3257,9 +3257,9 @@
               <FilePath>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>w55fa92_edma.lib</FileName>

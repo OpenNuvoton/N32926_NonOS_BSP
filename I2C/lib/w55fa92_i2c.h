@@ -19,11 +19,7 @@
 #define _NUC930_I2C_H_
 
 #include "wbtypes.h"
-#include "w55fa92_reg.h"
-
-//#define OPT_FPGA_DEBUG
-
-#define EXT_CRYSTAL	27000
+#include "W55FA92_reg.h"
 
 /*-----------------------------------------*/
 /* marco, type and constant definitions    */

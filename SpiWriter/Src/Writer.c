@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_sic.h"
-#include "nvtfat.h"
+#include "W55FA92_SIC.h"
+#include "NVTFAT.h"
+#ifndef __NoLCM__
 #include "Font.h"
-#include "writer.h"
+#endif
+#include "Writer.h"
 #ifdef __Security__
 #include "Gneiss.h"
 #endif
@@ -16,7 +18,10 @@ void RPMC_CreateRootKey(unsigned char *u8uid, unsigned int id_len, unsigned char
 #endif
 
 VOID Reset(void);
+#ifndef __NoLCM__
+
 extern S_DEMO_FONT s_sDemo_Font;
+#endif
 extern INI_INFO_T Ini_Writer;
 extern BOOL volatile g_4byte_adderss;
 void Exit4ByteMode(void);
@@ -41,10 +46,15 @@ extern PDISK_T *pDisk_SD0;
 
 
 /**********************************/
-
+#if defined (__GNUC__)
+UINT8 infoBufArray[0x40000] __attribute__((aligned(32)));
+UINT8 StorageBufferArray[0x40000] __attribute__((aligned(32)));
+UINT8 CompareBufferArray[0x40000] __attribute__((aligned(32)));
+#else
 __align(32) UINT8 infoBufArray[0x40000];
 __align(32) UINT8 StorageBufferArray[0x40000];
 __align(32) UINT8 CompareBufferArray[0x40000];
+#endif
 UINT32 infoBuf, StorageBuffer, CompareBuffer, BufferSize=0;
 UINT8 *pInfo;
 CHAR suNvtFullName[2048], suNvtTargetFullName[2048];

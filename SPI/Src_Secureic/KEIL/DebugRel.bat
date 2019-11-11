@@ -1,1 +1,1 @@
-move .\dev_Secureic_Data\w55fa92_Secureic.lib ..\..\Lib
+move .\dev_Secureic_Data\W55FA92_Secureic.lib ..\..\Lib

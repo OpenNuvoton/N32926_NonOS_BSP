@@ -30,7 +30,7 @@
 //===================================================================
 #include "W55FA92_reg.h"
 #include "wblib.h"
-#include "rotlib.h"
+#include "W55FA92_ROT.h"
 
 PFN_ROT (RotIntHandlerTable)[3]={0};
 

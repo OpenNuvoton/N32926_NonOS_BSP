@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "usbd.h"
 #include "mass_storage_class.h"
 #include "ImageISO.h"
@@ -10,6 +10,8 @@
 //#define DETECT_USBD_PLUG
 //#define PLUG_DEVICE_TEST
 //#define NON_BLOCK_MODE
+
+INT SpiFlashOpen(UINT32 FATOffset);
 
 #ifdef __TWO_NAND__
 	UINT32 u32NAND_EXPORT = (MSC_NAND_CS0 | MSC_NAND_CS2);	
@@ -93,9 +95,9 @@ BOOL PlugDetection(void)
 }
 
 #ifndef __RAM_DISK_ONLY__
-	#include "nvtfat.h"
-	#include "w55fa92_sic.h"
-	#include "w55fa92_gnand.h"
+	#include "NVTFAT.h"
+	#include "W55FA92_SIC.h"
+	#include "W55FA92_GNAND.h"
 
 #ifdef __NAND__
 NDISK_T MassNDisk;

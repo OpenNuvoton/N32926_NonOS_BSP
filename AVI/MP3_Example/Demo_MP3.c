@@ -7,12 +7,12 @@
 #include "wbio.h"
 #include "wblib.h"
 
-#include "w55fa92_sic.h"
-#include "W55fa92_AudioRec.h"
-#include "nvtfat.h"
-#include "spu.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_AUR.h"
+#include "NVTFAT.h"
+#include "SPU.h"
 
-#include "AviLib.h"
+#include "AVILib.h"
 
 extern VOID spuSetDacSlaveMode(void);
 

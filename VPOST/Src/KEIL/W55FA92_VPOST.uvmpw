@@ -15,12 +15,10 @@
   <project>
     <PathAndName>.\AMPIRE_800x480_16B\AMPIRE_800x480_16B.uvproj</PathAndName>
     <NodeIsActive>1</NodeIsActive>
-    <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>
     <PathAndName>.\AMPIRE_800x480_18B\AMPIRE_800x480_18B.uvproj</PathAndName>
-    <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>

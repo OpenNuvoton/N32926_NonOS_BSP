@@ -18,7 +18,7 @@
 #include <string.h>
 #include "wblib.h"
 #include "turbowriter.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_VPOST.h"
 
 typedef struct {
     void (*backlight_init)(void);

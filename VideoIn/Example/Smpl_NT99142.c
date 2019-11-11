@@ -33,7 +33,11 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct NT_RegValue g_sNT99142_Init[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_Init.dat"
+#else
 	#include "NT99142\NT99142_Init.dat"
+#endif
 };
 
 #if !defined(__PCLK_48MHZ__) && !defined(__PCLK_60MHZ__)&&!defined(__PCLK_74MHZ__)
@@ -54,43 +58,79 @@ struct NT_RegValue g_sNT99142_VGA[] =
 #ifdef __PCLK_48MHZ__
 struct NT_RegValue g_sNT99142_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_HD720_PCLK_48MHz.dat"
+#else
 	#include "NT99142\NT99142_HD720_PCLK_48MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_SVGA_PCLK_48MHz.dat"
+#else
 	#include "NT99142\NT99142_SVGA_PCLK_48MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_VGA_PCLK_48MHz.dat"
+#else
 	#include "NT99142\NT99142_VGA_PCLK_48MHz.dat"
+#endif
 };
 #endif
 #ifdef __PCLK_60MHZ__
 struct NT_RegValue g_sNT99142_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_HD720_PCLK_60MHz.dat"
+#else
 	#include "NT99142\NT99142_HD720_PCLK_60MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_SVGA_PCLK_60MHz.dat"
+#else
 	#include "NT99142\NT99142_SVGA_PCLK_60MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_VGA_PCLK_60MHz.dat"
+#else
 	#include "NT99142\NT99142_VGA_PCLK_60MHz.dat"
+#endif
 };
 #endif
 #ifdef __PCLK_74MHZ__
 struct NT_RegValue g_sNT99142_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_HD720_PCLK_74MHz.dat"
+#else
 	#include "NT99142\NT99142_HD720_PCLK_74MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_SVGA_PCLK_74MHz.dat"
+#else
 	#include "NT99142\NT99142_SVGA_PCLK_74MHz.dat"
+#endif
 };
 struct NT_RegValue g_sNT99142_VGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99142/NT99142_VGA_PCLK_74MHz.dat"
+#else
 	#include "NT99142\NT99142_VGA_PCLK_74MHz.dat"
+#endif
 };
 #endif
 

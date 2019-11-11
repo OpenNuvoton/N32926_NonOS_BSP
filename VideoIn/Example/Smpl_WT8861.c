@@ -37,7 +37,11 @@ struct OV_RegTable{
 
 static struct OV_RegValue g_sWT8861_Init[]=
 {
+#ifdef __GNUC__
+	#include "WT8861/WT8861_CCIR656.dat"
+#else
 	#include "WT8861\WT8861_CCIR656.dat"
+#endif
 };
 
 static struct OV_RegTable g_OV_InitTable[] =
@@ -259,7 +263,7 @@ UINT32 Smpl_WT8861_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu
 	pVin->SetSensorPolarity(FALSE,				//V			
 						FALSE,			//H			
 						FALSE);			//P
-	videoIn0_SetFieldDetection(0, 0);	
+	pVin->SetFieldDetection(0, 0);
 	pVin->SetCropWinStartAddr(35,								//Vertical start position 	Y
 						0x40);							
 	pVin->SetStandardCCIR656(TRUE);						
@@ -267,7 +271,7 @@ UINT32 Smpl_WT8861_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* pu
 	pVin->SetInputType(3,					//0: Both fields are disabled. 1: Field 1 enable. 2: Field 2 enable. 3: Both fields are enable
 				eVIDEOIN_TYPE_CCIR656,	//0: CCIR601.	1: CCIR656 	
 				1);						//swap?				
-	videoIn0_SetFieldDetection(TRUE, 0);						
+	pVin->SetFieldDetection(TRUE, 0);
 	pVin->SetSensorPolarity(FALSE,							
 						FALSE,						
 						TRUE);	

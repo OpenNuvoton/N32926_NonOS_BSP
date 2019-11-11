@@ -350,7 +350,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -445,9 +445,9 @@
               <FilePath>..\..\..\Lib\W55FA92_VPE.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_GIANTPLUS_GPM1006D.lib</FileName>

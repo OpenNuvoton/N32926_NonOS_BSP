@@ -31,11 +31,20 @@ extern UINT8 u8PlanarFrameBuffer[];
 #if defined(__PCLK_48MHZ__)
 struct NT_RegValue g_sSC1046_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "SC1046/SC1046_HD720_PCLK_48MHz.dat"
+#else
 	#include "SC1046\SC1046_HD720_PCLK_48MHz.dat"
+#endif
+};
 #elif defined(__PCLK_60MHZ__)
 struct NT_RegValue g_sSC1046_HD720[] = 
 {
+#ifdef __GNUC__
+	#include "SC1046/SC1046_HD720_PCLK_60MHz.dat"
+#else
 	#include "SC1046\SC1046_HD720_PCLK_60MHz.dat"
+#endif
 };
 #else
 struct NT_RegValue g_sSC1046_HD720[] = 

@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"	
-#include "nvtfat.h"
-#include "w55fa92_sic.h"
-#include "w55fa92_vpost.h"
-#include "w55fa92_vpe.h"
+#include "NVTFAT.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_VPOST.h"
+#include "W55FA92_VPE.h"
 
 #include "favc_avcodec.h"
 #include "favc_version.h"
@@ -519,7 +519,7 @@ int main(void)
 
 
 	fsInitFileSystem();
-	fmiInitDevice(); 
+	sicOpen(); 
 	if (sicSdOpen0() <=0)
 	{
 		Console_Printf("Error in initialize SD card !!\n");

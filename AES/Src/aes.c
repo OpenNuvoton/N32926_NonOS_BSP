@@ -10,10 +10,8 @@
  **************************************************************************/
 #include <stdio.h>
 #include <string.h>
-#include "wbio.h"
 #include "wblib.h"
-#include "w55fa92_reg.h"
-#include "aes.h"
+#include "AES.h"
 
 /*-----------------------------------------------------------------------------
  * Define Macro
@@ -37,16 +35,16 @@
 //--- Define for Endian Conversion
 #define AES_BIG_ENDIAN      1
 #define AES_LITTLE_ENDIAN   0
-#define BYTE_ORDER          AES_LITTLE_ENDIAN
+#define AES_BYTE_ORDER      AES_LITTLE_ENDIAN
 
-#if (BYTE_ORDER == AES_BIG_ENDIAN)
+#if (AES_BYTE_ORDER == AES_BIG_ENDIAN)
     #define  htonl(l)  l
     #define  htons(s)  s
     #define  ntohl(l)  l
     #define  ntohs(s)  s
 #endif
 
-#if (BYTE_ORDER == AES_LITTLE_ENDIAN)
+#if (AES_BYTE_ORDER == AES_LITTLE_ENDIAN)
     #define  htonl(l)  (unsigned long)((((unsigned long)(l) >> 24) & 0x000000FF) | \
                                        (((unsigned long)(l) >>  8) & 0x0000FF00) | \
                                        (((unsigned long)(l) <<  8) & 0x00FF0000) | \

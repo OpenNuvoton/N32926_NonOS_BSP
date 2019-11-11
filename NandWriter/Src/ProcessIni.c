@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_sic.h"
-#include "nvtfat.h"
+#include "W55FA92_SIC.h"
+#include "NVTFAT.h"
 #include "Font.h"
 #include "writer.h"
 

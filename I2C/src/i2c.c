@@ -30,13 +30,8 @@
 #include "wblib.h"
 #endif
 
-#include "w55fa92_i2c.h"
+#include "W55FA92_I2C.h"
 #include "DrvI2CH.h"
-
-#define CONFIG_GPB13_SCK_GPB14_SDA
-//#define CONFIG_GPA10_SCK_GPA11_SDA
-//#define CONFIG_GPG2_SCK_GPG5_SDA
-//#define CONFIG_GPG12_SCK_GPG15_SDA
 
 /*-----------------------------------------*/
 /* marco, type and constant definitions    */
@@ -138,14 +133,10 @@ static INT _i2cSetSpeed(INT sp)
 	UINT d;	
 	UINT32 u32ApbKHz;	
 	
-	if( sp != 100 && sp != 400)
-		return(I2C_ERR_NOTTY);	
+	//if( sp != 100 && sp != 400)
+		//return(I2C_ERR_NOTTY);	
 
-#ifdef OPT_FPGA_DEBUG
-	u32ApbKHz =  EXT_CRYSTAL;
-#else
 	u32ApbKHz = sysGetAPBClock()/1000;	
-#endif 
 	
 	d = ((u32ApbKHz)/(sp * 5)) - 1;
 
@@ -221,12 +212,7 @@ INT32 i2cOpen(void)
 		return(I2C_ERR_BUSY);
 			
 	/* Import enable two I2C clock together */
-#ifdef OPT_FPGA_DEBUG
-	outpw(REG_AHBCLK, inpw(REG_AHBCLK) | SD_CKE);
-	outpw(REG_APBCLK, inpw(REG_APBCLK) | I2C_CKE);	
-#else	
 	outpw(REG_APBCLK, inpw(REG_APBCLK) |I2C_CKE);
-#endif	
 	
 	outpw(REG_I2C_CSR, inpw(REG_I2C_CSR) | I2C_EN);
 				
@@ -264,12 +250,8 @@ INT32 i2cClose(void)
 
 	outpw(REG_I2C_CSR, inpw(REG_I2C_CSR) & ~I2C_EN);
 	
-#ifdef OPT_FPGA_DEBUG
-	outpw(REG_AHBCLK, inpw(REG_AHBCLK) & ~SD_CKE);
 	outpw(REG_APBCLK, inpw(REG_APBCLK) & ~I2C_CKE);	
-#else	
-	outpw(REG_APBCLK, inpw(REG_APBCLK) & ~I2C_CKE);	
-#endif
+
 	dev = (i2c_dev *)( (UINT32)&i2c_device );	
 		
 	dev->openflag = 0;		
@@ -727,14 +709,7 @@ INT32 i2cExit(void)
 INT32  i2cInit(void)  
 {
 	/* Configure GPIO pins to I2C mode */	
-#ifdef CONFIG_GPB13_SCK_GPB14_SDA
 	outpw(REG_GPBFUN1, (inpw(REG_GPBFUN1) & ~(MF_GPB13 | MF_GPB14)) | 0x02200000);	//gpiob(13,14)	
-#elif defined CONFIG_GPA10_SCK_GPA11_SDA
-	outpw(REG_GPAFUN1, (inpw(REG_GPAFUN1) & ~(MF_GPA10 | MF_GPA11)) | 0x2200);	
-#elif defined CONFIG_GPG2_SCK_GPG5_SDA
-	outpw(REG_SHRPIN_TVDAC, inpw(REG_SHRPIN_TVDAC) & ~ SMTVDACAEN);
-	outpw(REG_GPGFUN0, (inpw(REG_GPGFUN0) & ~(MF_GPG2 | MF_GPG5)) | 0x100400);
-#endif
 	
 	outpw(REG_APBIPRST, inpw(REG_APBIPRST) | I2CRST);	//reset i2c
 	outpw(REG_APBIPRST, inpw(REG_APBIPRST) & ~I2CRST);	

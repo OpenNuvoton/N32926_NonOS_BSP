@@ -12,7 +12,7 @@
 #include <string.h>
 #include "wblib.h"
 #include "DrvRSCodec.h"
-#include "w55fa92_edma.h"
+#include "W55FA92_EDMA.h"
 
 /*-----------------------------------------------------------------------------
  * Define Global Variables

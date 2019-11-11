@@ -15,8 +15,8 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
 
 /*-----------------------------------------------------------------------------
  * For system configuration

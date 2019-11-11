@@ -1,6 +1,7 @@
 #include "wblib.h"
 #include "W55FA92_VideoIn.h"
 #include "W55FA92_GPIO.h"
+#include "jpegcodec.h"
 #include "demo.h"
 #include "DrvI2C.h"
 //#include "w55fa92_i2c.h"
@@ -37,7 +38,11 @@ struct OV_RegTable{
 
 static struct OV_RegValue g_sSA71113_Init[]=
 {
+#ifdef __GNUC__
+	#include "SA71113/SA71113.dat"
+#else
 	#include "SA71113\SA71113.dat"
+#endif
 };
 
 static struct OV_RegTable g_OV_InitTable[] =
@@ -249,7 +254,7 @@ UINT32 Smpl_SA71113_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* p
 	pVin->SetSensorPolarity(TRUE,				//V			
 						FALSE,			//H			
 						TRUE);			//P
-	videoIn0_SetFieldDetection(0, 0);	
+	pVin->SetFieldDetection(0, 0);
 	pVin->SetCropWinStartAddr(3,								//Vertical start position 	Y
 						0x38);							
 	pVin->SetStandardCCIR656(TRUE);						
@@ -300,12 +305,12 @@ UINT32 Smpl_SA71113_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* p
 	for(i=0; i<8;i=i+1)
 	{	
 		if(i==0){
-			videoIn0_SetFieldDetection(0, 0);	
+			pVin->SetFieldDetection(0, 0);
 			pVin->SetInputType(3,					//0: Both fields are disabled. 1: Field 1 enable. 2: Field 2 enable. 3: Both fields are enable
 					mode,	//0: CCIR601.	1: CCIR656 	
 					0);						//swap?
 		}else if(i==1){
-			videoIn0_SetFieldDetection(0, 0);	
+			pVin->SetFieldDetection(0, 0);
 			pVin->SetInputType(3,					//0: Both fields are disabled. 1: Field 1 enable. 2: Field 2 enable. 3: Both fields are enable
 					mode,	//0: CCIR601.	1: CCIR656 	
 					1);						//swap?		
@@ -324,12 +329,12 @@ UINT32 Smpl_SA71113_VGA(UINT8* pu8FrameBuffer0, UINT8* pu8FrameBuffer1, UINT8* p
 					1);	
 			#endif		
 		}else if(i==4){
-			videoIn0_SetFieldDetection(1, 0);	
+			pVin->SetFieldDetection(1, 0);
 			pVin->SetInputType(3,					//0: Both fields are disabled. 1: Field 1 enable. 2: Field 2 enable. 3: Both fields are enable
 					mode,	//0: CCIR601.	1: CCIR656 	
 					0);	
 		}else if(i==5){
-			videoIn0_SetFieldDetection(1, 0);	
+			pVin->SetFieldDetection(1, 0);
 			pVin->SetInputType(3,					//0: Both fields are disabled. 1: Field 1 enable. 2: Field 2 enable. 3: Both fields are enable
 					mode,	//0: CCIR601.	1: CCIR656 	
 					1);	

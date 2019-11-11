@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "demo.h"
 #include "usbd.h"
 #include "videoclass.h"
@@ -58,16 +58,29 @@ extern void Send_AudioOneMSPacket(PUINT32 pu32Address, PUINT32 pu32Length);
 /* Skip frame when Changing frame */
 #define UVC_SKIP_FRAME 5
 
+#if defined (__GNUC__)
 /* Buffer for Packet & Planar format */
-UINT8 __align(32) u8PacketFrameBuffer0[640*480*2];	
-UINT8 __align(32) u8PacketFrameBuffer1[640*480*2];	
-UINT8 __align(32) u8PacketFrameBuffer2[640*480*2];	
-UINT8 __align(32) u8PlanarFrameBuffer0[640*480*2];	
-UINT8 __align(32) u8PlanarFrameBuffer1[640*480*2];	
-UINT8 __align(32) u8PlanarFrameBuffer2[640*480*2];	
+UINT8 u8PacketFrameBuffer0[640*480*2] __attribute__((aligned(32)));
+UINT8 u8PacketFrameBuffer1[640*480*2] __attribute__((aligned(32)));
+UINT8 u8PacketFrameBuffer2[640*480*2] __attribute__((aligned(32)));
+UINT8 u8PlanarFrameBuffer0[640*480*2] __attribute__((aligned(32)));
+UINT8 u8PlanarFrameBuffer1[640*480*2] __attribute__((aligned(32)));
+UINT8 u8PlanarFrameBuffer2[640*480*2] __attribute__((aligned(32)));
+
+/* JEPG Bitstream Buffer */
+UINT8 u8jpegBitstream[500*1024] __attribute__((aligned(32)));
+#else
+/* Buffer for Packet & Planar format */
+UINT8 __align(32) u8PacketFrameBuffer0[640*480*2];
+UINT8 __align(32) u8PacketFrameBuffer1[640*480*2];
+UINT8 __align(32) u8PacketFrameBuffer2[640*480*2];
+UINT8 __align(32) u8PlanarFrameBuffer0[640*480*2];
+UINT8 __align(32) u8PlanarFrameBuffer1[640*480*2];
+UINT8 __align(32) u8PlanarFrameBuffer2[640*480*2];
 
 /* JEPG Bitstream Buffer */
 UINT8 __align(32) u8jpegBitstream[500*1024];
+#endif
 
 /* Toggle index for Fixed Pattern */
 UINT8 volatile bufIndex = 0, u32PreviousBufIdx = 4;

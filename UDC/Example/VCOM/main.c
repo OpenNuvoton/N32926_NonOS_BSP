@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "usbd.h"
 
 void vcomInit(void);

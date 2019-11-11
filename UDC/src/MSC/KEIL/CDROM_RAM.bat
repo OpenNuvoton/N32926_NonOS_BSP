@@ -1,1 +1,1 @@
-move .\MSC_CDROM_Data\RAM\w55fa92_MSC_RAM_CDROM.lib ..\..\..\Lib
+move .\MSC_CDROM_Data\RAM\W55FA92_MSC_RAM_CDROM.lib ..\..\..\Lib

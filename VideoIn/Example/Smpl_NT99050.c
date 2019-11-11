@@ -36,7 +36,11 @@ extern UINT8 u8PlanarFrameBuffer[];
 #define BT656
 struct NT_RegValue g_sNT99050_RegValue[] = 
 {
+#ifdef __GNUC__
+	#include "NT99050/NT99050_30F.dat"
+#else
  	#include "NT99050\NT99050_30F.dat"
+#endif
 };
 
 static struct NT_RegTable g_NT99050_InitTable[] =

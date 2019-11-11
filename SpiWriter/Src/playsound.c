@@ -30,8 +30,8 @@
 
 #include "wblib.h"
 #include "pcm.h"
-#include "w55fa92_spu.h"
-#include "spu.h"
+#include "W55FA92_SPU.h"
+#include "SPU.h"
 
 static UINT16 u16IntCount = 2;
 static UINT32 u32FragSize;

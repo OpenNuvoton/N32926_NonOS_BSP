@@ -112,6 +112,10 @@ INT sdioSdWrite1_SG(INT32 sdSectorNo, INT32 sdSectorCount, INT32 sdTargetAddr, I
 
 
 /* Declare callback function in waiting loop of SD driver */
-__weak void schedule(void);
+#if defined (__GNUC__)
+    __attribute__((weak)) void schedule(void);
+#else
+    __weak void schedule(void);
+#endif
 
 #endif  //end of _W55FA92_SDIO_H

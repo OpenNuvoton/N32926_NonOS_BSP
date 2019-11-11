@@ -7,8 +7,8 @@
 #include "string.h"
 #include "stdlib.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_spu.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SPU.h"
 #include "spu.h"
 
 #define E_SUCCESS   0

@@ -168,6 +168,17 @@ struct ehci_hcd
 
 #if 0 /* YCHuang */
 /* Section 2.2 Host Controller Capability Registers */
+#if defined (__GNUC__)
+struct__attribute__((packed)) ehci_caps 
+{
+	UINT8	length;			/* CAPLENGTH - size of this struct */
+	UINT8	reserved;       /* offset 0x1 */
+	UINT16	hci_version;    /* HCIVERSION - offset 0x2 */
+	UINT32	hcs_params;     /* HCSPARAMS - offset 0x4 */
+	UINT32	hcc_params;     /* HCCPARAMS - offset 0x8 */
+	UINT8	portroute [8];	/* nibbles for routing - offset 0xC */
+};
+#else
 struct ehci_caps 
 {
 	__packed UINT8	length;			/* CAPLENGTH - size of this struct */
@@ -177,6 +188,7 @@ struct ehci_caps
 	__packed UINT32	hcc_params;     /* HCCPARAMS - offset 0x8 */
 	__packed UINT8	portroute [8];	/* nibbles for routing - offset 0xC */
 };
+#endif
 #endif
 
 #if 0 /* YCHuang */
@@ -281,6 +293,23 @@ struct ehci_regs
  * These are associated only with "QH" (Queue Head) structures,
  * used with control, bulk, and interrupt transfers.
  */
+#if defined (__GNUC__)
+struct ehci_qtd 
+{
+	/* first part defined by EHCI spec */
+	UINT32			hw_next __attribute__((packed));	  	/* see EHCI 3.5.1 */
+	UINT32			hw_alt_next __attribute__((packed));    /* see EHCI 3.5.2 */
+	UINT32			hw_token __attribute__((packed));       /* see EHCI 3.5.3 */       
+	UINT32			hw_buf [5] __attribute__((packed));     /* see EHCI 3.5.4 */
+	UINT32			hw_buf_hi[5] __attribute__((packed));	/* Appendix B */
+
+	/* the rest is HCD-private */
+	//dma_addr_t	qtd_dma;				/* qtd address */
+	struct list_head	qtd_list;			/* sw qtd list */
+	struct urb	*urb;						/* qtd's urb */
+	size_t		length;						/* length of buffer */
+};
+#else
 struct ehci_qtd 
 {
 	/* first part defined by EHCI spec */
@@ -296,6 +325,7 @@ struct ehci_qtd
 	struct urb	*urb;						/* qtd's urb */
 	size_t		length;						/* length of buffer */
 };
+#endif
 
 #define	QTD_TOGGLE		(0x80000000)	/* data toggle */
 #define	QTD_LENGTH(tok)	(((tok)>>16) & 0x7fff)

@@ -34,22 +34,38 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct HM_RegValue g_sHM1246_INIT[] = 
 {
+#ifdef __GNUC__
+	#include "HM1246/HM1245_30fps_640x480_Init.dat"
+#else
 	#include "HM1246\HM1245_30fps_640x480_Init.dat"
+#endif
 };
 
 struct HM_RegValue g_sHM1246_VGA[] = 
 {
+#ifdef __GNUC__
+    #include "HM1246/HM1245_VGA_30fps.dat"
+#else
 	#include "HM1246\HM1245_VGA_30fps.dat"
+#endif
 };
 
 struct HM_RegValue g_sHM1246_HD720P[] = 
 {
+#ifdef __GNUC__
+	#include "HM1246/HM1245_720P_25FPS_60Mhz.dat"
+#else
 	#include "HM1246\HM1245_720P_25FPS_60Mhz.dat"
+#endif
 };
 
 struct HM_RegValue g_sHM1246_SXGA[] = 
 {
+#ifdef __GNUC__
+    #include "HM1246/HM1245_YUV_30fps_1280x960_automotive.dat"
+#else
 	#include "HM1246\HM1245_YUV_30fps_1280x960_automotive.dat"
+#endif
 };
 
 
@@ -254,7 +270,7 @@ VOID HM1246_Init(UINT32 nIndex, UINT32 u32Resolution)
 				if( (psRegValue->u16RegAddr) == 0x0103)
 				{
 					sysDelay(1);
-					printf("Delay 5ms\n");	
+					sysprintf("Delay 5ms\n");	
 				}		
 			}
 			u32SensorInit = 1;
@@ -268,7 +284,7 @@ VOID HM1246_Init(UINT32 nIndex, UINT32 u32Resolution)
 			if( ((psRegValue->u16RegAddr) == 0x0103) ||  ((psRegValue->u16RegAddr) == 0x2590) ||  ((psRegValue->u16RegAddr) == 0x0100) )
 			{
 				sysDelay(1);
-				printf("Delay 5ms\n");	
+				sysprintf("Delay 5ms\n");	
 			}		
 		}
 		
@@ -284,7 +300,7 @@ VOID HM1246_Init(UINT32 nIndex, UINT32 u32Resolution)
 			if( ((psRegValue->u16RegAddr) == 0x0103) ||  ((psRegValue->u16RegAddr) == 0x2590) ||  ((psRegValue->u16RegAddr) == 0x0100) )
 			{
 				sysDelay(1);
-				printf("Delay 5ms\n");	
+				sysprintf("Delay 5ms\n");	
 			}		
 		}
 	}

@@ -11,10 +11,10 @@
 #include "wbio.h"
 #include "wblib.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
 #include "fmi.h"
-#include "w55fa92_gnand.h"
+#include "W55FA92_GNAND.h"
 
 //--- Should define these compile flags from ADS target.
 // __OPT_SW_WP_GPA0             : use GPA0 as software Write Protect pin for CS0; 1 is normal; 0 is protected
@@ -65,7 +65,13 @@ extern BOOL volatile _fmi_bIsSMDataReady;
 INT fmiSMCheckBootHeader(INT chipSel, FMI_SM_INFO_T *pSM);
 static int _nand_init0 = 0, _nand_init1 = 0;
 
-__align(4096) UCHAR _fmi_ucSMBuffer[8192];
+#if defined (__GNUC__)
+    UCHAR _fmi_ucSMBuffer[8192] __attribute__((aligned (4096)));
+#else
+    __align(4096) UCHAR _fmi_ucSMBuffer[8192];
+#endif
+
+
 UINT8 *_fmi_pSMBuffer;
 
 
@@ -1677,7 +1683,7 @@ INT fmiSM_Write_large_page_ALC(FMI_SM_INFO_T *pSM, UINT32 uSector, UINT32 ucColA
  *  and then check the ECC error.
  *  Support page size 2K / 4K / 8K.
  *---------------------------------------------------------------------------*/
-INT fmiSM_Read_move_data_ecc_check(FMI_SM_INFO_T *pSM, UINT32 uDAddr)
+INT fmiSM_Read_move_data_ecc_check(FMI_SM_INFO_T *pSM, UINT32 uDAddr, UINT32 uPage)
 {
     UINT32 uStatus;
     UINT32 uErrorCnt, ii, jj;
@@ -1758,7 +1764,8 @@ INT fmiSM_Read_move_data_ecc_check(FMI_SM_INFO_T *pSM, UINT32 uDAddr)
                             // 2011/8/17, mask uErrorCnt since Fx_ECNT just has 5 valid bits
                             uErrorCnt = (uStatus >> 2) & 0x1F;
                             fmiSM_CorrectData_BCH(jj*4+ii, uErrorCnt, (UINT8*)uDAddr);
-                            DBG_PRINTF("Warning: Field %d have %d BCH error. Corrected!!\n", jj*4+ii, uErrorCnt);
+//                            DBG_PRINTF("Warning: Field %d have %d BCH error. Corrected!!\n", jj*4+ii, uErrorCnt);
+                            ERR_PRINTF("Warning: Page %d Field %d have %d BCH error. Corrected!!\n", uPage, jj*4+ii, uErrorCnt);
                             break;
                         }
                         else if (((uStatus & ECCST_F1_STAT)==0x02) ||
@@ -1828,7 +1835,7 @@ INT fmiSM_Read_large_page(FMI_SM_INFO_T *pSM, UINT32 uPage, UINT32 uDAddr)
     result = fmiSM2BufferM_large_page(pSM, uPage, 0);
     if (result != 0)
         return result;  // fail for FMI_SM_RB_ERR
-    result = fmiSM_Read_move_data_ecc_check(pSM, uDAddr);
+    result = fmiSM_Read_move_data_ecc_check(pSM, uDAddr, uPage);
     return result;
 }
 

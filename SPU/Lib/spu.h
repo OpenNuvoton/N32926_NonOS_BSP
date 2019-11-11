@@ -10,7 +10,7 @@
 #include "wbio.h"
 #include "wblib.h"
 #include "wbtypes.h"
-#include "w55fa92_spu.h"
+#include "W55FA92_SPU.h"
 
 
 

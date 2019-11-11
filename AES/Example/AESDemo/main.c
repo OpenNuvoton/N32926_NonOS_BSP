@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "wblib.h"
-#include "aes.h"
+#include "AES.h"
 
 #define LOG_PREFIX		"[AES Demo]"
 
@@ -13,11 +13,19 @@
 // KEY_128, KEY_192, KEY_256
 #define KEY_LENGTH		KEY_128
 
+#if defined (__GNUC__)
+static UINT8 plain_text [DATA_LENGTH] __attribute__((aligned (32)));    // Original plain text.
+static UINT8 plain_text2[DATA_LENGTH] __attribute__((aligned (32)));    // Plain text for H/W AES decryption.
+static UINT8 cipher_text[DATA_LENGTH] __attribute__((aligned (32)));    // Cipher text for H/W AES encryption.
+static UINT8 iv[16] __attribute__((aligned (32)));
+static UINT8 cipher_key[32] __attribute__((aligned (32)));
+#else
 static __align(32) UINT8 plain_text [DATA_LENGTH];      // Original plain text.
 static __align(32) UINT8 plain_text2[DATA_LENGTH];      // Plain text for H/W AES decryption.
 static __align(32) UINT8 cipher_text[DATA_LENGTH];      // Cipher text for H/W AES encryption.
 static __align(32) UINT8 iv[16];
 static __align(32) UINT8 cipher_key[32];
+#endif
 static UINT8 *ptr_plain_text, *ptr_plain_text2, *ptr_cipher_text;
 static int errcode = Successful;
 

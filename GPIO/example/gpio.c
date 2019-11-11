@@ -29,7 +29,7 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_gpio.h"
+#include "W55FA92_GPIO.h"
 
 
 int main(void)

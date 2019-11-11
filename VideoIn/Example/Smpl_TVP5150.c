@@ -4,9 +4,12 @@
 #include "W55FA92_GPIO.h"
 #include "demo.h"
 #include "DrvI2C.h"
+
+#ifdef __GNUC__
+#include "TVP5150/sensor_tvp5150_reg.h"
+#else
 #include "TVP5150\sensor_tvp5150_reg.h"
-
-
+#endif
 
 typedef struct
 {

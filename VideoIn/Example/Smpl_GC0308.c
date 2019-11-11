@@ -35,7 +35,11 @@ struct OV_RegTable{
 
 static struct OV_RegValue g_sGC0308_VGA_RegValue[]=
 {//GC0308
+#ifdef __GNUC__
+    #include "GC0308/GC0308_VGA.dat"
+#else
 	#include "GC0308\GC0308_VGA.dat"
+#endif
 };
 
 static struct OV_RegTable g_OV_InitTable[] =

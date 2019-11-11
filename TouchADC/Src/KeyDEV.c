@@ -6,9 +6,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "w55fa92_reg.h"
 #include "wblib.h"
-#include "w55fa92_ts_adc.h"
+#include "W55FA92_ADC.h"
 
 /*
 	A pull up resister 20 K cascade with 

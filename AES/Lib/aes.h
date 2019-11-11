@@ -11,9 +11,7 @@
 #ifndef _AES_H
 #define _AES_H
 
-#include "wbio.h"
-#include "wbtypes.h"
-#include "wberrcode.h"
+#include "wblib.h"
 
 //--- Define Error Code for AES
 #define AES_ERR_FAIL        (AES_ERR_ID|0x01)

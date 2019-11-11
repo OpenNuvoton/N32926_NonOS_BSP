@@ -1,1 +1,1 @@
-move .\MSC_Data\RAM\w55fa92_MSC_RAM.lib ..\..\..\Lib
+move .\MSC_Data\RAM\W55FA92_MSC_RAM.lib ..\..\..\Lib

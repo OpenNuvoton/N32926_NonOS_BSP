@@ -349,7 +349,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Lib;..\..\..\SYSLIB\Lib;..\..\..\SIC\Lib;..\..\..\NVTFAT\lib;..\..\..\JPEG\LIB;..\..\..\GNAND\Lib;..\..\..\SPU\Lib;..\..\..\AudioRecord\Lib;..\..\..\VPOST\Lib</IncludePath>
+              <IncludePath>..\..\Lib;..\..\..\SYSLIB\Lib;..\..\..\SIC\Lib;..\..\..\NVTFAT\Lib;..\..\..\JPEG\Lib;..\..\..\GNAND\Lib;..\..\..\SPU\Lib;..\..\..\AudioRecord\Lib;..\..\..\VPOST\Lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -411,19 +411,19 @@
               <FilePath>..\..\Lib\AviLib_320x240.lib</FilePath>
             </File>
             <File>
-              <FileName>ima_adpcm_codec.lib</FileName>
+              <FileName>IMA_ADPCM_Codec.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\Lib\ima_adpcm_codec.lib</FilePath>
+              <FilePath>..\..\Lib\IMA_ADPCM_Codec.lib</FilePath>
             </File>
             <File>
-              <FileName>mp3lib.lib</FileName>
+              <FileName>MP3Lib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\Lib\mp3lib.lib</FilePath>
+              <FilePath>..\..\Lib\MP3Lib.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_syslib.lib</FileName>
+              <FileName>W55FA92_SYSLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
+              <FilePath>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_SIC.lib</FileName>
@@ -431,29 +431,29 @@
               <FilePath>..\..\..\SIC\Lib\W55FA92_SIC.lib</FilePath>
             </File>
             <File>
-              <FileName>W55FA92_nvtfat.lib</FileName>
+              <FileName>W55FA92_NVTFAT.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\NVTFAT\lib\W55FA92_nvtfat.lib</FilePath>
+              <FilePath>..\..\..\NVTFAT\Lib\W55FA92_NVTFAT.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_jpeglib.lib</FileName>
+              <FileName>W55FA92_JPEGLib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\JPEG\LIB\w55fa92_jpeglib.lib</FilePath>
+              <FilePath>..\..\..\JPEG\Lib\W55FA92_JPEGLib.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_GNAND.lib</FileName>
+              <FileName>W55FA92_GNAND.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\GNAND\Lib\w55fa92_GNAND.lib</FilePath>
+              <FilePath>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</FilePath>
             </File>
             <File>
-              <FileName>w55fa92_spu.lib</FileName>
+              <FileName>W55FA92_SPU.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\SPU\Lib\w55fa92_spu.lib</FilePath>
+              <FilePath>..\..\..\SPU\Lib\W55FA92_SPU.lib</FilePath>
             </File>
             <File>
-              <FileName>AudioRecord.lib</FileName>
+              <FileName>W55FA92_AUR.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\AudioRecord\Lib\AudioRecord.lib</FilePath>
+              <FilePath>..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</FilePath>
             </File>
             <File>
               <FileName>W55FA92_GIANTPLUS_GPM1006D.lib</FileName>

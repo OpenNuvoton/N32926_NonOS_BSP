@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "wblib.h"
 #include "demo.h"
-#include "w55fa92_gpio.h"
+#include "W55FA92_GPIO.h"
 //#pragma import (__use_no_semihosting_swi)
 
 extern int DemoAPI_AIC(void);

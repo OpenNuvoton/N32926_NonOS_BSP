@@ -1,1 +1,1 @@
-move .\blt_Data\DebugRel\W55FA92_blt.lib ..\..\..\Lib
+move .\blt_Data\DebugRel\W55FA92_BLT.lib ..\..\..\Lib

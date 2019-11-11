@@ -32,7 +32,11 @@ extern UINT8 u8PlanarFrameBuffer[];
 
 struct NT_RegValue g_sNT99160_Init[] = 
 {
+#ifdef __GNUC__
+	#include "NT99160/NT99160_Init.dat"
+#else
 	#include "NT99160\NT99160_Init.dat"
+#endif
 };
 #if !defined(__PCLK_48MHZ__) && !defined(__PCLK_60MHZ__)
 struct NT_RegValue g_sNT99160_HD720[] = 
@@ -51,33 +55,57 @@ struct NT_RegValue g_sNT99160_VGA[] =
 #ifdef __PCLK_48MHZ__
 struct NT_RegValue g_sNT99160_HD720[] = 
 {
-	#include "NT99160\NT99160_HD720_PCLK_48MHz.dat"
+#ifdef __GNUC__
+	#include "NT99160/NT99160_HD720_PCLK_48MHz.dat"
+#else
+    #include "NT99160\NT99160_HD720_PCLK_48MHz.dat"
+#endif
 };
 
 struct NT_RegValue g_sNT99160_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99160/NT99160_SVGA_PCLK_48MHz.dat"
+#else
 	#include "NT99160\NT99160_SVGA_PCLK_48MHz.dat"
+#endif
 };
 
 struct NT_RegValue g_sNT99160_VGA[] = 
 {
-	#include "NT99160\NT99160_VGA_PCLK_48MHz.dat"
+#ifdef __GNUC__
+	#include "NT99160/NT99160_VGA_PCLK_48MHz.dat"
+#else
+   #include "NT99160\NT99160_VGA_PCLK_48MHz.dat"
+#endif
 };
 #endif 
 #ifdef __PCLK_60MHZ__
 struct NT_RegValue g_sNT99160_HD720[] = 
 {
-	#include "NT99160\NT99160_HD720_PCLK_60MHz.dat"
+#ifdef __GNUC__
+	#include "NT99160/NT99160_HD720_PCLK_60MHz.dat"
+#else
+    #include "NT99160\NT99160_HD720_PCLK_60MHz.dat"
+#endif
 };
 
 struct NT_RegValue g_sNT99160_SVGA[] = 
 {
+#ifdef __GNUC__
+	#include "NT99160/NT99160_SVGA_PCLK_60MHz.dat"
+#else
 	#include "NT99160\NT99160_SVGA_PCLK_60MHz.dat"
+#endif
 };
 
 struct NT_RegValue g_sNT99160_VGA[] = 
 {
-	#include "NT99160\NT99160_VGA_PCLK_60MHz.dat"
+#ifdef __GNUC__
+	#include "NT99160/NT99160_VGA_PCLK_60MHz.dat"
+#else
+    #include "NT99160\NT99160_VGA_PCLK_60MHz.dat"
+#endif
 };
 #endif
 

@@ -4,8 +4,8 @@
 #include <math.h>
 
 #include "wblib.h"
-#include "blt.h"
-#include "w55fa92_vpost.h"
+#include "BLT.h"
+#include "W55FA92_VPOST.h"
 
 static uint8_t src_pat[] = {
 #include "Pat_RGB888_size160x120.txt"

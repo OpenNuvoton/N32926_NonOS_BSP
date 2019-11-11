@@ -3,14 +3,22 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_edma.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_EDMA.h"
+#include "W55FA92_VPOST.h"
 
 
+#if defined(__GNUC__)
+__attribute__((aligned(32))) UINT8 DestBuffer[320*240*2];
+#else
 __align(32) UINT8 DestBuffer[320*240*2];
+#endif
 #define	DEST_ADDR	((UINT32)DestBuffer | NON_CACHE_BIT)
 
+#if defined(__GNUC__)
+extern __attribute__((aligned(32))) UINT8 LoadAddr[];
+#else
 extern __align(32) UINT8 LoadAddr[];
+#endif
 extern LCDFORMATEX lcdFormat;
 
 INT32 g_VdmaCh = 0;
@@ -61,6 +69,9 @@ void TransferLengthTest(void)
 
 	src_addr = (UINT32)LoadAddr | NON_CACHE_BIT;
 	dest_addr = DEST_ADDR;
+
+	lcdFormat.ucVASrcFormat = DRVVPOST_FRAME_RGB565;	
+	vpostLCMInit(&lcdFormat, (UINT32*)LoadAddr);
 	
 	g_VdmaCh = VDMA_FindandRequest();
 	

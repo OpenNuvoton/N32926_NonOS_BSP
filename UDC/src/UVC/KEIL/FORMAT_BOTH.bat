@@ -1,1 +1,1 @@
-move .\UVC_Data\FORMAT_BOTH\w55fa92_UVC.lib ..\..\..\Lib
+move .\UVC_Data\FORMAT_BOTH\W55FA92_UVC.lib ..\..\..\Lib

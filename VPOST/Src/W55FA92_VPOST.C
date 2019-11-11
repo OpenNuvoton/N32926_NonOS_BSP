@@ -33,8 +33,8 @@
  *
  **************************************************************************/
 #include "wblib.h"
-#include "w55FA92_vpost.h"
-#include "w55FA92_reg.h"
+#include "W55FA92_VPOST.h"
+#include "W55FA92_reg.h"
 
 
 #include <stdio.h>
@@ -163,6 +163,10 @@ INT32 vpostLCMInit(PLCDFORMATEX plcdformatex, UINT32 *pFramebuf)
 	return vpostLCMInit_LMT043DN();
 #endif
 
+#ifdef __HAVE_FW050TFT_800x480__
+    return vpostLCMInit_FW050TFT_800x480(plcdformatex, pFramebuf);
+#endif
+
 }
 
 extern INT32 vpostLCMDeinit_GIANTPLUS_GPM1006D0(void);
@@ -278,6 +282,10 @@ INT32 vpostLCMDeinit(void)
 
 #ifdef __HAVE_LMT043DN__
 	return vpostLCMDeinit_LMT043DN();
+#endif
+
+#ifdef __HAVE_FW050TFT_800x480__
+    return vpostLCMDeinit_FW050TFT_800x480();
 #endif
 }
 

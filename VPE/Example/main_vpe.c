@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "wblib.h"
-#include "w55fa92_vpe.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_VPE.h"
+#include "W55FA92_VPOST.h"
 
 #define LCD_WIDTH   320
 #define LCD_HEIGHT  240
@@ -12,7 +12,11 @@
 
 extern unsigned char g_au8VpeSrcPattern[];
 
-static __align(256) UINT8  s_VpostFrameBufferPool[320*240*4];
+#if defined (__GNUC__)
+static UINT8 s_VpostFrameBufferPool[LCD_WIDTH*LCD_HEIGHT*4] __attribute__((aligned (256)));
+#else
+static __align(256) UINT8 s_VpostFrameBufferPool[LCD_WIDTH*LCD_HEIGHT*4];
+#endif
 
 void init(void)
 {
@@ -83,7 +87,7 @@ void vpe_demo(void)
             vpeIoctl(VPE_IOCTL_HOST_OP,
                      VPE_HOST_FRAME_TURBO,
                      (E_VPE_CMD_OP)i32OpNormal,
-                     NULL);
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_SRCBUF_ADDR,
                      u32Y,
@@ -92,8 +96,8 @@ void vpe_demo(void)
 
             vpeIoctl(VPE_IOCTL_SET_DSTBUF_ADDR,
                      (((UINT32)s_VpostFrameBufferPool) | BIT31),
-                     NULL,
-                     NULL);
+                     0,
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_FMT,
                      VPE_SRC_PLANAR_YUV420, /* Src Format */
@@ -103,40 +107,40 @@ void vpe_demo(void)
             vpeIoctl(VPE_IOCTL_SET_SRC_OFFSET,
                      (UINT32)0, /* Src Left offset */
                      (UINT32)0, /* Src right offset */
-                     NULL);
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
                      (UINT32)((LCD_WIDTH - k) / 2),   /* Dst Left offset */
                      (UINT32)((LCD_WIDTH - k) / 2),   /* Dst right offset */
-                     NULL);
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_SRC_DIMENSION,
                      VPE_SOURCE_PATTERN_WIDTH,
                      VPE_SOURCE_PATTERN_HEIGHT,
-                     NULL);
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_DST_DIMENSION,   /* Scale Down */
                      k,
                      230,
-                     NULL);
+                     0);
 
             vpeIoctl(VPE_IOCTL_SET_FILTER,
                      VPE_SCALE_BILINEAR,
-                     NULL,
-                     NULL);
+                     0,
+                     0);
 
             vpeIoctl(VPE_IOCTL_TRIGGER,
-                     NULL,
-                     NULL,
-                     NULL);
+                     0,
+                     0,
+                     0);
             do
             {
                 ERRCODE errcode;
                 //TRUE==>Not complete, FALSE==>Complete
                 errcode = vpeIoctl(VPE_IOCTL_CHECK_TRIGGER,
-                                   NULL,
-                                   NULL,
-                                   NULL);
+                                   0,
+                                   0,
+                                   0);
                 if(errcode==0)
                     break;
             }

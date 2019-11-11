@@ -6,13 +6,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "usbd.h"
 
 #define DATA_CODE	"20170606"
 
+#if defined (__GNUC__)
+volatile USBD_INFO_T usbdInfo  __attribute__((aligned(4))) = {0};
+volatile USBD_STATUS_T usbdStatus  __attribute__((aligned(4))) = {0};
+#else
 __align(4) volatile USBD_INFO_T usbdInfo = {0};
 __align(4) volatile USBD_STATUS_T usbdStatus = {0};
+#endif
 
 USB_CMD_T	_usb_cmd_pkt;
 INT32 volatile usb_halt_ep;

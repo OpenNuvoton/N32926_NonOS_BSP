@@ -8,57 +8,55 @@
 
 #include "wbio.h"
 #include "wbtypes.h"
-#include "w55fa92_vpost.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_VPOST.h"
+#include "W55FA92_reg.h"
 
 UINT32 u32SecCnt;
 UINT32 u32backup[10];
 extern int DemoAPI_HUART(void);
 
+#if defined (__GNUC__) && !(__CC_ARM)
+__attribute__ ((aligned (32))) UINT8 Vpost_Frame[]=
+#else
 __align(32) UINT8 Vpost_Frame[]=
+#endif
 {
 
 #ifdef __LCD_1024x768__
-//	#include "house_1024x768_rgb565.dat"		// for SVGA size test
 	#include "house_1024x768_RGBx888.dat"		// for SVGA size test	
 #endif
 	
 #ifdef __LCD_800x600__
-	#include "roof_800x600_rgb565.dat"		// for SVGA size test
+	#include "roof_800x600_RGB565.dat"		// for SVGA size test
 #endif
 
 #ifdef __LCD_800x480__
-	#include "sea_800x480_rgb565.dat"		
-//	#include "roof_800x480_rgb565.dat"				
+	#include "sea_800x480_RGB565.dat"		
 #endif
 
 #ifdef __LCD_720x480__
-	#include "lake_720x480_rgb565.dat"		// for D1 size test
-//	#include "roof_720x480_rgb565.dat"		// for D1 size test
+	#include "lake_720x480_RGB565.dat"		// for D1 size test
 #endif
 
 #ifdef __LCD_640x480__
-    #include "mountain_640x480_rgb565.dat"	// for VGA size test	
+    #include "mountain_640x480_RGB565.dat"	// for VGA size test	
 #endif
 
 #ifdef __LCD_480x272__
-	#include "river_480x272_rgb565.dat"
+	#include "river_480x272_RGB565.dat"
 #endif
 
 #ifdef __LCD_320x240__	
-	#include "roof_320x240_rgb565.dat"	
-//	#include "lin_320x240_rgb565.dat"	
-//	#include "roof_320x240_yuv422.dat"	
-//	#include "roof_320x240_rgbx888.dat"		
+	#include "roof_320x240_RGB565.dat"	
+//	#include "lin_320x240_RGB565.dat"	
+//	#include "roof_320x240_RGB422.dat"	
+//	#include "roof_320x240_RGBx888.dat"		
 //  #include "Dbg_QVGA_RGB565.dat"
 #endif
 
 #ifdef __LCD_480x854__	
 	#include "480x854_RGBx888.dat"	
 #endif
-
-//    #include "mountain_640x480_rgb565.dat"	// for VGA size test	
-//	#include "river_480x272_rgb565.dat"
 };
 
 LCDFORMATEX lcdFormat;

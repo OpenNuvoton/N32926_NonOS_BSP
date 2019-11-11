@@ -3,9 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "wbio.h"
-#include "wbtypes.h" 
-#include "W55fa92_vpost.h"
+#include "wblib.h" 
+#include "W55FA92_ROT.h"
+#include "W55FA92_VPOST.h"
 #include "ROT_demo.h"
 
 extern VOID vpostEnableInt(E_DRVVPOST_INT eInt);

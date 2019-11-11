@@ -16,11 +16,11 @@
     #define IRQ_SD   IRQ_SIC
 #endif
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
 
 #include "fmi.h"
-#include "nvtfat.h"
+#include "NVTFAT.h"
 
 #ifdef ECOS
 cyg_interrupt   fmi_interrupt;

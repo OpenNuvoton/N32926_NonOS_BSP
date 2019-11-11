@@ -15,8 +15,8 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
 
 /*-----------------------------------------------------------------------------
  * For system configuration
@@ -49,9 +49,15 @@ VOID fmiSD_Show_info(int sdport);
  *---------------------------------------------------------------------------*/
 #define SECTOR_SIZE         512
 #define MAX_SECTOR_COUNT    512
-#define BUF_SIZE        (SECTOR_SIZE * MAX_SECTOR_COUNT)
-__align (32) UINT8 g_ram0[BUF_SIZE];
-__align (32) UINT8 g_ram1[BUF_SIZE];
+#define BUF_SIZE            (SECTOR_SIZE * MAX_SECTOR_COUNT)
+
+#if defined (__GNUC__)
+    UINT8 g_ram0[BUF_SIZE] __attribute__((aligned (32)));
+    UINT8 g_ram1[BUF_SIZE] __attribute__((aligned (32)));
+#else
+    __align (32) UINT8 g_ram0[BUF_SIZE];
+    __align (32) UINT8 g_ram1[BUF_SIZE];
+#endif
 
 extern FMI_SD_INFO_T *pSD0, *pSD1, *pSD2; // define in SIC driver
 FMI_SD_INFO_T *pSD;
@@ -191,6 +197,11 @@ int main(void)
     init_timer();
 
     sysprintf("\n=====> W55FA92 Non-OS SIC/SD Driver Sample Code [tick %d] <=====\n", sysGetTicks(0));
+
+    //--- enable cache feature
+    sysDisableCache();
+    sysFlushCache(I_D_CACHE);
+    sysEnableCache(CACHE_WRITE_BACK);
 
     //--- Initial system clock
     sicIoctl(SIC_SET_CLOCK, sysGetPLLOutputHz(eSYS_UPLL, sysGetExternalClock())/1000, 0, 0);    // clock from PLL

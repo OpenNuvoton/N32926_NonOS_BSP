@@ -1,23 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_sic.h"
-#include "nvtfat.h"
+#include "W55FA92_SIC.h"
+#include "NVTFAT.h"
+#ifndef __NoLCM__
 #include "Font.h"
-#include "writer.h"
+#endif
+#include "Writer.h"
 
-#include "w55fa92_vpost.h"
-#include "w55fa92_gpio.h"
+#include "W55FA92_VPOST.h"
+#include "W55FA92_GPIO.h"
 
 #define	 LAST_LINE	11
 
 UINT	g_Font_Height, g_Font_Width,g_Font_Step;
 
-
-__align(32) S_DEMO_FONT s_sDemo_Font;
+#ifndef __NoLCM__
+#if defined (__GNUC__)
+S_DEMO_FONT s_sDemo_Font __attribute__((aligned(32)));
+UINT16 FrameBuffer[_LCM_WIDTH_*_LCM_HEIGHT_] __attribute__((aligned(32)));
+#else
+__align(32) S_DEMO_FONT s_sDemo_Font;	
 __align(32) UINT16 FrameBuffer[_LCM_WIDTH_*_LCM_HEIGHT_];
+#endif
+#endif
 
 #if 1
 #define dbgprintf sysprintf
@@ -26,6 +34,7 @@ __align(32) UINT16 FrameBuffer[_LCM_WIDTH_*_LCM_HEIGHT_];
 #endif
 
 
+#ifndef __NoLCM__   
 //***********************************************************************************
 // initVPost :
 //			Call VPOST to initialize panel
@@ -317,6 +326,7 @@ void Draw_Init(void)
 
 
 }
+#endif
 
 
 

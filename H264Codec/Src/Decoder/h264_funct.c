@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "h264dec.h"
-#include "w55fa92_reg.h"
+#include "H264Dec.h"
+#include "W55FA92_reg.h"
 //#include "h264_reg.h"
 //#include "portab.h"
 #include "port.h"
@@ -137,7 +137,11 @@ void decode_slice(void * ptDecHandle)
     // start new slice decoding
     
   //  __asm__("nop");__asm__("nop");__asm__("nop");
+#if defined (__GNUC__)
+    asm("nop");asm("nop");asm("nop");
+#else
   	__asm{nop};__asm{nop};__asm{nop};
+#endif
   
 #if DEBUG_SHIFT_BIT  
 	sysprintf("Total Shift bit = 0x%x, (= 0x%x byte)\n",total_shift_bit, total_shift_bit/8);

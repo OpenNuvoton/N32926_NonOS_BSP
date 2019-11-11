@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "W55FA92_VideoIn.h"
 #include "wblib.h"
 
@@ -29,7 +29,7 @@ PFN_VIDEOIN_CALLBACK (pfnvideoIn1_IntHandlerTable)[4]={0};
 /*                                                                                                         */
 /*---------------------------------------------------------------------------------------------------------*/
 static UINT32 u32EscapeFrame = 0;
-static UINT32 g_u32DeviceType = 0;
+//static UINT32 g_u32DeviceType = 0;
 //static UINT32 g_u32PortOffset = 0x0;
 /*---------------------------------------------------------------------------------------------------------*/
 /* Function: videoIn_Port                                                                             */
@@ -170,7 +170,7 @@ void videoIn1_Init(
 	UINT32 u32SenSrc; 
 	volatile UINT32 u32Divider;
 	
-	g_u32DeviceType = eDevType;
+	//g_u32DeviceType = eDevType;
 
 	u32ExtFreq = sysGetExternalClock();
 	u32SensorFreqKHz = u32SensorFreqKHz*1000;
@@ -1574,5 +1574,8 @@ VINDEV_T nvt_vin1 =
 	videoIn1_SetMotionDetEx,			// void (*SetMotionDetEx)(UINT32 u32Threshold, UINT32 u32OutBuffer, UINT32 u32LumBuffer);
 	videoIn1_SetInputType,			// void (*SetInputType)(UINT32 u32FieldEnable, E_VIDEOIN_TYPE eInputType,	BOOL bFieldSwap);
 	videoIn1_SetStandardCCIR656,		// void(*SetStandardCcir656)(BOOL);
-	videoIn1_SetShadowRegister		// void(*SetShadowRegister)(void);
+	videoIn1_SetShadowRegister,		// void(*SetShadowRegister)(void);
+
+	videoIn1_SetFieldDetection,		// void(*SetFieldDetection)(BOOL bDetPosition,BOOL bFieldDetMethod);
+	videoIn1_GetFieldDetection              // void(*GetFieldDetection)(PBOOL pbDetPosition,PBOOL pbFieldDetMethod);
 };

@@ -39,15 +39,27 @@ struct OV_RegTable{
 
 static struct OV_RegValue g_sTW9912_Init[]=
 {
+#ifdef __GNUC__
+	#include "TW9912/TW9912_Init.dat"
+#else
 	#include "TW9912\TW9912_Init.dat"
+#endif
 };
 static struct OV_RegValue g_sTW9912_NTSC[]=
 {
+#ifdef __GNUC__
+	#include "TW9912/TW9912_NTSC.dat"
+#else
 	#include "TW9912\TW9912_NTSC.dat"
+#endif
 };
 static struct OV_RegValue g_sTW9912_PAL[]=
 {
+#ifdef __GNUC__
+	#include "TW9912/TW9912_PAL.dat"
+#else
 	#include "TW9912\TW9912_PAL.dat"
+#endif
 };
 static struct OV_RegTable g_OV_InitTable[] =
 {//8 bit slave address, 8 bit data. 

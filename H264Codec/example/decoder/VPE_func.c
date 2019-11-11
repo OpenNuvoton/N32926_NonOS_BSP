@@ -12,12 +12,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_vpe.h"
-#include "nvtfat.h"
+#include "W55FA92_VPE.h"
+#include "NVTFAT.h"
 #include "W55FA92_SIC.h"
-#include "w55fa92_vpost.h"
+#include "W55FA92_VPOST.h"
 
 
 #define DBG_PRINTF(...)
@@ -125,28 +125,28 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 				vpeIoctl(VPE_IOCTL_SET_SRC_OFFSET,		
 							(UINT32)0,	/* Src Left offset */
 							(UINT32)0,	/* Src right offset */
-							NULL);	
+							0);	
 				vpeIoctl(VPE_IOCTL_SET_DST_OFFSET,
 							(UINT32)0,				/* Dst Left offset */
 							(UINT32)0,				/* Dst right offset */
-							NULL);	
+							0);	
 						
 				vpeIoctl(VPE_IOCTL_SET_SRC_DIMENSION,						
 							640,
 							480,
-							NULL);
+							0);
 																						
 				vpeIoctl(VPE_IOCTL_SET_COLOR_RANGE,
 							FALSE,
 							FALSE,
-							NULL);			
+							0);			
 							
 				vpeIoctl(VPE_IOCTL_SET_FILTER,
 							//VPE_SCALE_3X3,			//Removed 
 							//VPE_SCALE_DDA,			//OK
 							VPE_SCALE_BILINEAR,		//
-							NULL,
-							NULL);		
+							0,
+							0);		
 				
 				vpeIoctl(VPE_IOCTL_SET_3X3_COEF,
 							0x0,						//Central weight =0 ==> Hardware bulid in coefficience. 
@@ -163,13 +163,13 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 					vpeIoctl(VPE_IOCTL_SET_DSTBUF_ADDR,
 							//(UINT32)VPOSDISPLAYBUFADDR,
 							(UINT32)dec_mmap_addr,
-							NULL,
-							NULL);	
+							0,
+							0);	
 								
 					vpeIoctl(VPE_IOCTL_SET_DST_DIMENSION,	
 								u32Width,
 								u32Height,
-								NULL);											
+								0);											
 								
 	return 0;
 }	
@@ -177,9 +177,9 @@ INT32 NormalFormatConversionRotationDownscale_QVGA(void)
 INT32 VPE_trigger(void)
 {
 					vpeIoctl(VPE_IOCTL_TRIGGER,
-								NULL,
-								NULL,
-								NULL);	
+								0,
+								0,
+								0);	
 	return 0;
 }
 

@@ -10,7 +10,7 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_sdio.h"
+#include "W55FA92_SDIO.h"
 
 INT fmiSDIO_Read_in(FMI_SDIO_INFO_T *pSDIO, UINT32 uSector, UINT32 uBufcnt, UINT32 uDAddr);
 INT fmiSDIO_Write_in(FMI_SDIO_INFO_T *pSDIO, UINT32 uSector, UINT32 uBufcnt, UINT32 uSAddr);

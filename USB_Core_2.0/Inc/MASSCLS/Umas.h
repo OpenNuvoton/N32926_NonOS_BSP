@@ -45,7 +45,7 @@
 #define _UMAS_H_
 
 #ifndef _USB_H_
-  #include "usb.h"
+  #include "USB.h"
 #endif  
 
 #include "UmasScsi.h"

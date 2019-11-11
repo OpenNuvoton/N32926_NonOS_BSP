@@ -9,7 +9,7 @@
 #include "wblib.h"
 #include "string.h"
 #include "wbio.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "DrvAAC.h"
 
 

@@ -15,9 +15,9 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sdio.h"
-#include "nvtfat.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SDIO.h"
+#include "NVTFAT.h"
 #include "sdio_fmi.h"
 
 /*-----------------------------------------------------------------------------
@@ -37,9 +37,16 @@
  *---------------------------------------------------------------------------*/
 #define SECTOR_SIZE         512
 #define MAX_SECTOR_COUNT    512
-#define BUF_SIZE        (SECTOR_SIZE * MAX_SECTOR_COUNT)
-__align (32) UINT8 g_ram0[BUF_SIZE];
-__align (32) UINT8 g_ram1[BUF_SIZE];
+#define BUF_SIZE            (SECTOR_SIZE * MAX_SECTOR_COUNT)
+
+#if defined (__GNUC__)
+    UINT8 g_ram0[BUF_SIZE] __attribute__((aligned (32)));
+    UINT8 g_ram1[BUF_SIZE] __attribute__((aligned (32)));
+#else
+    __align (32) UINT8 g_ram0[BUF_SIZE];
+    __align (32) UINT8 g_ram1[BUF_SIZE];
+#endif
+
 
 extern FMI_SDIO_INFO_T *pSDIO0, *pSDIO1; // define in SDIO driver
 
@@ -157,7 +164,6 @@ unsigned int sd_access_test(int sdport)
         ptr_g_ram0[ii] = rand() & 0xFF;
     }
 
-#if 1
     // get information about SD card
     switch (sdport)
     {
@@ -167,45 +173,42 @@ unsigned int sd_access_test(int sdport)
             sysprintf("ERROR: sd_access_test(): invalid SDIO port %d !!\n", sdport);
             return FAIL;
     }
-#endif
 
-//    while(1)
+    sectorIndex = rand() % info.totalSectorN;
+    u32SecCnt   = rand() % MAX_SECTOR_COUNT;
+    if (u32SecCnt == 0)
+        u32SecCnt = 1;
+    if (sectorIndex + u32SecCnt > info.totalSectorN)
+        sectorIndex = info.totalSectorN - u32SecCnt;
+
+    switch (sdport)
     {
-        sectorIndex = rand() % info.totalSectorN;
-        u32SecCnt   = rand() % MAX_SECTOR_COUNT;
-        if (u32SecCnt == 0)
-            u32SecCnt = 1;
-        if (sectorIndex + u32SecCnt > info.totalSectorN)
-            sectorIndex = info.totalSectorN - u32SecCnt;
-
-        switch (sdport)
-        {
-            case 0: result = sdioSdWrite0(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram0);   break;
-            case 1: result = sdioSdWrite1(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram0);   break;
-        }
-        DBG_PRINTF("    Write g_ram0 to SD card, result = 0x%x\n", result);
-        show_hex_data(ptr_g_ram0, 16);
-
-        memset(ptr_g_ram1, 0x5a, u32SecCnt * SECTOR_SIZE);
-        switch (sdport)
-        {
-            case 0: result = sdioSdRead0(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram1);    break;
-            case 1: result = sdioSdRead1(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram1);    break;
-        }
-        DBG_PRINTF("    Read g_ram1 to SD card, result = 0x%x\n", result);
-        show_hex_data(ptr_g_ram1, 16);
-
-        if(memcmp(ptr_g_ram0, ptr_g_ram1, u32SecCnt * SECTOR_SIZE) == 0)
-        {
-            result = OK;
-            sysprintf("    Data compare OK at sector %d, sector count = %d\n", sectorIndex, u32SecCnt);
-        }
-        else
-        {
-            result = FAIL;
-            sysprintf("    ERROR: Data compare ERROR at sector %d, sector count = %d\n", sectorIndex, u32SecCnt);
-        }
+        case 0: result = sdioSdWrite0(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram0);   break;
+        case 1: result = sdioSdWrite1(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram0);   break;
     }
+    DBG_PRINTF("    Write g_ram0 to SD card, result = 0x%x\n", result);
+    show_hex_data(ptr_g_ram0, 16);
+
+    memset(ptr_g_ram1, 0x5a, u32SecCnt * SECTOR_SIZE);
+    switch (sdport)
+    {
+        case 0: result = sdioSdRead0(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram1);    break;
+        case 1: result = sdioSdRead1(sectorIndex, u32SecCnt, (UINT32)ptr_g_ram1);    break;
+    }
+    DBG_PRINTF("    Read g_ram1 to SD card, result = 0x%x\n", result);
+    show_hex_data(ptr_g_ram1, 16);
+
+    if(memcmp(ptr_g_ram0, ptr_g_ram1, u32SecCnt * SECTOR_SIZE) == 0)
+    {
+        result = OK;
+        sysprintf("    Data compare OK at sector %d, sector count = %d\n", sectorIndex, u32SecCnt);
+    }
+    else
+    {
+        result = FAIL;
+        sysprintf("    ERROR: Data compare ERROR at sector %d, sector count = %d\n", sectorIndex, u32SecCnt);
+    }
+
     return result;
 }
 
@@ -254,18 +257,10 @@ int main(void)
 
     sysprintf("\n=====> W55FA92 Non-OS SDIO Driver Sampe Code [tick %d] <=====\n", sysGetTicks(0));
 
-    //sysprintf("REG_CLKDIV4 = 0x%08X\n", inp32(REG_CLKDIV4));    // default HCLK234 should be 0
-    //outp32(REG_CLKDIV4, 0x00000310);                            // set HCLK234 to 1
-    //sysprintf("REG_CLKDIV4 = 0x%08X\n", inp32(REG_CLKDIV4));
-
-    srand(time(NULL));
+    //srand(time(NULL));
 
     //--- Initial system clock
-#ifdef OPT_FPGA_DEBUG
-    sdioIoctl(SDIO_SET_CLOCK, 27000, 0, 0);               // clock from FPGA clock in
-#else
     sdioIoctl(SDIO_SET_CLOCK, sysGetPLLOutputHz(eSYS_UPLL, sysGetExternalClock())/1000, 0, 0);    // clock from PLL
-#endif
 
     //--- Enable AHB clock for SDIO, interrupt ISR, DMA, and FMI engineer
     sdioOpen();

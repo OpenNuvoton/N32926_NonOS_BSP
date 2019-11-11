@@ -15,8 +15,8 @@
 #include "wblib.h"
 #include "wbtypes.h"
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SIC.h"
 #include "fmi.h"
 
 /*-----------------------------------------------------------------------------
@@ -29,6 +29,7 @@
 #define OK      TRUE
 #define FAIL    FALSE
 
+#define CACHE_ON
 
 /*-----------------------------------------------------------------------------
  * For global variables
@@ -38,10 +39,15 @@ NDISK_T MassNDisk;
 
 // Define number and size for data buffer
 #define SECTOR_SIZE     512
-#define BUF_SIZE    (SECTOR_SIZE*16*16*2)
-__align (32) UINT8 g_ram0[BUF_SIZE];
-__align (32) UINT8 g_ram1[BUF_SIZE];
+#define BUF_SIZE        (SECTOR_SIZE*16*16*2)
 
+#if defined (__GNUC__)
+    UINT8 g_ram0[BUF_SIZE] __attribute__((aligned (32)));
+    UINT8 g_ram1[BUF_SIZE] __attribute__((aligned (32)));
+#else
+    __align (32) UINT8 g_ram0[BUF_SIZE];
+    __align (32) UINT8 g_ram1[BUF_SIZE];
+#endif
 
 /*-----------------------------------------------------------------------------
  * show data by hex format
@@ -75,11 +81,11 @@ int nand_access_test(int nand_port)
     UINT8   *ptr_g_ram0, *ptr_g_ram1;
 
 #ifdef CACHE_ON
-    ptr_g_ram0 = g_ram0;
-    ptr_g_ram1 = g_ram1;
-#else
     ptr_g_ram0 = (UINT8 *)((UINT32)g_ram0 | 0x80000000);    // non-cache
     ptr_g_ram1 = (UINT8 *)((UINT32)g_ram1 | 0x80000000);    // non-cache
+#else
+    ptr_g_ram0 = g_ram0;
+    ptr_g_ram1 = g_ram1;
 #endif
 
     //--- initial random data, select random block index and page index
@@ -162,8 +168,8 @@ void init_UART()
  *---------------------------------------------------------------------------*/
 void init_timer()
 {
-    sysSetTimerReferenceClock(TIMER0, sysGetExternalClock()/1000);   // External Crystal
-    sysStartTimer(TIMER0, 100, PERIODIC_MODE);                  // 100 ticks/per sec ==> 1tick/10ms
+    sysSetTimerReferenceClock(TIMER0, sysGetExternalClock()/1000);  // External Crystal
+    sysStartTimer(TIMER0, 100, PERIODIC_MODE);                      // 100 ticks/per sec ==> 1tick/10ms
     sysSetLocalInterrupt(ENABLE_IRQ);
 }
 
@@ -179,16 +185,14 @@ int main(void)
 
     sysprintf("\n=====> W55FA92 Non-OS SIC/NAND Driver Sample Code [tick %d] <=====\n", sysGetTicks(0));
 
-    //sysprintf("REG_CLKDIV4 = 0x%08X\n", inp32(REG_CLKDIV4));    // default HCLK234 should be 0
-    //outp32(REG_CLKDIV4, 0x00000310);                            // set HCLK234 to 1
-    //sysprintf("REG_CLKDIV4 = 0x%08X\n", inp32(REG_CLKDIV4));
-
+#ifdef CACHE_ON
     //--- enable cache feature
     sysDisableCache();
     sysFlushCache(I_D_CACHE);
     sysEnableCache(CACHE_WRITE_BACK);
+#endif
 
-    srand(time(NULL));
+    //srand(time(NULL));
 
     //--- initial SIC/NAND driver for target_port
     sicOpen();

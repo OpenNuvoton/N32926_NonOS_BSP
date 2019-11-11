@@ -6,9 +6,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "w55fa92_reg.h"
 #include "wblib.h"
-#include "w55fa92_ts_adc.h"
+#include "W55FA92_ADC.h"
 
 
 #define E_ADC_NONE				0
@@ -39,11 +38,11 @@ INT32 DrvADC_InstallCallback(E_ADC_INT_TYPE eIntType,
 	PFN_ADC_CALLBACK pfnCallback,
 	PFN_ADC_CALLBACK* pfnOldCallback)
 {
- 	if( (eIntType>eADC_PRESSURE) ||  (eIntType<eADC_KEY))
+ 	if( (eIntType> (E_ADC_INT_TYPE)eADC_PRESSURE) ) //||  (eIntType< (E_ADC_INT_TYPE)eADC_KEY))
  		return -1;
 	pfnOldCallback = &(g_psAdcCallBack[eIntType]);
-    	g_psAdcCallBack[eIntType] = pfnCallback; 	    		
-    	return Successful;
+    g_psAdcCallBack[eIntType] = pfnCallback; 	    		
+    return Successful;
 }
 #define DBG_PRINTF(...)
 //#define DBG_PRINTF sysprintf
@@ -135,7 +134,7 @@ static void AdcIntHandler(void)
 				//u32ValidPressure = 0;
 				if( g_psAdcCallBack[1]!=0)
 					g_psAdcCallBack[1](0);  /* Notice Upper lay XY Position */	
-			}
+			}	
 			adcSetOperationMode(E_ADC_NONE);	
 			/* Force ADC to None */
 			outp32(REG_TP_CTL1, (inp32(REG_TP_CTL1) & ~(SW_GET|GET_PRESSURE|GET_XY|GET_X|GET_Y)));	
@@ -169,9 +168,9 @@ INT32 DrvADC_Open(void)
 	outp32(REG_APBCLK, inp32(REG_APBCLK) | TOUCH_CKE);
 	/* Specified Clock */
 #ifdef  REAL_CHIP
-	outp32(REG_CLKDIV5, (inp32(REG_CLKDIV5) & ~(TOUCH_N1 | TOUCH_S| TOUCH_N0)) | (1<<22) );		/* Fed to ADC clock need 12MHz=External clock */
+	outp32(REG_CLKDIV5, (inp32(REG_CLKDIV5) & ~(TOUCH_N1 | TOUCH_S| TOUCH_N0)) | (2<<27) );		/* Fed to ADC clock need 12MHz=External clock */
 #else	
-	outp32(REG_CLKDIV5, (inp32(REG_CLKDIV5) & ~(TOUCH_N1 | TOUCH_S| TOUCH_N0)) | (1<<22) );/* FPGA: Divider need to be 1 at least for I2C clock*/
+	outp32(REG_CLKDIV5, (inp32(REG_CLKDIV5) & ~(TOUCH_N1 | TOUCH_S| TOUCH_N0)) | (2<<27) );/* FPGA: Divider need to be 1 at least for I2C clock*/
 #endif 	
 	/* IP Reset */
 	outp32(REG_APBIPRST, inp32(REG_APBIPRST) | TOUCHRST);
@@ -180,7 +179,7 @@ INT32 DrvADC_Open(void)
 	outp32(REG_TP_CTL1, inp32(REG_TP_CTL1) & ~(PD_Power|PD_BUF| ADC_SLEEP) ); //| PD_BUF); //If REF_SEL!=0 PD_BUF==>1
 	outp32(REG_TP_CTL1, inp32(REG_TP_CTL1) | REF_SEL);		//Vref reference voltage
 	
-	outp32(REG_TP_CTL2, 0xFF);	/* Delay 48 ADC */
+	outp32(REG_TP_CTL2, 0xFF);	/* Delay 255 ADC */
 	sysInstallISR(IRQ_LEVEL_1, 
 					IRQ_TOUCH, 
 					(PVOID)AdcIntHandler);
@@ -222,6 +221,20 @@ void TouchDelay(UINT32 u32Dly)
 {//In CPU 162MHz. The u32Dly will be 1. 
 	volatile UINT32 u32Delay;
 	for(u32Delay =0; u32Delay<(1*(u32Dly+1)); u32Delay=u32Delay+1);
+}
+UINT32 TouchDelayCheckPenDown(UINT32 u32Dly)
+{//In CPU 162MHz. The u32Dly will be 1. 
+	volatile UINT32 u32Delay;
+	for(u32Delay =0; u32Delay<(1*(u32Dly+1)); u32Delay=u32Delay+1)
+	{
+		outp32(REG_TP_INTST, (inp32(REG_TP_INTST) & ~(INT_NOR|INT_KEY)) | INT_TC);
+		TouchDelay(1);
+		if((inp32(REG_TP_INTST)&INT_TC)!=INT_TC)
+		{
+		    return 0;	//Pen up
+		}	
+	}
+	return 1;	//Pen down
 }
 INT32 DrvADC_PenDetection(BOOL bIs5Wire)
 {	
@@ -526,9 +539,11 @@ INT32 IsPenDown(void)
 			
 			DrvADC_DisableInt(eADC_TOUCH);
 			outp32(REG_TP_INTST, (inp32(REG_TP_INTST) & ~(INT_NOR|INT_KEY)) | INT_TC);	/* Write one clear */
-			TouchDelay(5);			/* Due to PLLUP bit cause the INT_TC was set. */
-			if((inp32(REG_TP_INTST)&INT_TC)==INT_TC)
-			{
+			//TouchDelay(5);
+			//if((inp32(REG_TP_INTST)&INT_TC)==INT_TC)
+			if(TouchDelayCheckPenDown(50) == 1)					/* Due to PLLUP bit cause the INT_TC was set. */
+			{//Pen down 
+				outp32(REG_TP_INTST, (inp32(REG_TP_INTST) & ~(INT_NOR|INT_KEY)) | INT_TC);	/* Write one clear */
 				adcSetOperationMode(E_ADC_NONE);
 				return 1;		/* Pen down */
 			}
@@ -567,13 +582,13 @@ INT32 adc_read(unsigned char mode, unsigned short int *x, unsigned short int *y)
 			adcSetOperationMode(E_ADC_TP_GETXY);
 			DrvADC_DisableInt(eADC_TOUCH);
 		
-			outp32(REG_TP_CTL2, 0x80);
+			outp32(REG_TP_CTL2, 0xFF);
 			outp32(REG_TP_INTST, (inp32(REG_TP_INTST) & ~(INT_NOR|INT_KEY)) | INT_TC);	/* Write one clear */
 			
 			
 			DrvADC_DisableInt(eADC_AIN);	//DrvADC_EnableInt(eADC_AIN);			
 			/* Force ADC to get (X, Y) Position */
-		  for(i = 0; i<SORT_FIFO; i=i+1)
+		    for(i = 0; i<SORT_FIFO; i=i+1)
 			{
 				outp32(REG_TP_CTL1, (inp32(REG_TP_CTL1) & ~(SW_GET|GET_PRESSURE|GET_XY|GET_X|GET_Y)) | GET_XY);
 				while( (inp32(REG_TP_INTST)&INT_NOR) == 0);	//Until ADC done
@@ -581,19 +596,41 @@ INT32 adc_read(unsigned char mode, unsigned short int *x, unsigned short int *y)
 				TouchDelay(5);	
 				au16XPos[i] = (inp32(REG_XY_DATA)>>16) & 0xFFF;
 				au16YPos[i] = inp32(REG_XY_DATA) & 0xFFF;
+				
+				/* many improvement for fat finger issue*/
+				outp32(REG_TP_CTL1, inp32(REG_TP_CTL1)  & ~TSMODE);
+				outp32(REG_TP_CTL1, inp32(REG_TP_CTL1)  | IN_SEL);
+				outp32(REG_TP_CTL1, (inp32(REG_TP_CTL1) & ~(XP_EN | XM_EN | YP_EN)) | (YM_EN| PLLUP) );
+				DrvADC_DisableInt(eADC_TOUCH);
+				outp32(REG_TP_INTST, (inp32(REG_TP_INTST) & ~(INT_NOR|INT_KEY)) | INT_TC);	/* Write one clear */
+				TouchDelay(5);			/* Due to PLLUP bit cause the INT_TC was set. */
+				if((inp32(REG_TP_INTST)&INT_TC)!=INT_TC)
+				{
+					adcSetOperationMode(E_ADC_NONE);
+					return 0;  /* Return pen up */
+				}
+				else
+				{
+					
+				}
+				/* check pen up */
 			}
 			adcSetOperationMode(E_ADC_NONE);
 			
+	   
 			quicksort(au16XPos, 0, SORT_FIFO-1); 
-    	quicksort(au16YPos, 0, SORT_FIFO-1); 
+    	    quicksort(au16YPos, 0, SORT_FIFO-1); 
 			*x = (au16XPos[SORT_FIFO-2]+au16XPos[SORT_FIFO-3])/2;
 			*y = (au16YPos[SORT_FIFO-2]+au16YPos[SORT_FIFO-3])/2;
-			pushQueue(*x, *y);					/* push new data to queue for charge/discharge issue */
-			
+		#if 1 /* a little bit improvement */		
+			pushQueue(*x, *y);				/* push new data to queue for charge/discharge issue */
 			if( popQueue(x, y) == 1 )		/* To pop old data for charge and discharge issue */
 				return 1;
 			else
 				return 0;
+		#else
+			return 1;
+		#endif	
 	}
 	else
 	{

@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\SD\</OutputDirectory>
-          <OutputName>w55fa92_MSC_SD</OutputName>
+          <OutputName>W55FA92_MSC_SD</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -437,7 +437,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\NAND\</OutputDirectory>
-          <OutputName>w55fa92_MSC_NAND</OutputName>
+          <OutputName>W55FA92_MSC_NAND</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -830,7 +830,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\NAND&amp;SD\</OutputDirectory>
-          <OutputName>w55fa92_MSC_NAND_SD</OutputName>
+          <OutputName>W55FA92_MSC_NAND_SD</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -1223,7 +1223,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\RAM\</OutputDirectory>
-          <OutputName>w55fa92_MSC_RAM</OutputName>
+          <OutputName>W55FA92_MSC_RAM</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -1616,7 +1616,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\All\</OutputDirectory>
-          <OutputName>w55fa92_MSC_All</OutputName>
+          <OutputName>W55FA92_MSC_All</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -2009,7 +2009,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\MSC_Data\SPI\</OutputDirectory>
-          <OutputName>w55fa92_MSC_SPI</OutputName>
+          <OutputName>W55FA92_MSC_SPI</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>

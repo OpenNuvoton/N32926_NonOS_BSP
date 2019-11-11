@@ -37,7 +37,7 @@
 #include "stdlib.h"
 
 #include "wblib.h"
-#include "w55FA92_vpost.h"
+#include "W55FA92_VPOST.h"
 
 extern void LCDDelay(unsigned int nCount);
 

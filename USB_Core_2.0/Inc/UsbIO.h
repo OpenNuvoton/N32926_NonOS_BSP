@@ -11,7 +11,7 @@
  *     1.0
  *
  * DESCRIPTION
- *     NUC900 USB Host driver header file 
+ *     USB Host driver header file 
  *
  * HISTORY
  *     2008.06.24       Created

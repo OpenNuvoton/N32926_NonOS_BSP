@@ -138,7 +138,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>7</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -461,57 +461,6 @@
               <FilePath>..\..\..\VPOST\Lib\W55FA92_GIANTPLUS_GPM1006D.lib</FilePath>
             </File>
             <File>
-              <FileName>Font_QVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_QVGA.lib</FilePath>
-            </File>
-            <File>
-              <FileName>Font_SVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_SVGA.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>Font_WSVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_WSVGA.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
               <FileName>Rootkey.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Rootkey.c</FilePath>
@@ -520,6 +469,11 @@
               <FileName>w55fa92_Secureic.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\SPI\Lib\w55fa92_Secureic.lib</FilePath>
+            </File>
+            <File>
+              <FileName>W55FA92_Font_QVGA.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\Font\Lib\W55FA92_Font_QVGA.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -1038,75 +992,6 @@
               </FileOption>
             </File>
             <File>
-              <FileName>Font_QVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_QVGA.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>Font_SVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_SVGA.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>Font_WSVGA.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\Font\Lib\Font_WSVGA.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
               <FileName>Rootkey.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Rootkey.c</FilePath>
@@ -1115,6 +1000,11 @@
               <FileName>w55fa92_Secureic.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\..\SPI\Lib\w55fa92_Secureic.lib</FilePath>
+            </File>
+            <File>
+              <FileName>W55FA92_Font_QVGA.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\Font\Lib\W55FA92_Font_QVGA.lib</FilePath>
             </File>
           </Files>
         </Group>

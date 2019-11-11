@@ -19,12 +19,17 @@
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"
-#include "w55fa92_spi.h"
+#include "W55FA92_SPI.h"
 
 
 #define TEST_SIZE	512 * 2 * 64
+#if defined(__GNUC__)
+__attribute__((aligned(4096))) UINT8 WriteBuffer[TEST_SIZE];
+__attribute__((aligned(4096))) UINT8 ReadBuffer[TEST_SIZE];
+#else
 __align(4096) UINT8 WriteBuffer[TEST_SIZE];
 __align(4096) UINT8 ReadBuffer[TEST_SIZE];
+#endif
 
 
 #define DBG_PRINTF	sysprintf

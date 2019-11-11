@@ -12,11 +12,11 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "Secureic.h"
+#include "SecureIC.h"
 #include "string.h"
 #include "stdio.h"
 #include "wblib.h"
-#include "w55fa92_spi.h"
+#include "W55FA92_SPI.h"
 
 void sha256(unsigned char *text1 ,unsigned char *output,unsigned int length) {
 	SHA256_CTX ctx;

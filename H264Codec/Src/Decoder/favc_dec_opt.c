@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "w55fa92_reg.h"
-#include "h264dec.h"
+#include "W55FA92_reg.h"
+#include "H264Dec.h"
 #include "AVCdec.h"
 #include "decoder.h"
 
@@ -55,11 +55,14 @@ int favc_decoder_ioctl(void *handle, unsigned int cmd, void *arg)
     FAVC_DEC_PARAM      tDecParam;
 //    FAVC_DEC_RESULT     tDecResult;
 
-    idx = *(int *)handle;
-	
-    if ((dec_data[idx].idx_ex->signature == SIGNATURE) && (dec_data[idx].idx_ex->decoder_idx == idx))
+	if (handle != NULL)
     {
-    	dev=idx;
+        idx = *(int *)handle;
+        
+        if ((dec_data[idx].idx_ex->signature == SIGNATURE) && (dec_data[idx].idx_ex->decoder_idx == idx))
+        {
+            dev=idx;
+        }
     }
     else
     	dev=0;

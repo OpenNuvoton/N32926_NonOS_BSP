@@ -5,8 +5,8 @@
  ****************************************************************/
 
 #include "wblib.h"
-#include "w55fa92_i2s.h"
-#include "w55fa92_reg.h"
+#include "W55FA92_I2S.h"
+#include "W55FA92_reg.h"
 
 //#define OPT_FPGA_DEBUG
 

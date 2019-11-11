@@ -9,9 +9,9 @@
 #include "wblib.h"
 #include "string.h"
 #include "wbio.h"
-#include "w55fa92_reg.h"
-#include "w55fa92_spu.h"
-#include "spu.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SPU.h"
+#include "SPU.h"
 
 //#define DBG_PRINTF(...)
 //#define DBG_PRINTF printf

@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"	
-#include "nvtfat.h"
-#include "w55fa92_sic.h"
-#include "w55fa92_vpost.h"
+#include "NVTFAT.h"
+#include "W55FA92_SIC.h"
+#include "W55FA92_VPOST.h"
 #include "ratecontrol.h"
 
 #include "favc_avcodec.h"

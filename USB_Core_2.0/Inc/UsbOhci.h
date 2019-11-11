@@ -188,6 +188,39 @@ typedef struct ohci_hcca
  * region.  This is Memory Mapped I/O.  You must use the readl() and
  * writel() macros defined in asm/io.h to access these!!
  */
+#if defined (__GNUC__)
+struct __attribute__((aligned(32))) ohci_regs 
+{
+    /* control and status registers */
+    UINT32   HcRevision;
+    UINT32   HcControl;
+    UINT32   HcCommandStatus;
+    UINT32   HcInterruptStatus;
+    UINT32   HcInterruptEnable;
+    UINT32   HcInterruptDisable;
+    /* memory pointers */
+    UINT32   HcHCCA;
+    UINT32   HcPeriodCurrentED;
+    UINT32   HcControlHeadED;
+    UINT32   HcControlCurrentED;
+    UINT32   HcBulkHeadED;
+    UINT32   HcBulkCurrentED;
+    UINT32   HcDoneHead;
+    /* frame counters */
+    UINT32   HcFmInterval;
+    UINT32   HcFrameRemaining;
+    UINT32   HcFmNumber;
+    UINT32   HcPeriodicStart;
+    UINT32   HcLSThreshold;
+    /* Root hub ports */
+    struct  ohci_roothub_regs {
+             UINT32   a;
+             UINT32   b;
+             UINT32   status;
+             UINT32   portstatus[MAX_ROOT_PORTS];
+    }  roothub;
+};
+#else
 __align(32) struct ohci_regs 
 {
     /* control and status registers */
@@ -219,6 +252,8 @@ __align(32) struct ohci_regs
              UINT32   portstatus[MAX_ROOT_PORTS];
     }  roothub;
 };
+#endif
+
 typedef struct ohci_regs OHCI_REGS_T;
 
 

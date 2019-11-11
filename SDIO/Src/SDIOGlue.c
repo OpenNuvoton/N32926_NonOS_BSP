@@ -25,11 +25,11 @@
     #include "wblib.h"
 #endif
 
-#include "w55fa92_reg.h"
-#include "w55fa92_sdio.h"
+#include "W55FA92_reg.h"
+#include "W55FA92_SDIO.h"
 
 #include "sdio_fmi.h"
-#include "nvtfat.h"
+#include "NVTFAT.h"
 
 
 #ifdef DEBUG

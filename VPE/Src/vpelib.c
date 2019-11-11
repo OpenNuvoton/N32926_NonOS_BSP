@@ -26,9 +26,9 @@
  *     None
  **************************************************************************/
 
-#include "w55fa92_reg.h"
+#include "W55FA92_reg.h"
 #include "wblib.h"
-#include "w55fa92_vpe.h"
+#include "W55FA92_VPE.h"
 
 /* 
 	

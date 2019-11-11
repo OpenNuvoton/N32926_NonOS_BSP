@@ -37,7 +37,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "wblib.h"
-#include "w55FA92_vpost.h"
+#include "W55FA92_VPOST.h"
 
 extern volatile PFN_DRVVPOST_INT_CALLBACK g_pfnVpostCallback[4];
 extern VOID vpostVAStartTrigger(void);

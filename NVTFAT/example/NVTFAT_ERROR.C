@@ -30,12 +30,9 @@
 #else
 #include <stdio.h>
 #include <string.h>
-#include "wbtypes.h"
-#include "wbio.h"
 #include "wblib.h"
 #endif
-
-#include "nvtfat.h"
+#include "NVTFAT.h"
 
 #ifdef ECOS
 #include "kapi.h"

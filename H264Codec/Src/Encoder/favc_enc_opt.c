@@ -4,10 +4,10 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "w55fa92_reg.h"
-#include "h264dec.h"
+#include "W55FA92_reg.h"
+#include "H264Dec.h"
 #include "wblib.h"
-#include "avcdec.h"
+#include "AVCdec.h"
 
 #include "port.h"
 #include "register.h"

@@ -41,7 +41,7 @@ extern "C"{
 #include "wbio.h"
 
 #define PD_RAM_BASE		0xFF000000
-#define PD_RAM_START		0xFF001000
+#define PD_RAM_START	0xFF000800
 #define PD_RAM_SIZE		0x2000	/* 8KB Tmp Buffer */
 
 /* Error code return value */

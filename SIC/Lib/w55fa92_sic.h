@@ -181,7 +181,7 @@ INT sicSMRegionProtect(INT chipSel, INT PBA, INT page);
 
 
 /* gnand use */
-#include "w55fa92_gnand.h"
+#include "W55FA92_GNAND.h"
 
 // function prototype for SM that end user can called
 INT nand_ioctl(INT param1, INT param2, INT param3, INT param4);
@@ -208,6 +208,10 @@ INT nand_is_card_inserted(void);
 
 
 /* Declare callback function in waiting loop of SD driver */
-__weak void schedule(void);
+#if defined (__GNUC__)
+    __attribute__((weak)) void schedule(void);
+#else
+    __weak void schedule(void);
+#endif
 
 #endif  //end of _W55FA92_SIC_H

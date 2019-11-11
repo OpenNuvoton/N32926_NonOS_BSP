@@ -33,7 +33,7 @@
 #include <string.h>
 
 #include "wblib.h"
-#include "w55fa92_sic.h"
+#include "W55FA92_SIC.h"
 #include "fmi.h"
 
 /*-----------------------------------------------------------------------------------*/
