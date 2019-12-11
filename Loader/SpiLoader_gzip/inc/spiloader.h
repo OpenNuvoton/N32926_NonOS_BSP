@@ -11,15 +11,15 @@
 //#define __OTP_4BIT__
 //#define __N32926O2DN__
 
-#define __RTC_HW_PWOFF__
+//#define __RTC_HW_PWOFF__
 
 #ifdef __N32923__
 
 	#ifdef __OTP_4BIT__
 		#ifdef __Security__
-			#define DATE_CODE   "20181017 4-Bit Mode with Security"
+			#define DATE_CODE   "20191204 4-Bit Mode with Security"
 		#else
-			#define DATE_CODE   "20181017 4-Bit Mode"
+			#define DATE_CODE   "20191204 4-Bit Mode"
 		#endif
 	#else
 		#ifdef __Security__
@@ -29,13 +29,15 @@
 		#endif			
 	#endif
 
+    #define IMAGE_BUFFER		0x500000
+
 #else		//N3295 or N3296
 
 	#ifdef __OTP_4BIT__
 		#ifdef __Security__
-			#define DATE_CODE   "20181017 4-Bit Mode with Security"	
+			#define DATE_CODE   "20191204 4-Bit Mode with Security"	
 		#else	
-			#define DATE_CODE   "20181017 4-Bit Mode"
+			#define DATE_CODE   "20191204 4-Bit Mode"
 		#endif			
 	#else
 		#ifdef __Security__
@@ -44,9 +46,11 @@
 			#define DATE_CODE   "20181017"
 		#endif			
 	#endif
+		
+    #define IMAGE_BUFFER		0xA00000
+
 #endif
 
-#define IMAGE_BUFFER		0xA00000
 
 /* Start for option for VPOST frame buffer */
 #if defined(__TV__)

@@ -224,7 +224,7 @@ INT WB_spiFlashFastReadQuad(UINT32 addr, UINT32 len, UINT32* buf)
 	usiSendSPIMsg (cmdbuf, 1);	
 
 	// Set QE
-	cmdbuf[0]=0x01;
+	cmdbuf[0]=0x31;
 	cmdbuf[1]=0x00;
 	cmdbuf[2]=0x02;
 	usiSendSPIMsg (cmdbuf, 3); 

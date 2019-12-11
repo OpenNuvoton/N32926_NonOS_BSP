@@ -428,6 +428,7 @@ int main()
    //sysSetCachePages(0x400000, 0x100000, -1); // -1 for CACHE_DISABLE
 #endif  //CACHE_ON
 
+  outp32(REG_MISC_SSEL, 0x0155);                 // to set IO driving strength 
   
   MacTest();
   return 0;
