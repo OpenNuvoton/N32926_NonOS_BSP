@@ -32,7 +32,7 @@
 #include "wblib.h"
 #define REAL_CHIP
 
-static UINT32 g_u32SysClkSrc;
+//static UINT32 g_u32SysClkSrc;
 static UINT32 g_u32UpllHz = 240000000; //g_u32ApllHz=240000000, g_u32SysHz = 120000000, g_u32CpuHz = 60000000, g_u32HclkHz = 60000000;
 //static UINT32 g_u32MpllHz = 180000000;
 static UINT32 /*g_i32REG_APLL,*/ g_i32REG_UPLL, g_i32REG_MPLL;

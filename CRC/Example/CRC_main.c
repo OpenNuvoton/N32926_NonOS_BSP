@@ -20,9 +20,9 @@
 CHAR g_CrcMode[][10] = { "CRC-CCITT", "CRC-8", "CRC-16", "CRC-32" };
 UINT32 g_CrcMask[] = { 0xFFFF, 0xFF, 0xFFFF, 0xFFFFFFFF };
 #if defined (__GNUC__)
-uint8_t g_uSrcMemBuffer[MAX_DATA_LENGTH] __attribute__((aligned (4)));
+uint8_t g_uSrcMemBuffer[MAX_DATA_LENGTH] __attribute__((aligned (32)));
 #else
-__align (4) UINT8 g_uSrcMemBuffer[MAX_DATA_LENGTH];
+__align (32) UINT8 g_uSrcMemBuffer[MAX_DATA_LENGTH];
 #endif
 
 void SystemInit(void)

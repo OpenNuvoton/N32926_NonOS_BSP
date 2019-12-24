@@ -12,7 +12,7 @@
 #include "W55FA92_reg.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define DATE_CODE   "20181017"
+#define DATE_CODE   "20191218"
 
 /* global variable */
 typedef struct sd_info
@@ -122,7 +122,7 @@ INT MoveData(NVT_SD_INFO_T *image, BOOL IsExecute)
                 "MCR p15, 0, %0, c7, c5, #0 	\n\t" /* flush I cache */
                 "MCR p15, 0, %0, c7, c6, #0  \n\t" /* flush D cache */
                 "MCR p15, 0, %0, c7, c10,#4  \n\t" /* drain write buffer */
-        
+
                 /*----- disable Protection Unit -----*/
                 "MRC p15, 0, %0, c1, c0, #0   \n\t" /* read Control register */
                 "BIC %0, %0, #0x01            \n\t"
@@ -236,7 +236,12 @@ void initClock(void)
 }
 
 
-UINT8 dummy_buffer[512];
+#if defined (__GNUC__)
+    UINT8 dummy_buffer[512] __attribute__((aligned (32)));
+#else
+    __align(32) UINT8 dummy_buffer[512];
+#endif
+
 unsigned char *buf;
 unsigned int *pImageList;
 

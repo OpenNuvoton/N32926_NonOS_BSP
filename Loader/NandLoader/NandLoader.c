@@ -12,7 +12,7 @@
 #include "W55FA92_reg.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define DATE_CODE   "20181017"
+#define DATE_CODE   "20191218"
 
 /* global variable */
 typedef struct nand_info
@@ -188,7 +188,12 @@ _read_:
 }
 
 
-UINT8 image_buffer[8192];
+#if defined (__GNUC__)
+    UINT8 image_buffer[8192] __attribute__((aligned (32)));
+#else
+    __align(32) UINT8 image_buffer[8192];
+#endif
+
 unsigned char *imagebuf;
 unsigned int *pImageList;
 

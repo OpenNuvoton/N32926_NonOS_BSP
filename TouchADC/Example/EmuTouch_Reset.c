@@ -2,12 +2,17 @@
 #include "wblib.h"
 #include "demo.h"
 #include "W55FA92_ADC.h"
-
-UINT32 u32RegArray[]={
+#if defined(__GNUC__)
+UINT32 u32RegArray[] __attribute__((aligned (32))) ={
   0x0000E000, 0x00000404, 0x00000000, 0x00000000, 
   0x00000000, 0x00000000
   }; 
-
+#else
+__align(32) UINT32 u32RegArray[] ={
+  0x0000E000, 0x00000404, 0x00000000, 0x00000000, 
+  0x00000000, 0x00000000
+  }; 
+#endif  
 INT32 EmuTouch_Reset(void)
 {	
 	UINT32 i;

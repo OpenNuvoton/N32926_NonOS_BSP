@@ -17,17 +17,17 @@
  * Define Global Variables
  *---------------------------------------------------------------------------*/
 #if defined (__GNUC__)
-uint8_t g_uPlainBuf[MAX_DATA_LENGTH] __attribute__((aligned (4)));
+uint8_t g_uPlainBuf[MAX_DATA_LENGTH] __attribute__((aligned (32)));
 // RS encrypt input length = i, output length = i / 188 * 204 [+ 204 * 11] when interleave in enabled and no padding bytes
-uint8_t g_uCipherBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE+11)*RS_DECRYPT_BLOCK_SIZE] __attribute__((aligned (4)));
+uint8_t g_uCipherBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE+11)*RS_DECRYPT_BLOCK_SIZE] __attribute__((aligned (32)));
 // RS decrypt output length must be 188 bytes alignment
-uint8_t g_uOutputBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE)*RS_ENCRYPT_BLOCK_SIZE] __attribute__((aligned (4)));
+uint8_t g_uOutputBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE)*RS_ENCRYPT_BLOCK_SIZE] __attribute__((aligned (32)));
 #else
-__align(4) UINT8 g_uPlainBuf[MAX_DATA_LENGTH];
+__align(32) UINT8 g_uPlainBuf[MAX_DATA_LENGTH];
 // RS encrypt input length = i, output length = i / 188 * 204 [+ 204 * 11] when interleave in enabled and no padding bytes
-__align(4) UINT8 g_uCipherBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE+11)*RS_DECRYPT_BLOCK_SIZE];
+__align(32) UINT8 g_uCipherBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE+11)*RS_DECRYPT_BLOCK_SIZE];
 // RS decrypt output length must be 188 bytes alignment
-__align(4) UINT8 g_uOutputBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE)*RS_ENCRYPT_BLOCK_SIZE];
+__align(32) UINT8 g_uOutputBuf[((MAX_DATA_LENGTH+RS_ENCRYPT_BLOCK_SIZE-1)/RS_ENCRYPT_BLOCK_SIZE)*RS_ENCRYPT_BLOCK_SIZE];
 #endif
 
 void SystemInit(void)

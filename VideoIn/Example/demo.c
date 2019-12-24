@@ -14,15 +14,15 @@
 #include "W55FA92_SIC.h"
 
 #if defined (__GNUC__) 
-UINT8 u8PacketFrameBuffer[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));		//Keep 640*480*2 RGB565 frame buffer
-UINT8 u8PacketFrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));		//Keep 640*480*2 RGB565 frame buffer
-UINT8 u8PacketFrameBuffer2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));		//Keep 640*480*2 RGB565 frame buffer
+UINT8 u8PacketFrameBuffer[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));		//Keep 640*480*2 RGB565 frame buffer
+UINT8 u8PacketFrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));		//Keep 640*480*2 RGB565 frame buffer
+UINT8 u8PacketFrameBuffer2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));		//Keep 640*480*2 RGB565 frame buffer
 UINT8 u8PlanarFrameBuffer[OPT_ENCODE_WIDTH*OPT_ENCODE_HEIGHT*2] __attribute__((aligned(256)));		//Keep 640x480*2 PlanarYUV422 frame buffer
 UINT8 u8PlanarFrameBuffer1[OPT_ENCODE_WIDTH*OPT_ENCODE_HEIGHT*2] __attribute__((aligned(256)));
 #else
-UINT8 __align(4) u8PacketFrameBuffer[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
-UINT8 __align(4) u8PacketFrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
-UINT8 __align(4) u8PacketFrameBuffer2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
+UINT8 __align(32) u8PacketFrameBuffer[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
+UINT8 __align(32) u8PacketFrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
+UINT8 __align(32) u8PacketFrameBuffer2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		//Keep 640*480*2 RGB565 frame buffer
 UINT8 __align(256) u8PlanarFrameBuffer[OPT_ENCODE_WIDTH*OPT_ENCODE_HEIGHT*2];		//Keep 640x480*2 PlanarYUV422 frame buffer
 UINT8 __align(256) u8PlanarFrameBuffer1[OPT_ENCODE_WIDTH*OPT_ENCODE_HEIGHT*2];
 #endif
@@ -136,18 +136,18 @@ void VideoIn_ClearFrameCount(void)
 	g_u32FrameCount = 0;
 }
 #if defined (__GNUC__) 
-UINT8 u8PacketFrameBuffer2_0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));
-UINT8 u8PacketFrameBuffer2_1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));
-UINT8 u8PacketFrameBuffer2_2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(4)));
+UINT8 u8PacketFrameBuffer2_0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));
+UINT8 u8PacketFrameBuffer2_1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));
+UINT8 u8PacketFrameBuffer2_2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned(32)));
 UINT8 u8PlanarFrameBuffer2_0[OPT_ENCODE_WIDTH_2*OPT_ENCODE_HEIGHT_2*2] __attribute__((aligned(256)));		
 UINT8 u8PlanarFrameBuffer2_1[OPT_ENCODE_WIDTH_2*OPT_ENCODE_HEIGHT_2*2] __attribute__((aligned(256)));
 
 UINT8 u8MDY[OPT_LCM_WIDTH/8*OPT_LCM_HEIGHT/8+4096] __attribute__((aligned(256)));
 UINT8 u8MDO[OPT_LCM_WIDTH/8*OPT_LCM_HEIGHT/8+4096] __attribute__((aligned(256)));
 #else
-UINT8 __align(4) u8PacketFrameBuffer2_0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		
-UINT8 __align(4) u8PacketFrameBuffer2_1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];	
-UINT8 __align(4) u8PacketFrameBuffer2_2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
+UINT8 __align(32) u8PacketFrameBuffer2_0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];		
+UINT8 __align(32) u8PacketFrameBuffer2_1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];	
+UINT8 __align(32) u8PacketFrameBuffer2_2[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
 UINT8 __align(256) u8PlanarFrameBuffer2_0[OPT_ENCODE_WIDTH_2*OPT_ENCODE_HEIGHT_2*2];
 UINT8 __align(256) u8PlanarFrameBuffer2_1[OPT_ENCODE_WIDTH_2*OPT_ENCODE_HEIGHT_2*2];
 

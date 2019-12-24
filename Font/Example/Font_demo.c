@@ -19,8 +19,11 @@ UINT32 u32SkipX;
 
 
 
-
-char pstrDisp[26][32] = {
+#if defined (__GNUC__)
+char pstrDisp[26][32] __attribute__((aligned(32))) = {
+#else
+__align(32) char pstrDisp[26][32] = {
+#endif
  {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},
  {"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"},
  {"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"},

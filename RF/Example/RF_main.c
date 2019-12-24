@@ -18,13 +18,13 @@
  *---------------------------------------------------------------------------*/
 CHAR g_PnctrMode[][4] = { "1/2", "2/3", "3/4", "5/6", "7/8" };
 #if defined (__GNUC__)
-uint8_t g_uPlainBuf[MAX_DATA_LENGTH] __attribute__((aligned (4)));
-uint8_t g_uOutputBuf[MAX_DATA_LENGTH] __attribute__((aligned (4)));
-uint8_t g_uCipherBuf[MAX_DATA_LENGTH] __attribute__((aligned (4)));
+uint8_t g_uPlainBuf[MAX_DATA_LENGTH] __attribute__((aligned (32)));
+uint8_t g_uOutputBuf[MAX_DATA_LENGTH] __attribute__((aligned (32)));
+uint8_t g_uCipherBuf[MAX_DATA_LENGTH] __attribute__((aligned (32)));
 #else
-__align (4) UINT8 g_uPlainBuf[MAX_DATA_LENGTH];
-__align (4) UINT8 g_uOutputBuf[MAX_DATA_LENGTH];
-__align (4) UINT8 g_uCipherBuf[MAX_DATA_LENGTH*2];
+__align (32) UINT8 g_uPlainBuf[MAX_DATA_LENGTH];
+__align (32) UINT8 g_uOutputBuf[MAX_DATA_LENGTH];
+__align (32) UINT8 g_uCipherBuf[MAX_DATA_LENGTH*2];
 #endif
 
 void SystemInit(void)

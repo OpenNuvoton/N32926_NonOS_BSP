@@ -20,8 +20,12 @@
 
 BOARD_S s_board;
 int g_ibr_boot_sd_port;     // indicate the SD port number which IBR boot from.
-UINT8 g_kbuf[CP_SIZE];
 
+#if defined(__GNUC__)
+UINT8 g_kbuf[CP_SIZE] __attribute__((aligned(32)));
+#else
+__align(32) UINT8 g_kbuf[CP_SIZE];
+#endif
 
 void init(BOARD_S* ps_board)
 {

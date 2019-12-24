@@ -22,7 +22,12 @@ ERRCODE DrvSPU_Open(void);
 VOID spuDacPLLEnable (void);
 VOID spuDacPrechargeEnable (void);
 
-UINT8 image_buffer[4096];
+#if defined (__GNUC__)
+UINT8  image_buffer[4096] __attribute__((aligned(32)));
+#else
+UINT8 __align(32) image_buffer[4096];
+#endif
+
 unsigned char *imagebuf;
 unsigned int *pImageList;
 

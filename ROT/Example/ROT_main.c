@@ -7,11 +7,11 @@
 #include "ROT_demo.h"
 
 #if defined(__GNUC__)
-UINT8 u8FrameBuffer0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned (4)));
-UINT8 u8FrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned (4)));
+UINT8 u8FrameBuffer0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned (32)));
+UINT8 u8FrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2] __attribute__((aligned (32)));
 #else
-__align(4) UINT8 u8FrameBuffer0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
-__align(4) UINT8 u8FrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
+__align(32) UINT8 u8FrameBuffer0[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
+__align(32) UINT8 u8FrameBuffer1[OPT_LCM_WIDTH*OPT_LCM_HEIGHT*2];
 #endif
 
 volatile UINT32 bIsBuffer0Dirty=0;	//0 Means ready for ROT use

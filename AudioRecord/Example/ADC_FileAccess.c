@@ -35,12 +35,22 @@ INT32 WriteFile(char* szAsciiName,
 	fsCloseFile(hFile);
 	return Successful;	
 }
-char WaveHeader[]= {'R', 'I', 'F', 'F', 0x00, 0x00, 0x00, 0x00,	   //ForthCC code+(RAW-data-size+0x24)	
+#if defined (__GNUC__)
+char WaveHeader[] __attribute__((aligned(32))) = {'R', 'I', 'F', 'F', 0x00, 0x00, 0x00, 0x00,	   //ForthCC code+(RAW-data-size+0x24)
 					'W', 'A', 'V', 'E', 'f', 'm', 't', ' ',			
 					0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00,//Chunk-size, audio format, and NUMChannel
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,//Sample-Rate and Byte-Count-Per-Sec 
 					0x02, 0x00, 0x10, 0x00,						   //Align and Bits-per-sample.
-					'd', 'a', 't', 'a', 0x00, 0x00, 0x00, 0x00};   //"data"and RAW-data-size		
+					'd', 'a', 't', 'a', 0x00, 0x00, 0x00, 0x00};   //"data"and RAW-data-size
+#else
+char __align(32) WaveHeader[] = {'R', 'I', 'F', 'F', 0x00, 0x00, 0x00, 0x00,	   //ForthCC code+(RAW-data-size+0x24)
+					'W', 'A', 'V', 'E', 'f', 'm', 't', ' ',		
+					0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00,//Chunk-size, audio format, and NUMChannel
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,//Sample-Rate and Byte-Count-Per-Sec 
+					0x02, 0x00, 0x10, 0x00,						   //Align and Bits-per-sample.
+					'd', 'a', 't', 'a', 0x00, 0x00, 0x00, 0x00};   //"data"and RAW-data-size
+
+#endif					
 						
 INT32 AudioWriteFile(char* szAsciiName, 
 					PUINT16 pu16BufAddr, 
@@ -176,7 +186,7 @@ INT32 AudioWriteFileHead(char* szAsciiName,
 							(UINT8 *)((UINT32)WaveHeader | 0x80000000), 
 							0x2C, 
 							&u32WriteLen);
-	if(i32Errcode < 0)
+	if(i32Errcode<0)
 		return i32Errcode;
 	return hFile;						
 }				

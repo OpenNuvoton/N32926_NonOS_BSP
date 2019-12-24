@@ -102,14 +102,21 @@ extern void  FAT_dump_sector_cache(void);
 
 
 #define RAM_DISK_SIZE 	((1024*1024)*8)
-INT8 i8RamDisk[RAM_DISK_SIZE];
 
 /* imported from WBFILE_DISK.C */
 extern PDISK_T		*_fs_ptPDiskList;
 
 #define DUMMY_BUFFER_SIZE		(64 * 1024)
 
-static UINT8  _pucDummy[DUMMY_BUFFER_SIZE];
+
+#if defined(__GNUC__)
+INT8 i8RamDisk[RAM_DISK_SIZE] __attribute__((aligned (32)));
+static UINT8  _pucDummy[DUMMY_BUFFER_SIZE] __attribute__((aligned (32)));
+#else
+__align(32) INT8 i8RamDisk[RAM_DISK_SIZE];
+__align(32) static UINT8  _pucDummy[DUMMY_BUFFER_SIZE];
+#endif
+
 
 static CHAR *_pcFileCommads[] = 
 {

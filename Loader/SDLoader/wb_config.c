@@ -1837,7 +1837,7 @@ UINT32 sysSetDramClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32PLLClockHz, UINT32 u32Dd
     UINT32 u32DivN1, u32DivN0, u32DramClockReg;
 //	UINT32 u32CpuFreq, u32Hclk1Frq, u32Hclk234;
 //	UINT32 u32DramClock = u32DdrClock/2;
-    UINT32 u32sysSrc = (inp32(REG_CLKDIV0)&SYSTEM_S)>>3;
+//    UINT32 u32sysSrc = (inp32(REG_CLKDIV0)&SYSTEM_S)>>3;
 
     /* Judge MCLK > HCLK1 */
 //	u32CpuFreq = sysGetCPUClock();

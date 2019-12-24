@@ -26,7 +26,13 @@ typedef struct sd_info{
 	unsigned int executeAddr;
 }NVT_SD_INFO_T;
 /* read image information */
-UINT8 dummy_buffer[512];
+#if defined(__GNUC__)
+UINT8 dummy_buffer[512] __attribute__((aligned(32)));
+#else
+__align(32) UINT8 dummy_buffer[512];
+#endif
+
+
 unsigned char *buf;
 unsigned int *pImageList;
 NVT_SD_INFO_T image;
