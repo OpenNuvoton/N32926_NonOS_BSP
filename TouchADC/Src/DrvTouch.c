@@ -435,18 +435,18 @@ INT32 DrvADC_VoltageDetection(UINT32 u32Channel)
 -----------------------------------------------------------------------------------------------------------*/
 #define SORT_FIFO 6
 /* =============================== sorting =============================== */
-void swap(UINT16 *x,UINT16 *y) 
+static void swap(UINT16 *x,UINT16 *y) 
 {   
 	UINT16 temp; 
 	temp = *x; 
 	*x = *y; 
 	*y = temp; 
 } 
-UINT16 choose_pivot(UINT16 i,UINT16 j ) 
+static UINT16 choose_pivot(UINT16 i,UINT16 j ) 
 { 
 	return((i+j) /2); 
 } 
-void quicksort(UINT16 list[],int m,int n) 
+static void quicksort(UINT16 list[],int m,int n) 
 {    
 	int key,i,j,k; 
 	if( m < n) 
@@ -480,9 +480,9 @@ typedef struct tagQ
 	UINT16 Y;
 }S_POS;
 S_POS Queue[QUEUE_SIZE];
-INT16 front=0, rear=0;
-UINT16 rollback = 0;
-void pushQueue(UINT16 x, UINT16 y)
+static INT16 front=0, rear=0;
+static UINT16 rollback = 0;
+static void pushQueue(UINT16 x, UINT16 y)
 {
 	Queue[front].X = x;
 	Queue[front].Y = y;
@@ -501,7 +501,7 @@ Parameter:
 	return 0: Invaliable data 
 		     1: Valiable data  
 -----------------------------------------------------------------------------------------------------------*/
-INT32 popQueue(UINT16* x, UINT16* y)
+static INT32 popQueue(UINT16* x, UINT16* y)
 {
 	if(rollback==0)
 	{
@@ -569,9 +569,9 @@ Parameter:
          1:                Pen down
          E_ADC_BUSY:       ADC busy
 -----------------------------------------------------------------------------------------------------------*/
-UINT16 au16XPos[SORT_FIFO];
-UINT16 au16YPos[SORT_FIFO];
-UINT16 u16LastX=0, u16LastY =0; 
+static UINT16 au16XPos[SORT_FIFO];
+static UINT16 au16YPos[SORT_FIFO];
+//static UINT16 u16LastX=0, u16LastY =0; 
 INT32 adc_read(unsigned char mode, unsigned short int *x, unsigned short int *y)
 {
 	UINT32 i;
