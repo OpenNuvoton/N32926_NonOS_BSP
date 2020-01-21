@@ -40,7 +40,7 @@ BOOL JpegDecHeaderComplete(void)
 			u32BufferSize = PANEL_WIDTH * PANEL_HEIGHT * 2;
 			
 		/* Allocate Raw Data Buffer for Decode Operation */	
-		g_pu8DecFrameBuffer = (PUINT8)malloc(sizeof(CHAR) * u32BufferSize);		
+		g_pu8DecFrameBuffer = (PUINT8)malloc(sizeof(CHAR) * (u32BufferSize + 0x03));		
 		
 		if(g_pu8DecFrameBuffer == NULL)
 		{
@@ -48,7 +48,7 @@ BOOL JpegDecHeaderComplete(void)
 			return FALSE;
 		}
 			
-		u32FrameBuffer =  (UINT32) g_pu8DecFrameBuffer | 0x80000000;
+		u32FrameBuffer =  (((UINT32) g_pu8DecFrameBuffer + 0x03) & ~0x03) | 0x80000000;
 		
 		sysprintf("\tThe decoded data starts from 0x%X, Size is 0x%X\n", u32FrameBuffer,u32BufferSize);	
 		
@@ -77,7 +77,7 @@ BOOL JpegDecHeaderComplete(void)
 				ratio = jpegInfo.jpeg_height / PANEL_HEIGHT + 1;
 				
 				/* Set Downscale to QVGA */
-				sysprintf("\tJpeg wisth is smaller than height -> Can't downscale to QVGA -> downscale to %dx%d\n",jpegInfo.jpeg_width / ratio,jpegInfo.jpeg_height / ratio);
+				sysprintf("\tJpeg width is smaller than height -> Can't downscale to QVGA -> downscale to %dx%d\n",jpegInfo.jpeg_width / ratio,jpegInfo.jpeg_height / ratio);
 				jpegIoctl(JPEG_IOCTL_SET_DECODE_DOWNSCALE, jpegInfo.jpeg_height / ratio, jpegInfo.jpeg_width / ratio);
 				u32TargetHeight = jpegInfo.jpeg_height / ratio;
 				u32TargetWidth = jpegInfo.jpeg_width / ratio;	
@@ -177,7 +177,7 @@ BOOL JpegDecHeaderComplete(void)
 		if(g_u32DecFormat != JPEG_DEC_PRIMARY_PLANAR_YUV)
 		{
 			/* Allocate Raw Data Buffer for Decode Operation (Final destination address for Decode Ouptut Wait) */	
-			g_pu8DecFrameBuffer = (PUINT8)malloc(sizeof(CHAR) * u32BufferSize);			
+			g_pu8DecFrameBuffer = (PUINT8)malloc(sizeof(CHAR) * (u32BufferSize + 0x03));			
 		
 			if(g_pu8DecFrameBuffer == NULL)
 			{
@@ -186,7 +186,7 @@ BOOL JpegDecHeaderComplete(void)
 			}
 			if(!g_bDecOpwTest)	/* The YADDR is set by IOCTL - JPEG_IOCTL_SET_DECOUTPUTWAIT for Decode Output Wait*/
 			{
-				u32FrameBuffer =  (UINT32) g_pu8DecFrameBuffer | 0x80000000;
+				u32FrameBuffer =  (((UINT32) g_pu8DecFrameBuffer + 0x03) & ~0x03) | 0x80000000;
 				sysprintf("\tThe allocated buffer for decoded data starts from 0x%X, Size is 0x%X\n", u32FrameBuffer,u32BufferSize);			
 			
 				/* Set Decoded Image Address (Can be set before Decode Trigger for Packet/Planar format)*/
@@ -244,13 +244,13 @@ BOOL JpegDecOutputWait(UINT32 u32Address, UINT32 u32Size)
 	if((u32TotalSize - g_u32OpwUsedSize) < u32MCU_Line * (g_u32OpwBufferIndex + 1))
 	{
 		/* Final Trigger */
-		jpegIoctl(JPEG_IOCTL_SET_DECOUTPUTWAIT, (UINT32)apBuffer[g_u32OpwBufferIndex + 1], (u32TotalSize - g_u32OpwUsedSize)/4);	
-		sysprintf("\t        Set Decode Output Wait Addr 0x%08X size 0x%08X\n",(UINT32)apBuffer[g_u32OpwBufferIndex], (u32TotalSize - g_u32OpwUsedSize));
+		jpegIoctl(JPEG_IOCTL_SET_DECOUTPUTWAIT, ((UINT32)apBuffer[g_u32OpwBufferIndex + 1] + 0x03) & ~0x03, (u32TotalSize - g_u32OpwUsedSize)/4);	
+		sysprintf("\t        Set Decode Output Wait Addr 0x%08X size 0x%08X\n",((UINT32)apBuffer[g_u32OpwBufferIndex] + 0x03) & ~0x03, (u32TotalSize - g_u32OpwUsedSize));
 	}
 	else
 	{		
-		jpegIoctl(JPEG_IOCTL_SET_DECOUTPUTWAIT, (UINT32)apBuffer[g_u32OpwBufferIndex + 1], u32MCU_Line * (g_u32OpwBufferIndex + 1)/4);	
-		sysprintf("\t        Set Decode Output Wait Addr 0x%08X size 0x%08X\n",(UINT32)apBuffer[g_u32OpwBufferIndex], u32MCU_Line * (g_u32OpwBufferIndex + 1));
+		jpegIoctl(JPEG_IOCTL_SET_DECOUTPUTWAIT, ((UINT32)apBuffer[g_u32OpwBufferIndex + 1] + 0x03) & ~0x03, u32MCU_Line * (g_u32OpwBufferIndex + 1)/4);	
+		sysprintf("\t        Set Decode Output Wait Addr 0x%08X size 0x%08X\n",((UINT32)apBuffer[g_u32OpwBufferIndex] + 0x03) & ~0x03, u32MCU_Line * (g_u32OpwBufferIndex + 1));
 	
 	}
 		
@@ -347,9 +347,9 @@ VOID JpedInitDecOutputWaitBuffer(UINT32 u32Width,UINT32 u32Height, UINT32 u32jpe
 	u32sizeCount = 0;
 	for(u32k = 0;u32k<u32j;u32k++)
 	{
-		apBuffer[u32k] = malloc(sizeof(UINT8) * u32MCU_Line * (u32k + 1));
+		apBuffer[u32k] = malloc(sizeof(UINT8) * u32MCU_Line * (u32k + 1) + 0x03);
 		memset(apBuffer[u32k], 0, u32MCU_Space);
-		sysprintf("\tBuffer %d address 0x%08X size 0x%08X\n",u32k ,(UINT32)apBuffer[u32k] ,u32MCU_Line * (u32k + 1));
+        sysprintf("\tBuffer %d address 0x%08X size 0x%08X\n",u32k , ((UINT32)apBuffer[u32k] + 0x03) & ~0x03, u32MCU_Line * (u32k + 1));
 		u32sizeCount = u32sizeCount + u32MCU_Line * (u32k + 1);
 		
 	}

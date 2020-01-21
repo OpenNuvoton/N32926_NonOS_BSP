@@ -50,7 +50,11 @@ INT  USBKeyboardInit(void);
 #define sysGetTicks(TIMER0)   cyg_current_time()
 #endif
 
-UINT8	_JpegImage[256 * 1024];
+#if defined (__GNUC__)
+UINT8	_JpegImage[256 * 1024] __attribute__((aligned(32))); ;
+#else
+UINT8 __align(32) _JpegImage[256 * 1024];
+#endif
 
 extern UINT32	_QueuedSize;
 

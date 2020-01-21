@@ -23,7 +23,6 @@ typedef void (*PFN_MSCD_CDROM_CALLBACK)(PUINT32 pu32address, UINT32 u32Offset, U
 #define MSC_NAND_DISABLE	0x00	/* Disable NAND */
 #define MSC_NAND_CS0		0x01	/* NAND CS0 */
 #define MSC_NAND_CS1		0x02	/* NAND CS1 */
-#define MSC_NAND_CS2		0x04	/* NAND CS2 */
 
 #define MSC_RAM_DISABLE		0x00
 #define MSC_RAM_ENABLE		0x01

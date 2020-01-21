@@ -163,7 +163,7 @@
   </Target>
 
   <Target>
-    <TargetName>NAND_GAINTPLUS_QVGA</TargetName>
+    <TargetName>NAND_GIANTPLUS_QVGA</TargetName>
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>

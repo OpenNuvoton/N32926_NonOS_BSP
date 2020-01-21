@@ -1534,12 +1534,7 @@ void mscdInquiry_Command(void)
     if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
     {        
 		strcpy((char *)&ID[16],"MSC NAND1");
-	}		    
-
-    if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-    {        
-		strcpy((char *)&ID[16],"MSC NAND2");
-	}		    
+	}		    	    
 #endif  
 	
 #ifdef TEST_CDROM
@@ -1597,9 +1592,6 @@ void mscdRdFmtCap_Command(void)
 
     if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
 		TotalSectors = mscdInfo.gTotalSectors_NAND1;
-
-    if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		TotalSectors = mscdInfo.gTotalSectors_NAND2;
 #endif
     
     outp8(tmpval+4,*((UINT8 *)&TotalSectors+3));
@@ -1653,9 +1645,6 @@ void mscdRdCurCap_Command(void)
 
     if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
 		temp = mscdInfo.gTotalSectors_NAND1 - 1;
-
-    if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		temp = mscdInfo.gTotalSectors_NAND2 - 1;
 #endif 	
 #ifdef TEST_CDROM
     if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_CDROM_LUN)
@@ -1760,14 +1749,6 @@ void mscdRd10_Command(void)
 		
 			u32Address = mscdInfo.Storage_Base_Addr;	
 		}
-
-		if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		{
-			lba = CBW_In.CBWD.LBA.d32;	
-			GNAND_read(ptMassNDisk2, sector_start + sector_offset, MSC_BUFFER_SECTOR, (UINT8 *)mscdInfo.Storage_Base_Addr);
-		
-			u32Address = mscdInfo.Storage_Base_Addr;	
-		}
 	#endif
 
 		mscdSDRAM2USB_Bulk(u32Address, MSC_BUFFER_SECTOR * 512);	
@@ -1837,13 +1818,6 @@ void mscdRd10_Command(void)
 			u32Address = mscdInfo.Storage_Base_Addr;	
 		}
 
-		if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		{
-			lba = CBW_In.CBWD.LBA.d32;	
-			GNAND_read(ptMassNDisk2, sector_start + sector_offset, sector_count, (UINT8 *)mscdInfo.Storage_Base_Addr);
-		
-			u32Address = mscdInfo.Storage_Base_Addr;	
-		}
 	#endif
 
 		mscdSDRAM2USB_Bulk(u32Address, sector_count * 512);		
@@ -1873,9 +1847,6 @@ void mscdWt10_Command(void)
 		lba = 	mscdInfo.Storage_Base_Addr;	
 
 	if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
-		lba = 	mscdInfo.Storage_Base_Addr;	
-
-	if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
 		lba = 	mscdInfo.Storage_Base_Addr;	
 #endif
 #ifdef TEST_SD
@@ -1916,10 +1887,6 @@ void mscdWt10_Command(void)
 			GNAND_write(ptMassNDisk1, sector_start + sector_offset, MSC_BUFFER_SECTOR, (UINT8 *)mscdInfo.Storage_Base_Addr);
 		}
 
-		if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		{
-			GNAND_write(ptMassNDisk2, sector_start + sector_offset, MSC_BUFFER_SECTOR, (UINT8 *)mscdInfo.Storage_Base_Addr);
-		}
 	#endif
 
 
@@ -1971,10 +1938,6 @@ void mscdWt10_Command(void)
 			GNAND_write(ptMassNDisk1, sector_start + sector_offset, sector_count, (UINT8 *)mscdInfo.Storage_Base_Addr);
 		}
 
-		if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-		{
-			GNAND_write(ptMassNDisk2, sector_start + sector_offset, sector_count, (UINT8 *)mscdInfo.Storage_Base_Addr);
-		}
 	#endif
 
 
@@ -2278,9 +2241,6 @@ void mscdModeSense_Command(void)
 
 			if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
 				mscdInfo.DDB.NumCyl = mscdInfo.gTotalSectors_NAND1/128;
-
-			if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-				mscdInfo.DDB.NumCyl = mscdInfo.gTotalSectors_NAND2/128;
 #endif
 	
 			outp8(mscdInfo.Mass_Base_Addr+12, mscdInfo.DDB.NumHead);
@@ -2367,9 +2327,6 @@ void mscdModeSense_Command(void)
 				
 			if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND1_LUN)
 				mscdInfo.DDB.NumCyl = mscdInfo.gTotalSectors_NAND1/128;
-
-			if (CBW_In.CBWD.bCBWLUN==mscdInfo.F_NAND2_LUN)
-				mscdInfo.DDB.NumCyl = mscdInfo.gTotalSectors_NAND2/128;
 #endif
 			outp8(mscdInfo.Mass_Base_Addr+24, mscdInfo.DDB.NumHead);
 			outp8(mscdInfo.Mass_Base_Addr+25, mscdInfo.DDB.NumSector);
@@ -2845,23 +2802,6 @@ UINT8 Flash_Identify(UINT8 tLUN)
 
     }
 
-    if (tLUN==mscdInfo.F_NAND2_LUN)
-    {
-		INT nSectorPerPage;
-
-		nSectorPerPage = ptMassNDisk2->nPageSize / 512;
-       	mscdInfo.gTotalSectors_NAND2 = ptMassNDisk2->nZone * (ptMassNDisk2->nLBPerZone-1) * ptMassNDisk2->nPagePerBlock * nSectorPerPage;
-
-        if (mscdInfo.gTotalSectors_NAND2 < 0)
-        {
-            mscdInfo.SenseKey = 0x03;
-            mscdInfo.ASC= 0x30;
-            mscdInfo.ASCQ = 0x01;          
-            
-            return 0;
-        }
-
-    }
 #endif
 
 #ifdef TEST_SD
@@ -2964,8 +2904,7 @@ UINT8 mscdFlashInit(NDISK_T *pDisk, INT SDsector)
   	mscdInfo.F_SD1_LUN = 0xFF;   
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
-	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
+	mscdInfo.F_NAND1_LUN = 0xFF;  
 	mscdInfo.F_RAM_LUN = 0xFF;    
 	mscdInfo.F_CDROM_LUN = 0xFF;		
 	mscdInfo.F_SPI_LUN = 0xFF;		
@@ -2980,11 +2919,6 @@ UINT8 mscdFlashInit(NDISK_T *pDisk, INT SDsector)
 	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS1)
 	{
    		mscdInfo.F_NAND1_LUN = mscdInfo.Mass_LUN;
-	    mscdInfo.Mass_LUN++;
-	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{
-	    mscdInfo.F_NAND2_LUN = mscdInfo.Mass_LUN;
 	    mscdInfo.Mass_LUN++;
 	}
 #endif
@@ -3034,12 +2968,6 @@ UINT8 mscdFlashInit(NDISK_T *pDisk, INT SDsector)
 	    if (!Flash_Identify(mscdInfo.F_NAND1_LUN))
 	        ; //return 0;
 	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{	
-		ptMassNDisk2 = (NDISK_T *)pDisk;
-    	if (!Flash_Identify(mscdInfo.F_NAND2_LUN))
-        	; //return 0;
-	}
 #endif
 
 #ifdef TEST_SD
@@ -3086,8 +3014,7 @@ UINT8 mscdFlashInitNAND(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SDse
   	mscdInfo.F_SD1_LUN = 0xFF;   
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
-	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
+	mscdInfo.F_NAND1_LUN = 0xFF; 
 	mscdInfo.F_RAM_LUN = 0xFF;    
 	mscdInfo.F_CDROM_LUN = 0xFF;		
 	mscdInfo.F_SPI_LUN = 0xFF;	
@@ -3102,11 +3029,6 @@ UINT8 mscdFlashInitNAND(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SDse
 	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS1)
 	{
    		mscdInfo.F_NAND1_LUN = mscdInfo.Mass_LUN;
-	    mscdInfo.Mass_LUN++;
-	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{
-	    mscdInfo.F_NAND2_LUN = mscdInfo.Mass_LUN;
 	    mscdInfo.Mass_LUN++;
 	}
 #endif
@@ -3154,12 +3076,6 @@ UINT8 mscdFlashInitNAND(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SDse
     	if (!Flash_Identify(mscdInfo.F_NAND1_LUN))
         	; //return 0;
     }
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{   
-		ptMassNDisk2 = (NDISK_T *)pDisk2;
-	    if (!Flash_Identify(mscdInfo.F_NAND2_LUN))
-    	    ; //return 0;
-   	}
 #endif
 #ifdef TEST_SD
 	if(g_MSC_SD_PORT_ENABLE & MSC_SD_PORT0)
@@ -3207,7 +3123,6 @@ UINT8 mscdFlashInitExtend(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SD
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
 	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
 	mscdInfo.F_RAM_LUN = 0xFF;    
 	mscdInfo.F_CDROM_LUN = 0xFF;
 	mscdInfo.F_SPI_LUN = 0xFF;		
@@ -3224,11 +3139,6 @@ UINT8 mscdFlashInitExtend(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SD
    		mscdInfo.F_NAND1_LUN = mscdInfo.Mass_LUN;
   		mscdInfo.Mass_LUN++;
   	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{
-   		mscdInfo.F_NAND2_LUN = mscdInfo.Mass_LUN;
-	    mscdInfo.Mass_LUN++;
-	}
 #endif
 
 #ifdef TEST_SD
@@ -3274,12 +3184,6 @@ UINT8 mscdFlashInitExtend(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, INT SD
 		ptMassNDisk1 = (NDISK_T *)pDisk1;
 	    if (!Flash_Identify(mscdInfo.F_NAND1_LUN))
 	        ; //return 0;
-	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{	
-		ptMassNDisk2 = (NDISK_T *)pDisk2;
-    	if (!Flash_Identify(mscdInfo.F_NAND2_LUN))
-        	; //return 0;
 	}
 #endif
 #ifdef TEST_SD
@@ -3331,7 +3235,6 @@ UINT8 mscdFlashInitExtendCDROM(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, I
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
 	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
 	mscdInfo.F_RAM_LUN = 0xFF;    
 	mscdInfo.F_CDROM_LUN = 0xFF;
 	mscdInfo.F_SPI_LUN = 0xFF;		
@@ -3348,11 +3251,6 @@ UINT8 mscdFlashInitExtendCDROM(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, I
    		mscdInfo.F_NAND1_LUN = mscdInfo.Mass_LUN;
   		mscdInfo.Mass_LUN++;
   	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{
-   		mscdInfo.F_NAND2_LUN = mscdInfo.Mass_LUN;
-	    mscdInfo.Mass_LUN++;
-	}
 #endif
 
 #ifdef TEST_SD
@@ -3404,12 +3302,6 @@ UINT8 mscdFlashInitExtendCDROM(NDISK_T *pDisk,NDISK_T *pDisk1,NDISK_T *pDisk2, I
 	    if (!Flash_Identify(mscdInfo.F_NAND1_LUN))
 	        ; //return 0;
 	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{	
-		ptMassNDisk2 = (NDISK_T *)pDisk2;
-    	if (!Flash_Identify(mscdInfo.F_NAND2_LUN))
-        	; //return 0;
-	}
 #endif
 #ifdef TEST_SD
 	if(g_MSC_SD_PORT_ENABLE & MSC_SD_PORT0)
@@ -3456,7 +3348,6 @@ UINT8 mscdFlashInitCDROM(NDISK_T *pDisk, INT SDsector, PFN_MSCD_CDROM_CALLBACK p
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
 	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
 	mscdInfo.F_RAM_LUN = 0xFF;    
 	mscdInfo.F_CDROM_LUN = 0xFF;	
 	mscdInfo.F_SPI_LUN = 0xFF;		
@@ -3471,11 +3362,6 @@ UINT8 mscdFlashInitCDROM(NDISK_T *pDisk, INT SDsector, PFN_MSCD_CDROM_CALLBACK p
 	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS1)
 	{
    		mscdInfo.F_NAND1_LUN = mscdInfo.Mass_LUN;
-	    mscdInfo.Mass_LUN++;
-	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{
-	    mscdInfo.F_NAND2_LUN = mscdInfo.Mass_LUN;
 	    mscdInfo.Mass_LUN++;
 	}
 #endif
@@ -3530,12 +3416,6 @@ UINT8 mscdFlashInitCDROM(NDISK_T *pDisk, INT SDsector, PFN_MSCD_CDROM_CALLBACK p
 		ptMassNDisk1 = (NDISK_T *)pDisk;
 	    if (!Flash_Identify(mscdInfo.F_NAND1_LUN))
 	        ; //return 0;
-	}
-	if(g_MSC_NAND_CS_ENABLE & MSC_NAND_CS2)
-	{	
-		ptMassNDisk2 = (NDISK_T *)pDisk;
-    	if (!Flash_Identify(mscdInfo.F_NAND2_LUN))
-        	; //return 0;
 	}
 #endif
 
@@ -3701,7 +3581,6 @@ VOID mscdInit(void)
  	mscdInfo.F_SD2_LUN = 0xFF;
     mscdInfo.F_NAND0_LUN = 0xFF;
 	mscdInfo.F_NAND1_LUN = 0xFF;    
-	mscdInfo.F_NAND2_LUN = 0xFF;
 	mscdInfo.F_RAM_LUN = 0xFF;  
 	mscdInfo.F_SPI_LUN = 0xFF;  
 	mscdInfo.F_CDROM_LUN = 0xFF;	
