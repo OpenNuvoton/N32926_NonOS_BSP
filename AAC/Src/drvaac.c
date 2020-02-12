@@ -95,7 +95,7 @@ void DrvAAC_Close(void)
    	sysDisableInterrupt(IRQ_MDCT);
 #endif   	
       // disable AHB4  clock
-    outp32(REG_AHBCLK, inp32(REG_AHBCLK) & (~HCLK4_CKE));
+//    outp32(REG_AHBCLK, inp32(REG_AHBCLK) & (~HCLK4_CKE));
  	// disable AAC engine clock 
 	outp32(REG_AHBCLK2, inp32(REG_AHBCLK2) & (~AAC_CKE));			// disable AAC engine clock 
     // ignore AHB4 & AHB clock disabled, maybe the other uses it

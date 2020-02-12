@@ -108,8 +108,8 @@ void mass(NDISK_T *disk0, NDISK_T *disk1, NDISK_T *disk2, INT SDsector0,INT SDse
 		u32NAND_EXPORT = MSC_NAND_CS0;
 	else if (g_ibr_boot_sd_port == 1)
 		u32NAND_EXPORT = MSC_NAND_CS1;
-	else if (g_ibr_boot_sd_port == 2)
-		u32NAND_EXPORT = MSC_NAND_CS2;
+	//else if (g_ibr_boot_sd_port == 2)
+	//	u32NAND_EXPORT = MSC_NAND_CS2;
 	//#ifdef __TWO_NAND__
 	//    u32NAND_EXPORT = MSC_NAND_CS0 | MSC_NAND_CS1; // If want to support 2 devices mass-storage, remember to do sicSdOpenx() for both devices. 
 	//#endif
