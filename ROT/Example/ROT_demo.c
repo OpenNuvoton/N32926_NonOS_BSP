@@ -10,9 +10,9 @@
 #include "ROT_demo.h"
 
 #if defined(__GNUC__)
-UINT8 Pattern[1024*1024] __attribute__((aligned (32)));
+UINT8 Pattern[1024*1024*2] __attribute__((aligned (32)));
 #else
-__align(32) UINT8 Pattern[1024*1024];
+__align(32) UINT8 Pattern[1024*1024*2];
 #endif
 
 INT32 FileSize(char* szAsciiName)
@@ -189,7 +189,7 @@ INT32 Emu_DestinationLineOffsetFineTune(UINT8* puDstAddr0, UINT8* puDstAddr1)
 				tRotConf.u32DstLineOffset= tRotFmt[u32TestIdx].u32DstLineOffset;		//Destination  line offset				
 				
 				/* Left-Top Corner */
-				tRotConf.u32SrcAddr = ADDR_ROT_SRC_ADDR+ (u32TestIdx%5)*src_h_step*OPT_LCM_HEIGHT*2+ (u32TestIdx%5)*src_w_step*2;		//Source buffer start address of rotated image	
+				tRotConf.u32SrcAddr = (UINT32)Pattern+ (u32TestIdx%5)*src_h_step*OPT_LCM_HEIGHT*2+ (u32TestIdx%5)*src_w_step*2;		//Source buffer start address of rotated image	
 				/* Left-Top Corner */
 				if(VpostUseBuf==1){/* If VPOST shows buffer 1, ROT should use buffer 0 */
 					tRotConf.u32DstAddr = (UINT32)puDstAddr0 + (u32TestIdx%5)*dst_h_step*OPT_LCM_WIDTH*2 + (u32TestIdx%5)*dst_w_step*2;		//Turn Left ok
@@ -227,9 +227,9 @@ INT32 Emu_DestinationLineOffsetFineTune(UINT8* puDstAddr0, UINT8* puDstAddr1)
 					bIsBuffer0Dirty = TRUE;
 				else
 					bIsBuffer1Dirty = TRUE;
-				sysprintf("Delay 1 second\n");	
-				sysDelay(100);								
-
+				sysprintf("Delay .1 second\n");	
+				sysDelay(10);								
+				
 			}//for(u32Offset=0; u32Offset< 1; u32Offset=u32Offset+1)	
 		}//for(u32TestIdx=0; u32TestIdx<2; u32TestIdx=u32TestIdx+1)		
 	}
