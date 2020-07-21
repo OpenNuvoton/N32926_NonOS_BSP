@@ -12,7 +12,7 @@
 #include "W55FA92_reg.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define DATE_CODE   "20191218"
+#define DATE_CODE   "20200713"
 
 /* global variable */
 typedef struct sd_info
