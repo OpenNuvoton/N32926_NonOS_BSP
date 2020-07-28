@@ -17,15 +17,15 @@
 
 	#ifdef __OTP_4BIT__
 		#ifdef __Security__
-			#define DATE_CODE   "20191204 4-Bit Mode with Security"
+			#define DATE_CODE   "20200720 4-Bit Mode with Security"
 		#else
-			#define DATE_CODE   "20191204 4-Bit Mode"
+			#define DATE_CODE   "20200720 4-Bit Mode"
 		#endif
 	#else
 		#ifdef __Security__
-			#define DATE_CODE   "20181017 with Security"	
+			#define DATE_CODE   "20200720 with Security"	
 		#else			
-			#define DATE_CODE   "20181017"
+			#define DATE_CODE   "20200720"
 		#endif			
 	#endif
 
@@ -33,15 +33,15 @@
 
 	#ifdef __OTP_4BIT__
 		#ifdef __Security__
-			#define DATE_CODE   "20191204 4-Bit Mode with Security"	
+			#define DATE_CODE   "20200720 4-Bit Mode with Security"	
 		#else	
-			#define DATE_CODE   "20191204 4-Bit Mode"
+			#define DATE_CODE   "20200720 4-Bit Mode"
 		#endif			
 	#else
 		#ifdef __Security__
-			#define DATE_CODE   "20181017 with Security"	
+			#define DATE_CODE   "20200720 with Security"	
 		#else
-			#define DATE_CODE   "20181017"
+			#define DATE_CODE   "20200720"
 		#endif			
 	#endif
 #endif
