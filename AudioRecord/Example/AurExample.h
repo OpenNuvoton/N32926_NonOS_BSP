@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     AurExample.h
+ * @brief    N3292x series Audio Record sample header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #ifndef __AUREXAMPLE_H_
 #define __AUREXAMPLE_H_
 

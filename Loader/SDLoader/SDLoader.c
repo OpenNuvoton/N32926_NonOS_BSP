@@ -1,10 +1,11 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Technology Corporation confidential                                       */
-/*                                                                                   */
-/* Copyright (c) 2013 by Nuvoton Technology Corporation                              */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     SDLoader.c
+ * @brief    SdLoader source code
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <string.h>
 #include "wblib.h"
 #include "turbowriter.h"

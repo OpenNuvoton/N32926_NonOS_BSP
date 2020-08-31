@@ -1,10 +1,12 @@
+/**************************************************************************//**
+ * @file     AurEDMA.c
+ * @brief    AudioADC corporates with EDMA to receive audio data to buffer
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 
-/***************************************************************************
- *                                                                         									     *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              					     *
- *                                                                         									     *
- ***************************************************************************/
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"

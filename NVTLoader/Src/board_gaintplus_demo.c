@@ -1,8 +1,11 @@
-/****************************************************************************
-*                                                                           *
-* Copyright (c) 2013 Nuvoton Tech. Corp. All rights reserved.               *
-*                                                                           *
+/**************************************************************************//**
+ * @file     board_gaintplus_demo.c
+ * @brief    Board with gaintplus panel control function
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

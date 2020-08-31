@@ -1,27 +1,12 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
- *                                                                         *
- ***************************************************************************/
- 
-/****************************************************************************
-* FILENAME
-*   wb_cache.c
-*
-* VERSION
-*   1.0
-*
-* DESCRIPTION
-*   The cache related functions of Nuvoton ARM9 MCU
-*
-* HISTORY
-*   2008-06-25  Ver 1.0 draft by Min-Nan Cheng
-* Modification
-*   2011-06-01  Ver 1.1 draft by Shih-Wen Chou
-*   	
-* REMARK
-*   None
- **************************************************************************/
+/**************************************************************************//**
+ * @file     wb_cache.c
+ * @version  V3.00
+ * @brief    The cache related functions of Nuvoton ARM9 MCU
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include "wblib.h"
 
 BOOL volatile _sys_IsCacheOn = FALSE;

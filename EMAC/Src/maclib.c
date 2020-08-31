@@ -1,12 +1,12 @@
-/****************************************************************************
-* Copyright (c) 20012-2015 Nuvoton Electronics Corp.
-* All rights reserved.
-*
-* FILE NAME: maclib.c
-*
-* DESCRIPTION: MAC Driver Routines.
-*
-****************************************************************************/
+/**************************************************************************//**
+ * @file     maclib.c
+ * @version  V3.00
+ * @brief    MAC Driver API
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdarg.h>
 #include <string.h>
 #include "wblib.h"

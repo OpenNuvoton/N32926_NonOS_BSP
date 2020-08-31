@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     W55FA92_ROT.h
+ * @version  V3.00
+ * @brief    N3292x series ROT driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #ifndef _ROTLIB_H_
 #define _ROTLIB_H_
 #include "wbtypes.h"

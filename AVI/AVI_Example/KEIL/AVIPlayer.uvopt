@@ -76,16 +76,6 @@
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -103,9 +93,13 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>6</nTsel>
+        <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -141,6 +135,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -177,6 +174,7 @@
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
@@ -185,11 +183,13 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>135</TopLine>
-      <CurrentLine>166</CurrentLine>
+      <TopLine>122</TopLine>
+      <CurrentLine>168</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Demo_AVI.c</PathWithFileName>
       <FilenameWithoutPath>Demo_AVI.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -204,6 +204,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\standalone.c</PathWithFileName>
       <FilenameWithoutPath>standalone.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -213,11 +215,13 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>29</TopLine>
-      <CurrentLine>38</CurrentLine>
+      <TopLine>34</TopLine>
+      <CurrentLine>44</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\wb_init.s</PathWithFileName>
       <FilenameWithoutPath>wb_init.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -230,8 +234,10 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\Lib\AviLib_320x240.lib</PathWithFileName>
-      <FilenameWithoutPath>AviLib_320x240.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\Lib\W55FA92_AVILib.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_AVILib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -246,6 +252,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Lib\IMA_ADPCM_Codec.lib</PathWithFileName>
       <FilenameWithoutPath>IMA_ADPCM_Codec.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -260,6 +268,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Lib\MP3Lib.lib</PathWithFileName>
       <FilenameWithoutPath>MP3Lib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -274,6 +284,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\SYSLIB\Lib\W55FA92_SYSLib.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_SYSLib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -288,6 +300,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\SIC\Lib\W55FA92_SIC.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_SIC.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -302,6 +316,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\NVTFAT\lib\W55FA92_NVTFAT.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_NVTFAT.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -316,6 +332,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\SPU\Lib\W55FA92_SPU.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_SPU.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -330,6 +348,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\JPEG\LIB\W55FA92_JPEGLib.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_JPEGLib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -344,6 +364,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\GNAND\Lib\W55FA92_GNAND.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_GNAND.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -358,6 +380,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\VPOST\Lib\W55FA92_GIANTPLUS_GPM1006D.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_GIANTPLUS_GPM1006D.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
   </Group>
 

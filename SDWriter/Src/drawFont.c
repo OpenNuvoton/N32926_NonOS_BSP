@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     drawFont.c
+ * @brief    N3292x series Font driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,6 +31,7 @@ UINT	g_Font_Height, g_Font_Width,g_Font_Step;
     __align(32) S_DEMO_FONT s_sDemo_Font;
     __align(32) UINT16 FrameBuffer[_LCM_WIDTH_*_LCM_HEIGHT_];
 #endif
+
 
 #if 0
 #define dbgprintf sysprintf
@@ -204,7 +213,7 @@ void Draw_CurrentOperation(PCSTR pszString, int Retcode)
 
 //***********************************************************************************
 // Draw_FinalStatus :
-//			It is used to show final status of NandWriter.
+//			It is used to show final status of SDWriter.
 //			The background of status is also toggled to highlight it.
 //***********************************************************************************
 void Draw_FinalStatus(int bIsAbort)
@@ -288,7 +297,7 @@ void Draw_Init(void)
 	DemoFont_ChangeFontColor(&s_sDemo_Font, COLOR_RGB16_WHITE);
 	Draw_InitialBorder(&s_sDemo_Font);
 
-	// Draw the Boarder for "W55FA92 NandWriter (..)"
+	// Draw the Boarder for SDWriter
 	s_sRect.u32StartX =0;
 	s_sRect.u32StartY = 0;
 	s_sRect.u32EndX = _LCM_WIDTH_,
@@ -300,18 +309,18 @@ void Draw_Init(void)
 	sprintf(Array1, "W55FA92 SDWriter (v%d.%d)",MAJOR_VERSION_NUM, MINOR_VERSION_NUM);
 #if 0
 	Draw_Font(COLOR_RGB16_WHITE, &s_sDemo_Font,
-						(_LCM_WIDTH_ - 32*g_Font_Step)/2, // 32 Character for "W55FA92 NandWriter (%s"
+						(_LCM_WIDTH_ - 32*g_Font_Step)/2, // 32 Character for Array1
 						0,
 						Array1);
 #else
 	Draw_Font(COLOR_RGB16_WHITE, &s_sDemo_Font,
-						0, // 32 Character for "W55FA92 NandWriter (%s"
+						0, // 32 Character for Array1
 						0,
 						Array1);
 #endif
 
-	// Only draw the Boarder for "Nand: Block * Page * PageSize"
-	// But, Nand information is delayed to Nand initialization
+	// Only draw the Boarder for SD information.
+	// But, SD information is delayed to SD initialization
 	s_sRect.u32StartX =0;
 	s_sRect.u32StartY = _LCM_HEIGHT_-1-g_Font_Height;
 	s_sRect.u32EndX = _LCM_WIDTH_-1,

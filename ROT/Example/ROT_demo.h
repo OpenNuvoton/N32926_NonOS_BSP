@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     ROT_demo.h
+ * @brief    N3292x series ROT sample header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #ifndef _ROT_DEMO_H_
 #define _ROT_DEMO_H_
 

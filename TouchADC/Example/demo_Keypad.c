@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     demo_Keypad.c
+ * @brief    Demostrate keypad function base on DEV board
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdio.h>
 #include "wblib.h"
 #include "demo.h"

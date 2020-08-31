@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     drawFont.c
+ * @brief    N3292x series Font driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +23,7 @@
 #define  LAST_LINE  11
 
 UINT    g_Font_Height, g_Font_Width,g_Font_Step;
+
 
 #if defined (__GNUC__)
     S_DEMO_FONT s_sDemo_Font __attribute__((aligned (32)));

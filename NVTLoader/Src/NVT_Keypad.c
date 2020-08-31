@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     NVT_Keypad.c
+ * @brief    To enter mass-storage function by pressing compound-key if use ADC Key
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include "wblib.h"
 #include "nvtloader.h"

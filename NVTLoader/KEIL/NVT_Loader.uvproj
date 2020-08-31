@@ -542,14 +542,14 @@
               <FilePath>..\src\wb_init.s</FilePath>
             </File>
             <File>
+              <FileName>W55FA92_AVILib.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\AVI\Lib\W55FA92_AVILib.lib</FilePath>
+            </File>
+            <File>
               <FileName>W55FA92_syslib.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
-            </File>
-            <File>
-              <FileName>AviLib_320x240.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\AVI\Lib\AviLib_320x240.lib</FilePath>
             </File>
             <File>
               <FileName>ima_adpcm_codec.lib</FileName>
@@ -1194,14 +1194,14 @@
               <FilePath>..\src\wb_init.s</FilePath>
             </File>
             <File>
+              <FileName>W55FA92_AVILib.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\AVI\Lib\W55FA92_AVILib.lib</FilePath>
+            </File>
+            <File>
               <FileName>W55FA92_syslib.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\SYSLIB\Lib\W55FA92_syslib.lib</FilePath>
-            </File>
-            <File>
-              <FileName>AviLib_320x240.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\AVI\Lib\AviLib_320x240.lib</FilePath>
             </File>
             <File>
               <FileName>ima_adpcm_codec.lib</FileName>

@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     Smpl_NT99141.c
+ * @brief    Code for NT99141 Initialization
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "wblib.h"
 #include "W55FA92_VideoIn.h"
 #include "W55FA92_GPIO.h"

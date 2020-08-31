@@ -1,28 +1,10 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Technology Corporation confidential                                      */
-/*                                                                                   */
-/* Copyright (c) 2008 by Nuvoton Technology Corporation                             */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
-/* File Contents:                                                                    */
-/*   i2c_24LC64.c                                                                    */
-/*                                                                                   */
-/* This file contains:                                                               */
-/*                                                                                   */
-/* Project:                                                                          */
-/*                                                                                   */
-/* Description:                                                                      */
-/*   This file is a sample program used to access EEPROM (24LC64) on W90P910         */
-/*   EV Board.                                                                       */
-/*                                                                                   */
-/* Remark:                                                                           */
-/*   1. Execute this program on 910 EV board that should set slave addr 0x50 for     */
-/*      I2C0 and set slave addr 0x51 for I2C1. It's H/W disign issue.                */
-/*   2. Microchip 24LC64 is EEPROM, 64K bits size, page-write buffer for up to       */
-/*      32bytes.                                                                     */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/ 
+/**************************************************************************//**
+ * @file     i2c_24LC64.c
+ * @brief    Read/write EEPROM via I2C interface
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/ 
  
 #include <stdio.h>
 #include <string.h>

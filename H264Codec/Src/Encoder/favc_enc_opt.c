@@ -1,3 +1,12 @@
+/**************************************************************************//**
+ * @file     favc_enc_opt.c
+ * @version  V3.00
+ * @brief    N32926 series H.264 driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /********************************************/
 /* Faraday avc encoder driver operations    */
 /********************************************/

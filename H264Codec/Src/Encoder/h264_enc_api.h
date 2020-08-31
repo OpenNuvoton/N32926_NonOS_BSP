@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     h264_enc_api.h
+ * @version  V3.00
+ * @brief    N3292x series H.264 driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 /**
  *  @file h264_enc_api.h
  *  @brief The header file for Gm H264 encoder API.

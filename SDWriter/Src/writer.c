@@ -1,8 +1,10 @@
-/*----------------------------------------------------------------------------------*/
-/* Copyright (c) 2013 by Nuvoton Technology Corporation.  All rights reserved.      */
-/*                                                                                  */
-/* Description: The main program of SDWriter.                                       */
-/*----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     writer.c
+ * @brief    SdWriter source code.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +46,6 @@ extern PDISK_T *pDisk_SDIO1;
 PDISK_T *pDisk_target;
 
 /**********************************/
-
 #if defined (__GNUC__)
     UINT8 infoBufArray[0x50000] __attribute__((aligned (32)));
     UINT8 StorageBufferArray[0x50000] __attribute__((aligned (32)));

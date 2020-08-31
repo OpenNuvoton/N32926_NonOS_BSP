@@ -1,10 +1,11 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Technology Corporation confidential                                       */
-/*                                                                                   */
-/* Copyright (c) 2013 by Nuvoton Technology Corporation                              */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     NandDrv.c
+ * @brief    NandLoader source code for NAND driver.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -296,7 +297,10 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
         case 0xdc:  // 512M
             // 2017/9/19, To support both Maker Founder MP4G08JAA
             //                        and Toshiba TC58NVG2S0HTA00 512MB NAND flash
-            if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76))
+            // 2020/06/23, support Micron MT29F4G08ABAEA 512MB NAND flash
+            if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76) ||
+                (tempID[0]==0x2C)&&(tempID[2]==0x90)&&(tempID[3]==0xA6)&&(tempID[4]==0x76)
+               )
             {
                 pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
                 pSM->uPagePerBlock   = 64;

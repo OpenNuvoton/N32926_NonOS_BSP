@@ -1,13 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2011 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     aes.c
+ * @version  V3.00
+ * @brief    N3292x series AES driver source file
  *
- * FILENAME
- *     aes.c
- * DESCRIPTION
- *     The library for AES.
- * FUNCTIONS
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"

@@ -1,33 +1,11 @@
+/**************************************************************************//**
+ * @file     wb_config.c
+ * @brief    PLL control functions of Nuvoton ARM9 MCU
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
- *                                                                         *
- ***************************************************************************/
-/****************************************************************************
- *
- * FILENAME : wb_config.c
- *
- * VERSION  : 1.1
- *
- * DESCRIPTION :
- *               PLL control functions of Nuvoton ARM9 MCU
- *
- * HISTORY
- *   2008-06-25  Ver 1.0 draft by Min-Nan Cheng
- * Modification
- *   2011-06-01  Ver 1.1 draft by Shih-Wen Chou
- *
- *      IBR set clocks default value
- *          UPLL= 240MHz
- *          SYS = 120MHz
- *          CPU = 60MHz
- *          HCLK = 60MHz
- *
- *
- *
- *
- ****************************************************************************/
 #include <string.h>
 #include "wblib.h"
 #define REAL_CHIP

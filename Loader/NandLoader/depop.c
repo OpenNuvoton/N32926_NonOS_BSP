@@ -1,8 +1,10 @@
-/****************************************************************
- *                                                              *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved.  *
- *                                                              *
- ****************************************************************/
+/**************************************************************************//**
+ * @file     depop.c
+ * @brief    NandLoader source code for depop.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #include "string.h"
 #include "stdlib.h"

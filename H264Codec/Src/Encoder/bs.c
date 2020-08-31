@@ -1,4 +1,11 @@
-
+/**************************************************************************//**
+ * @file     bs.c.c
+ * @version  V3.00
+ * @brief    N32926 series H.264 driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "bs.h"
 
 void bs_init( bs_t *s, void *p_data, int i_data )

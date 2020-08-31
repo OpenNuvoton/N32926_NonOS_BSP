@@ -1,4 +1,11 @@
-
+; ******************************************************************************
+; * @file    wb_init.s
+; * @version  V3.00
+; * @brief    init boot code
+; *
+; * SPDX-License-Identifier: Apache-2.0
+; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+; ******************************************************************************
 
 	AREA WB_INIT, CODE, READONLY
 

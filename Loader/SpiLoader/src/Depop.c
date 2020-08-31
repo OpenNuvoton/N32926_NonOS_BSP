@@ -1,9 +1,10 @@
-/****************************************************************
- *                                                              *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved.  *
- *                                                              *
- ****************************************************************/
-
+/**************************************************************************//**
+ * @file     Depop.c
+ * @brief    Function for Depop
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "string.h"
 #include "stdlib.h"
 

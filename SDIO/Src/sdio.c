@@ -1,17 +1,19 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Technology Corporation confidential                                       */
-/*                                                                                   */
-/* Copyright (c) 2013 by Nuvoton Technology Corporation                              */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     sdio.c
+ * @version  V3.00
+ * @brief    N3292x series SIC/SDIO driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifdef ECOS
-#include "drv_api.h"
-#include "diag.h"
-#include "wbtypes.h"
-#include "wbio.h"
+    #include "drv_api.h"
+    #include "diag.h"
+    #include "wbtypes.h"
+    #include "wbio.h"
 #else
-#include "wblib.h"
+    #include "wblib.h"
 #endif
 
 #include "W55FA92_reg.h"

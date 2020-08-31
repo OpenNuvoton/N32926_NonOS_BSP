@@ -1,3 +1,12 @@
+/**************************************************************************//**
+ * @file     encAPI.c
+ * @version  V3.00
+ * @brief    N32926 series H.264 driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include "h264.h"

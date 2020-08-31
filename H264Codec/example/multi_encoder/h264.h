@@ -1,3 +1,12 @@
+/**************************************************************************//**
+ * @file     h264.h
+ * @version  V3.00
+ * @brief    N3292x series H.264 Sample header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef _H264_DEFINE_H_
 #define _H264_DEFINE_H_
 

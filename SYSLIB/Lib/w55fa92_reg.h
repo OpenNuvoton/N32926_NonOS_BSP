@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     W55FA92_reh.h
+ * @version  V3.00
+ * @brief    N3292x series SYS driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 /*
  *
  * Copyright (c) 2011 Nuvoton technology corporation

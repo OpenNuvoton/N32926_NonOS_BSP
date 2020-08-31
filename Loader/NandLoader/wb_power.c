@@ -1,34 +1,12 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
- *                                                                         *
- ***************************************************************************/
+/**************************************************************************//**
+ * @file     wb_power.c
+ * @version  V3.00
+ * @brief    The power managemnet related function of Nuvoton ARM9 MCU
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
-/****************************************************************************
-* FILENAME
-*   wb_power.c
-*
-* VERSION
-*   1.0
-*
-* DESCRIPTION
-*   The power managemnet related function of Nuvoton ARM9 MCU
-*
-* DATA STRUCTURES
-*   None
-*
-* FUNCTIONS
-*   sysDisableAllPM_IRQ
-*   sysEnablePM_IRQ
-*   sysPMStart
-*
-* HISTORY
-*   2008-07-24  Ver 1.0 Modified by Min-Nan Cheng
-*
-* REMARK
-*   When enter PD or MIDLE mode, the sysPMStart function will disable cache
-*   (in order to access SRAM) and then recovery it after wake up.
-****************************************************************************/
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"
@@ -456,4 +434,3 @@ ERRCODE sysPowerDown(UINT32 u32WakeUpSrc)
 	Entry_PowerDown(u32WakeUpSrc);
 	return Successful;
 }
-

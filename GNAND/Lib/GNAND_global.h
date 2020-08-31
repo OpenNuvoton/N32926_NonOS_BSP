@@ -1,17 +1,19 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Electronics Corporation confidential                                      */
-/*                                                                                   */
-/* Copyright (c) 2008 by Nuvoton Electronics Corporation                             */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     GNAND_Global.h
+ * @version  V3.00
+ * @brief    N3292x series GNAND driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /* Changelog:
  * Base on GNAND library v1.01
  *
- * 2011/02/18 by CJChen1@nuvoton.com
+ * 2011/02/18
  *          To support new feature wear-leveling.
  *
- * 2011/04/27 by CJChen1@nuvoton.com
+ * 2011/04/27
  *          Backward compatible to GNAND format version V1.00 and V1.01 on NAND chip
  */
 

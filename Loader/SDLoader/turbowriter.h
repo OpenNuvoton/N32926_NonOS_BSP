@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     turbowriter.h
+ * @version  V3.00
+ * @brief    SdLoader header file for TurboWriter.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #define NAND_PAGE_512B		512
 #define NAND_PAGE_2KB		2048

@@ -1,8 +1,10 @@
-/*----------------------------------------------------------------------------------*/
-/* Copyright (c) 2012 by Nuvoton Technology Corporation.  All rights reserved.      */
-/*                                                                                  */
-/* Description: The header file of SDWriter.                                        */
-/*----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     writer.h
+ * @brief    SdWriter header file.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #define MAJOR_VERSION_NUM   1
 #define MINOR_VERSION_NUM   2

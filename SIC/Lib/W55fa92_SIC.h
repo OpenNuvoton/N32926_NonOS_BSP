@@ -1,13 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2011 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     W55FA92_SIC.h
+ * @version  V3.00
+ * @brief    N3292x series SIC driver header file
  *
- * FILENAME
- *     w55fa92_sic.h
- * DESCRIPTION
- *     The header file of SIC library.
- * FUNCTIONS
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef _W55FA92_SIC_H
 #define _W55FA92_SIC_H
 

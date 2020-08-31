@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     VPE_func.c
+ * @brief    Demo how to use VPE function 
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /*=======================================================
 	VPE Emulation Code 
 	1. Format conversion

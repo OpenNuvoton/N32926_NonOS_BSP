@@ -1,8 +1,10 @@
-/***************************************************************************
- *                                                                         									     *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              					     *
- *                                                                         									     *
- ***************************************************************************/
+/**************************************************************************//**
+ * @file     demo.c
+ * @brief    Demostrate keypad, touch pannel, voltage detection and wake up system by touch event
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdio.h>
 #include "wblib.h"
 #include "W55FA92_ADC.h"

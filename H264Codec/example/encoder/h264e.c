@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     h264e.c
+ * @brief    Demo how to encode H.264 bitstram
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /* 
     sample code for H264 for pattern 720x480 input and bitstream output
     This sample code is to do encode 1000 stream frames named "/tmp/dev0.264"

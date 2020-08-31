@@ -313,7 +313,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\board_gaintplus_demo.c</PathWithFileName>
@@ -484,8 +484,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\SYSLIB\Lib\W55FA92_syslib.lib</PathWithFileName>
-      <FilenameWithoutPath>W55FA92_syslib.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\AVI\Lib\W55FA92_AVILib.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_AVILib.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -496,8 +496,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\AVI\Lib\AviLib_320x240.lib</PathWithFileName>
-      <FilenameWithoutPath>AviLib_320x240.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\SYSLIB\Lib\W55FA92_syslib.lib</PathWithFileName>
+      <FilenameWithoutPath>W55FA92_syslib.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

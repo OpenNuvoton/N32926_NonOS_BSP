@@ -1,24 +1,14 @@
 /**************************************************************************************************
- *                                                                          
- * Copyright (c) 2012 - 2015 Nuvoton Electronics Corp. All rights reserved.      
- *                                                                         
- * FILENAME
- *     mac.c
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
+ * @file     mac.c
+ * @brief
  *     Main functions of MAC Diagnostic Program. This program will receive any packets 
  *     from one Ethernet port, then send the packets through another port. The symbol 
  *     EXTERNAL_LOOPBACK_PORT define the port for sending packets. When running this program,
  *     please plug a loop-back connector at the Ethernet port (EXTERNAL_LOOPBACK_PORT) and connect
  *     the other port to a LAN or a test machine for receiving packets.
  *
- * DATA STRUCTURES
- *     None
- *
- * FUNCTIONS
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
  *
  * HISTORY
  *	   10/11/2012		 Port to W55FA92 by PX10 Chris
@@ -28,6 +18,7 @@
  *     None
  *     
  *************************************************************************************************/
+ 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>

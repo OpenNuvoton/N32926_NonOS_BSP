@@ -1,3 +1,12 @@
+/**************************************************************************//**
+ * @file     register.h
+ * @version  V3.00
+ * @brief    N3292x series H.264 driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef _REGISTER_H_
 #define _REGISTER_H_
 

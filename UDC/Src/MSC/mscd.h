@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     mscd.h
+ * @version  V3.00
+ * @brief    N3292 series Mass Storage Device driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "W55FA92_GNAND.h"
 
 typedef struct Disk_Par_Inf {

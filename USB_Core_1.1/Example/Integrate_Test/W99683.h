@@ -1,29 +1,10 @@
-/*************************************************************************
- * Nuvoton Electronics Corporation confidential
+/**************************************************************************//**
+ * @file     w99683.h
+ * @brief    W99683 USB device driver header file
  *
- * Copyright (c) 2008 by Nuvoton Electronics Corporation
- * All rights reserved
- *
- * FILENAME
- *     w99683.h
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     W99683 USB device driver header file
- *
- * HISTORY
- *     2008.06.24       Created
- *
- * REMARK
- *     None
- **************************************************************************/
-
-//
-// W99682/W99683 Registers
-//
-
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #define W99683_VENDOR_ID      0x0416
 #define W99683_PRODUCT_ID     0x9683
 //#define W99683_PRODUCT_ID     0x6830

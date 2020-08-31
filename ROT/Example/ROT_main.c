@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     ROT_main.c
+ * @brief    Demonstrate rotation image on panel
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include "wblib.h"
@@ -79,7 +86,7 @@ int main(void)
 	sysStartTimer(TIMER0, 100, PERIODIC_MODE);
 	
 	sysUartPort(1);
-	uart.uiFreq = u32ExtFreq;
+    uart.uiFreq = u32ExtFreq;
     	uart.uiBaudrate = 115200;
     	uart.uiDataBits = WB_DATA_BITS_8;
     	uart.uiStopBits = WB_STOP_BITS_1;

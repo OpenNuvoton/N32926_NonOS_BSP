@@ -1,9 +1,10 @@
-	;/***************************************************************************
-    ; *                                                                         *
-    ; * Copyright (c) 2008 Nuvoton Technology. All rights reserved.             *
-    ; *                                                                         *
-    ; ***************************************************************************/
-    ;
+;/**************************************************************************//**
+; * @file     wb_sysctl.s
+; * @brief    N3292x series system setup code
+; *
+; * SPDX-License-Identifier: Apache-2.0
+; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+; *****************************************************************************/
     	
 	AREA SYS_INIT, CODE, READONLY
 	
@@ -26,4 +27,3 @@ sysSetupCP15
 
 		
 	END
-	

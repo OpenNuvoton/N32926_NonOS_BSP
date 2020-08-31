@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     NVT_Voltagedetection.c
+ * @brief    Voltage detection function
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdio.h>
 #include "wblib.h"
 #include "nvtloader.h"

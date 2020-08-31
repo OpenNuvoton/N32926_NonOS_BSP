@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Smpl_TW9912.c
+ * @brief    Initialize TW9912 sample code
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include "wblib.h"
 #include "wbtypes.h"
 #include "W55FA92_VideoIn.h"

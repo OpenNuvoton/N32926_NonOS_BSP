@@ -1,9 +1,10 @@
-    ;/***************************************************************************
-    ; *                                                                         *
-    ; * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
-    ; *                                                                         *
-    ; ***************************************************************************/
-    ;	
+;/**************************************************************************//**
+; * @file     wb_dcache.s
+; * @brief    The dcache related functions of Nuvoton ARM9 MCU
+; *
+; * SPDX-License-Identifier: Apache-2.0
+; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+; *****************************************************************************/
 	
 	AREA MEM_INIT, CODE, READONLY
 	
@@ -17,4 +18,3 @@ tci_loop
  	BX  r14
 		
 	END
-	

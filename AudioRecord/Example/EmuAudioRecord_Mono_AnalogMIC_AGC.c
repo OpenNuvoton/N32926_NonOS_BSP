@@ -1,8 +1,11 @@
-/***************************************************************************
- *                                                                         									     *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              					     *
- *                                                                         									     *
- ***************************************************************************/
+/**************************************************************************//**
+ * @file     EmuAudioRecord_Mono_AnalogMIC_AGC.c
+ * @brief    To configure audio ADC and EDMA to record audio from MIC 
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"

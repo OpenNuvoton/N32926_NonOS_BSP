@@ -1,13 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2013 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     W55FA92_SDIO.h
+ * @version  V3.00
+ * @brief    N3292x series SIC/SDIO driver header file
  *
- * FILENAME
- *     w55fa92_sdio.h
- * DESCRIPTION
- *     The header file of SIC/SDIO library.
- * FUNCTIONS
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef _W55FA92_SDIO_H
 #define _W55FA92_SDIO_H
 

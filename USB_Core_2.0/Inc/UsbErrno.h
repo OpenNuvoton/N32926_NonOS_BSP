@@ -1,24 +1,11 @@
-/*************************************************************************
- * Nuvoton Electronics Corporation confidential
+/**************************************************************************//**
+ * @file     UsbErrno.h
+ * @version  V3.00
+ * @brief    USB Host driver header file 
  *
- * Copyright (c) 2008 by Nuvoton Electronics Corporation
- * All rights reserved
- *
- * FILENAME
- *     usberrno.h
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     USB Host driver header file 
- *
- * HISTORY
- *     2008.06.24       Created
- *
- * REMARK
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/ 
 #ifndef _USBERRNO_H_
 #define _USBERRNO_H_
 

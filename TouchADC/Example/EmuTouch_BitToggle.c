@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     EmuTouch_BitToggle.c
+ * @brief    Test registers bit toggle access 
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>

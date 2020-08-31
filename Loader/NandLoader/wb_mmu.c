@@ -1,25 +1,12 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
- *                                                                         *
- ***************************************************************************/ 
-/****************************************************************************
+/**************************************************************************//**
+ * @file     wb_mmu.c
+ * @version  V3.00
+ * @brief    The MMU related function of Nuvoton ARM9 MCU
  * 
- * FILENAME
- *     wb_mmu.c
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     This file implement mmu functions.
- *
-  * HISTORY
- *     2008-06-25  Ver 1.0 draft by Min-Nan Cheng
- *
- * REMARK
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include "wblib.h"
 
 #if defined ( __CC_ARM )

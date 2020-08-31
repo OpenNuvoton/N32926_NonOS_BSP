@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     favc_avcodec.h
+ * @version  V3.00
+ * @brief    N3292x series H.264 library header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #ifndef _FAVCAVCODEC_H_
 #define _FAVCAVCODEC_H_
 

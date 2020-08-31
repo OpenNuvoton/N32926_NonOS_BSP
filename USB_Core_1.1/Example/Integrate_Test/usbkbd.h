@@ -1,24 +1,10 @@
-/*************************************************************************
- * Nuvoton Electronics Corporation confidential
+/**************************************************************************//**
+ * @file     usbkbd.h
+ * @brief    USB Host keyboard driver header file
  *
- * Copyright (c) 2008 by Nuvoton Electronics Corporation
- * All rights reserved
- *
- * FILENAME
- *     usbkbd.h
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     USB Host keyboard driver header file
- *
- * HISTORY
- *     2008.06.24       Created
- *
- * REMARK
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #ifndef _USBKBD_H_
 #define _USBKBD_H_

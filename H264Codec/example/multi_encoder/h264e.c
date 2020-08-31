@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     h264e.c
+ * @brief    Demo how to encode H.264 bitstram
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /* 
     sample code for H264 encoder to encode multi-resolution in the same time and bitstream output
  */

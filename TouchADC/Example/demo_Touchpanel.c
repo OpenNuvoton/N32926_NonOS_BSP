@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     demo_Touchpanel.c
+ * @brief    Report raw data postion by touching touch panel
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdio.h>
 #include "wblib.h"
 #include "demo.h"

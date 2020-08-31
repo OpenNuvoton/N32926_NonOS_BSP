@@ -1,26 +1,10 @@
-/*************************************************************************
- * Nuvoton Electronics Corporation confidential
+/**************************************************************************//**
+ * @file     W99683.c
+ * @brief    W99683 USB device driver source file
  *
- * Copyright (c) 2008 by Nuvoton Electronics Corporation
- * All rights reserved
- *
- * FILENAME
- *     W99683.c
- *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     W99683 USB device driver
- *
- * HISTORY
- *     2008.06.24       Created
- *
- * REMARK
- *     None
- **************************************************************************/
-
-
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 /*-------------------------------------------------------------------------
 
 unhandled interfaces on deviceWarning! - USB device 2 (vend/prod 0x416/0x9683) is not claimed by any active driver.

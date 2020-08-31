@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Smpl_OV10633.c
+ * @brief    Initialize OV10633 sample code
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include "wblib.h"
 #include "W55FA92_VideoIn.h"
 #include "W55FA92_GPIO.h"

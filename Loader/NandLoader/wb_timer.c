@@ -1,25 +1,12 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2008 Nuvoton Technolog. All rights reserved.              *
- *                                                                         *
- ***************************************************************************/
- 
-/****************************************************************************
-* FILENAME
-*   wb_timer.c
-*
-* VERSION
-*   1.0
-*
-* DESCRIPTION
-*   The timer related function of Nuvoton ARM9 MCU
-*
-* HISTORY
-*   2008-06-25  Ver 1.0 draft by Min-Nan Cheng
-*
-* REMARK
-*   None
- **************************************************************************/
+/**************************************************************************//**
+ * @file     wb_timer.c
+ * @version  V3.00
+ * @brief    The timer related function of Nuvoton ARM9 MCU
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include "wblib.h"
 

@@ -1,12 +1,12 @@
-/****************************************************************************
-* Copyright (c) 2012-2015 Nuvoton Electronics Corp.
-* All rights reserved.
-*
-* FILE NAME: mac.h
-*
-* DESCRIPTION: Header File for MAC.
-*
-****************************************************************************/
+/**************************************************************************//**
+ * @file     macfunc.h
+ * @version  V3.00
+ * @brief    Header File for MAC functions
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef W55FA92_MAC_FUNC_H
 #define W55FA92_MAC_FUNC_H
 

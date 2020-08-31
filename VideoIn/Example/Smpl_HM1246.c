@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Smpl_HM1246.c
+ * @brief    Initialize HM1246 sample code
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include "wblib.h"
 #include "W55FA92_VideoIn.h"
 #include "W55FA92_GPIO.h"

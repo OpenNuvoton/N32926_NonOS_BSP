@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     UsbHub.h
+ * @version  V3.00
+ * @brief    USB Host driver header file 
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/ 
 #ifndef _USBHUB_H
 #define _USBHUB_H
 

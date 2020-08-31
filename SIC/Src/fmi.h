@@ -1,13 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2011 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     fmi.h
+ * @version  V3.00
+ * @brief    N3292x series SIC driver header file
  *
- * FILENAME
- *     fmi.h
- * DESCRIPTION
- *     The header file of SIC/FMI library.
- * FUNCTIONS
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #ifndef _FMI_H
 #define _FMI_H
 

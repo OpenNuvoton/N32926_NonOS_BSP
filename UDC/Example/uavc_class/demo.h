@@ -1,4 +1,10 @@
-
+/**************************************************************************//**
+ * @file     demo.h
+ * @brief    UAVC Device sample header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "W55FA92_VideoIn.h"
 
 #define OPT_UART

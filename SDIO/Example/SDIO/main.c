@@ -1,12 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2013 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     main.c
+ * @brief    The main file for SIC/SDIO demo code
  *
- * FILENAME
- *     main.c
- * DESCRIPTION
- *     The main file for SDIO demo code.
- **************************************************************************/
- #include <stdio.h>
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>

@@ -1,10 +1,11 @@
-/*-----------------------------------------------------------------------------------*/
-/* Nuvoton Technology Corporation confidential                                       */
-/*                                                                                   */
-/* Copyright (c) 2013 by Nuvoton Technology Corporation                              */
-/* All rights reserved                                                               */
-/*                                                                                   */
-/*-----------------------------------------------------------------------------------*/
+/**************************************************************************//**
+ * @file     NandLoader.c
+ * @brief    NandLoader source code.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <string.h>
 #include "wblib.h"
 #include "turbowriter.h"
@@ -12,7 +13,8 @@
 #include "W55FA92_reg.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define DATE_CODE   "20191218"
+//#define DATE_CODE   "20191218"
+#define DATE_CODE   "20200623 beta"
 
 /* global variable */
 typedef struct nand_info

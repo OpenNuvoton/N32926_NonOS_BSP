@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     KeyEVB.c
+ * @version  V3.00
+ * @brief    N3292x series TouchADC driver source file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 /****************************************************************
  *                                                              *
  * Copyright (c) Nuvoton Technology Corp. All rights reserved.  *

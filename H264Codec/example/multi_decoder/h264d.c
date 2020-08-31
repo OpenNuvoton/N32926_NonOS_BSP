@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     h264d.c
+ * @brief    Demo how to decode H.264 bitstram
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 /* 
     Assume the bitstream size is known in file "test.info", 720x480 resolution, 10 frames
     sample code for H264 for bitstream input and YUV output
