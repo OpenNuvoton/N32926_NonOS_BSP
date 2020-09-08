@@ -2,6 +2,7 @@
 ; * @file     GCC.ld
 ; * @brief    N3292 Series link file
 ; *
+; * SPDX-License-Identifier: Apache-2.0
 ; * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.
 ; *****************************************************************************/
 #if defined(N32926_64MB)

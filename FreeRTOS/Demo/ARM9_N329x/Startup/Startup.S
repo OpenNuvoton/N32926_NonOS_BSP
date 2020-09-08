@@ -1,7 +1,8 @@
 ;/***************************************************************************
 ; * @file     Startup_GCC.S                                                 *
-; * @brief    N3292x Series vector table and startup code                          *
+; * @brief    N3292x Series vector table and startup code                   *
 ; *                                                                         *
+; * SPDX-License-Identifier: Apache-2.0                                     *
 ; * @copyright (C) 2019 Nuvoton Technology Corp. All rights reserved.       *                                                                       *
 ; ***************************************************************************/
 
@@ -73,7 +74,7 @@ __vector_end:
 
 Reset_Handler:
 
-        // Disable Interrupt in case code is load by ICE while other firmware is executing
+        // Disable Interrupt in case code is loaded by ICE while other firmware is executing
         ldr    r0, =REG_AIC_MDCR
         ldr    r1, =0xFFFFFFFF
         str    r1, [r0]

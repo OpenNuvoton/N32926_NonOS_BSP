@@ -1,8 +1,11 @@
-/***************************************************************
- *                                                             *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved. *
- *                                                             *
- ***************************************************************/
+/**************************************************************************//**
+ * @file     DrvCRC.h
+ * @version  V3.00
+ * @brief    N3292x series CRC driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
  
 #ifndef __DRVCRC_H__
 #define __DRVCRC_H__

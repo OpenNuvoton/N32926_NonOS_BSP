@@ -1,8 +1,10 @@
-/***************************************************************
- *                                                             *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved. *
- *                                                             *
- ***************************************************************/
+/**************************************************************************//**
+ * @file     RS_main.c
+ * @brief    N3292x series RS Codec demo code
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+ *****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>

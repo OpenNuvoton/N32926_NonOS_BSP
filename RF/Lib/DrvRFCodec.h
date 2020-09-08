@@ -1,8 +1,11 @@
-/***************************************************************
- *                                                             *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved. *
- *                                                             *
- ***************************************************************/
+/**************************************************************************//**
+ * @file     DrvRFCodec.h
+ * @version  V3.00
+ * @brief    N3292x series RF Codec driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
  
 #ifndef __DRVRF_H__
 #define __DRVRF_H__

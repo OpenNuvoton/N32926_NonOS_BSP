@@ -1,8 +1,11 @@
-/***************************************************************
- *                                                             *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved. *
- *                                                             *
- ***************************************************************/
+/**************************************************************************//**
+ * @file     DrvRSCodec.h
+ * @version  V3.00
+ * @brief    N3292x series RS Codec driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
  
 #ifndef __DRVRS_H__
 #define __DRVRS_H__

@@ -1,13 +1,12 @@
-/***************************************************************************
- * Copyright (c) 2012 Nuvoton Technology. All rights reserved.
+/**************************************************************************//**
+ * @file     DrvRSCodec.c
+ * @version  V3.00
+ * @brief    N3292x series RS Codec driver source file
  *
- * FILENAME
- *	DrvRSCodec.c
- * DESCRIPTION
- *	The library for RS.
- * FUNCTIONS
- *	None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include "wblib.h"
