@@ -1,31 +1,11 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2009 Nuvoton Technology. All rights reserved.             *
- *                                                                         *
- ***************************************************************************/
- 
-/****************************************************************************
- * 
- * FILENAME
- *     vpelib.c
+/**************************************************************************//**
+ * @file     vpelib.c
+ * @version  V3.00
+ * @brief    N3292x series VPE driver source file
  *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     The header file of w55fa95 vpe library.
- *
- * DATA STRUCTURES
- *     None
- *
- * FUNCTIONS
- *     None
- *
- *
- * REMARK
- *     None
- **************************************************************************/
-
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include "W55FA92_reg.h"
 #include "wblib.h"
 #include "W55FA92_VPE.h"

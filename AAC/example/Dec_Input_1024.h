@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Dec_Input_1024.h
+ * @brief    Decoder inputs 1024 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Dec_Input_1024[] = {
 0xcb300, 0xfffaf5e0, 0xffd4e940, 0x50a280, 0xfce52b93, 0xfd04cbb2, 0x19f0cd1, 0x635fee, 
 0x1f16743, 0x16e3939, 0xff134356, 0xffea75d2, 0x1fda6bf, 0x13e2d1e, 0xff800000, 0xffba365e, 

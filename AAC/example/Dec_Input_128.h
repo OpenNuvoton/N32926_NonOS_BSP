@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Dec_Input_128.h
+ * @brief    Decoder inputs 128 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Dec_Input_128[] = {
 0xfffeb158, 0xfedb6893, 0x78e71, 0x4870ed, 0xff9d4840, 0xffea7000, 0xffc0e580, 0x14e940, 
 0x0, 0xffd7547e, 0x0, 0xbfc74, 0xfffd00e3, 0x2ff1d, 0x78d0e, 0xfffecf90, 

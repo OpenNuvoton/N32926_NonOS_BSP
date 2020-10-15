@@ -84,13 +84,13 @@ INT32 DrvAUR_NoiseGateTiming(UINT32 u32DelayTime, UINT32 u32InTime, UINT32 u32Ou
 INT32 DrvAUR_AudioI2cRead(E_AUR_ADC_ADDR u32Addr, UINT8* p8Data)
 {
 	UINT32 u32Ctrl = 0;
-	/* 2013/0603	*/
-	BOOL bIsEnableAgc = FALSE;
+	/* 2020/1006	*/
+	UINT32 bIsEnableAgc = FALSE;
 	bIsEnableAgc = inp32(REG_AR_AGC1)&AGC_EN;
 	if(bIsEnableAgc ==  AGC_EN){/* Disable AGC Before I2C Write*/
 		outp32(REG_AR_AGC1, inp32(REG_AR_AGC1) & ~AGC_EN);
 	}
-	/* 2013/0603	*/
+	/* 2020/1006	*/
 	
 	do
 	{		
@@ -124,13 +124,13 @@ INT32 DrvAUR_AudioI2cWrite(E_AUR_ADC_ADDR u32Addr, UINT32 u32Data)
 {
 	UINT32 u32Ctrl = 0;
 	
-	/* 2013/0603	*/
-	BOOL bIsEnableAgc = FALSE;
+	/* 2020/1006	*/
+	UINT32 bIsEnableAgc = FALSE;
 	bIsEnableAgc = inp32(REG_AR_AGC1)&AGC_EN;
 	if(bIsEnableAgc ==  AGC_EN){/* Disable AGC Before I2C Write*/
 		outp32(REG_AR_AGC1, inp32(REG_AR_AGC1) & ~AGC_EN);
 	}
-	/* 2013/0603	*/
+	/* 2020/1006	*/
 	
 	do
 	{		

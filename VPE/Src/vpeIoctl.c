@@ -1,30 +1,11 @@
-/***************************************************************************
- *                                                                         *
- * Copyright (c) 2009 Nuvoton Technology. All rights reserved.             *
- *                                                                         *
- ***************************************************************************/
- 
-/****************************************************************************
- * 
- * FILENAME
- *     vpe_io.c
+/**************************************************************************//**
+ * @file     vpeIoctl.c
+ * @version  V3.00
+ * @brief    N3292x series VPE io control source file
  *
- * VERSION
- *     1.0
- *
- * DESCRIPTION
- *     The file for io control
- *
- * DATA STRUCTURES
- *     None
- *
- * FUNCTIONS
- *     None
- *
- *
- * REMARK
- *     None
- **************************************************************************/
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

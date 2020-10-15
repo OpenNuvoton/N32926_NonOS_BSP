@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Enc_Output_1024.h
+ * @brief    Encoder outputs 1024 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Enc_Output_1024[] = {
 0x2dfc4, 0x9a9f4, 0xfffa6b24, 0xffff9980, 0xfffee9ec, 0xfff96204, 0x14dd4, 0xfffb38d8, 
 0xfffb54c8, 0xfffefb88, 0x23bc, 0x92b8, 0xffffa3ac, 0xfffeccfc, 0xa3f4, 0x17238, 

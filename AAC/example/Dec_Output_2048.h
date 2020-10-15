@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Dec_Output_2048.h
+ * @brief    Decoder outputs 2048 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Dec_Output_2048[] = {
 0x1b80430, 0x1e81ba4, 0x2639a74, 0x1ac2978, 0xf43e6c, 0x1a34a4c, 0x29780e6, 0x2fc6610, 
 0x3502cdc, 0x3bcf126, 0x412afa2, 0x3d9c0d4, 0x2ef9f5c, 0x228725e, 0x18e0c7a, 0x9e0848, 

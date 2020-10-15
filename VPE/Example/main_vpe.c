@@ -1,3 +1,10 @@
+/**************************************************************************//**
+ * @file     main_vpe.c
+ * @brief    Demonstrate VPE functions
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

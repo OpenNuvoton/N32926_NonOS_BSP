@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Demo_AAC.c
+ * @brief    Demo AAC IMDCT/MDCT for the engine of decoder and encoder
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

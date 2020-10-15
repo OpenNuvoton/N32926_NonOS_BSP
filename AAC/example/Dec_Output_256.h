@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Dec_Output_256.h
+ * @brief    Decoder outputs 256 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Dec_Output_256[] = {
 0x124bfc0, 0x13c18a8, 0x1602dcc, 0x17ea3bc, 0x199602a, 0x18aa356, 0x1700502, 0x1711a5e, 
 0x1696dcc, 0x155cc10, 0x1585ed4, 0x1656c34, 0x14a7f3a, 0x1271a94, 0x118f56c, 0x116b536, 

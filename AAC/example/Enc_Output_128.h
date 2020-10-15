@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Enc_Output_128.h
+ * @brief    Encoder outputs 128 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Enc_Output_128[] = {
 0xfffe1068, 0x1c0a8, 0x6774, 0x76c, 0xffff9634, 0xffffd004, 0xffff8fb8, 0x5548, 
 0xffffc1e8, 0xfffffffc, 0x888, 0x5b8, 0x1c4c, 0x13b4, 0xb8c, 0x1dc, 

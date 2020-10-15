@@ -1,7 +1,10 @@
-/*
-  Nuvoton VPE source pattern 468 x 88
-*/
-
+/**************************************************************************//**
+ * @file     vpe_pattern.c
+ * @brief    Nuvoton VPE source pattern 468 x 88
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #if defined (__GNUC__)
 unsigned char g_au8VpeSrcPattern[61776UL + 1] __attribute__((aligned (32))) =
 #else

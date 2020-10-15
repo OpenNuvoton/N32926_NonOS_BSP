@@ -15,7 +15,7 @@
 #include "videoclass.h"
 
 #define HSHB_MODE
-#define DATA_CODE	"20181011"
+#define DATA_CODE	"20200915"
 
 #define USB_VID		0x0416		/* Vendor ID */ 
 #define USB_PID		0x9292		/* Product ID */
@@ -32,6 +32,11 @@
 
 volatile int max_packet_size = MAX_PACKET_SIZE_HS;
     
+volatile int i = 0;
+
+VOID uavcdSDRAM_USB_Transfer(UINT8 epname,UINT32 DRAM_Addr ,UINT32 Tran_Size);
+
+#define DMA_MAX_LEN 0xFFFF0
 /* length of descriptors */
 #define UAVC_DEVICE_DSCPT_LEN		0x12
 #define UAVC_CONFIG_DSCPT_LEN		0x20C
@@ -55,6 +60,7 @@ extern volatile USBD_INFO_T usbdInfo;
 volatile UINT8 g_u8UVC_FID = 0;
 volatile UINT8 g_u8UVC_PD = 0;
 UINT32 volatile IrqSt, IrqEn;
+UINT32 volatile g_u32transferSize = 0, g_u32DMAaddr	= 0;
 
 #if defined (__GNUC__)
 static DEVICEDESCRIPTOR UAVC_DeviceDescriptor __attribute__((aligned(4))) = {
@@ -1411,6 +1417,21 @@ VOID UAVC_DMACompletion(void)
 		if(usbdInfo.AlternateFlag == 0 || ((inp32(PHY_CTL) & Vbus_status) == 0))		
 			return;									
 	}	
+	if(g_u32transferSize != 0)
+	{
+    if(g_u32transferSize >= DMA_MAX_LEN)
+		{
+	      	g_u32transferSize -= DMA_MAX_LEN;
+		     	uavcdSDRAM_USB_Transfer(EP_A, g_u32DMAaddr , DMA_MAX_LEN);   
+				  g_u32DMAaddr += DMA_MAX_LEN;
+    }
+    else
+		{
+		     	uavcdSDRAM_USB_Transfer(EP_A, g_u32DMAaddr , g_u32transferSize); 
+	      	g_u32transferSize = 0;
+		}
+		return;
+	}
 	
 	outpw(HEAD_WORD0,((g_u8UVC_PD | UVC_PH_EndOfFrame | (g_u8UVC_FID &0x01)) <<8) | 0x02);//End Of Frame 				
 	outpw(EPA_HEAD_CNT,0x02);  		
@@ -2037,7 +2058,20 @@ BOOL uavcdSendImage(UINT32 u32Addr, UINT32 u32transferSize, BOOL bStillImage)
 			outpw(HEAD_WORD0,((g_u8UVC_PD | (g_u8UVC_FID &0x01)) <<8)| 0x02);   			
 			outpw(EPA_HEAD_CNT,0x02);      
 			
-		    uavcdSDRAM_USB_Transfer(EP_A, u32Addr , u32transferSize);
+			g_u32transferSize =  u32transferSize;
+            g_u32DMAaddr = u32Addr;
+			if(g_u32transferSize >= DMA_MAX_LEN)
+			{
+		     	g_u32transferSize = g_u32transferSize - DMA_MAX_LEN;
+				g_u32DMAaddr += DMA_MAX_LEN;
+	            uavcdSDRAM_USB_Transfer(EP_A, u32Addr , DMA_MAX_LEN);     			
+			}
+			else
+			{
+
+				uavcdSDRAM_USB_Transfer(EP_A, u32Addr , u32transferSize);   
+		     	g_u32transferSize = 0;
+			}
 	    
 			return TRUE;
 		}

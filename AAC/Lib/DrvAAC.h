@@ -1,8 +1,11 @@
-/****************************************************************
- *                                                              *
- * Copyright (c) Nuvoton Technology Corp. All rights reserved.  *
- *                                                              *
- ****************************************************************/
+/**************************************************************************//**
+ * @file     DrvAAC.h
+ * @version  V3.00
+ * @brief    N3292x series AAC driver header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 
 #ifndef _DRVACC_H
 #define _DRVACC_H

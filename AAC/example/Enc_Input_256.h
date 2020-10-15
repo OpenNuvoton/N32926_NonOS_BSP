@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Enc_Input_256.h
+ * @brief    Encoder inputs 256 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Enc_Input_256[] = {
 0x1, 0x2, 0x8, 0x7, 0xb, 0xb, 0x5, 0xfffffff5, 
 0xffffffe9, 0xffffffce, 0xffffffb2, 0xffffffa9, 0xffffff9f, 0xffffff97, 0xffffff91, 0xffffff84, 

@@ -1,3 +1,11 @@
+/**************************************************************************//**
+ * @file     Enc_Input_2048.h
+ * @brief    Encoder inputs 2048 data header file
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
+
 int Enc_Input_2048[] = {
 0xffffffff, 0x0, 0x1, 0x0, 0xfffffffe, 0xfffffffc, 0xfffffffc, 0xfffffffb, 
 0xfffffffd, 0xfffffffc, 0xfffffff9, 0xfffffff9, 0xfffffffe, 0x4, 0x4, 0x5, 
