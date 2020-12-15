@@ -228,7 +228,7 @@ VOID fmiSM_Initial(FMI_SM_INFO_T *pSM)
     //--- Set register to disable Mask ECC feature
     outpw(REG_SMREAREA_CTL, inpw(REG_SMREAREA_CTL) & ~SMRE_MECC);
 
-    //--- Set registers that depend on page size. According to FA92 sepc, the correct order is
+    //--- Set registers that depend on page size. According to the sepc, the correct order is
     //--- 1. SMCR_BCH_TSEL  : to support T24, MUST set SMCR_BCH_TSEL before SMCR_PSIZE.
     //--- 2. SMCR_PSIZE     : set SMCR_PSIZE will auto change SMRE_REA128_EXT to default value.
     //--- 3. SMRE_REA128_EXT: to use non-default value, MUST set SMRE_REA128_EXT after SMCR_PSIZE.
@@ -248,7 +248,7 @@ VOID fmiSM_Initial(FMI_SM_INFO_T *pSM)
 
         outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
 
-        outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);  // Redundant area size for FA91/93
+        outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);  // Redundant area size
     }
 
     else if (pSM->nPageSize == NAND_PAGE_4KB)
@@ -379,7 +379,9 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM, NDISK_T *NDISK_info)
     NDISK_info->vendor_ID = tempID[0];
     NDISK_info->device_ID = tempID[1];
 
-    if (tempID[0] == 0xC2)
+    if (((tempID[0] == 0xC2) && (tempID[1] == 0x79)) ||
+        ((tempID[0] == 0xC2) && (tempID[1] == 0x76)))
+        // Don't support ECC for NAND Interface ROM
         pSM->bIsCheckECC = FALSE;
     else
         pSM->bIsCheckECC = TRUE;
@@ -566,6 +568,29 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM, NDISK_T *NDISK_info)
             break;
 
         case 0xdc:  // 512M
+            // 2020/10/08, support Micron MT29F4G08ABAEA 512MB NAND flash
+            if ((tempID[0]==0x2C)&&(tempID[2]==0x90)&&(tempID[3]==0xA6)&&(tempID[4]==0x54))
+            {
+                pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
+                pSM->uPagePerBlock   = 64;
+                pSM->nPageSize       = NAND_PAGE_4KB;
+                pSM->uSectorPerBlock = pSM->nPageSize / 512 * pSM->uPagePerBlock;
+                pSM->bIsMLCNand      = FALSE;
+                pSM->bIsMulticycle   = TRUE;
+                pSM->bIsNandECC24    = TRUE;
+
+                NDISK_info->NAND_type     = (pSM->bIsMLCNand ? NAND_TYPE_MLC : NAND_TYPE_SLC);
+                NDISK_info->write_page_in_seq = NAND_TYPE_PAGE_IN_SEQ;
+                NDISK_info->nZone         = 1;      // number of zones
+                NDISK_info->nBlockPerZone = pSM->uBlockPerFlash + 1;   // blocks per zone
+                NDISK_info->nPagePerBlock = pSM->uPagePerBlock;
+                NDISK_info->nPageSize     = pSM->nPageSize;
+                NDISK_info->nLBPerZone    = 2000;   // logical blocks per zone
+
+                pSM->uSectorPerFlash = pSM->uSectorPerBlock * NDISK_info->nLBPerZone / 1000 * 999;
+                break;
+            }
+
             // 2017/9/19, To support both Maker Founder MP4G08JAA
             //                        and Toshiba TC58NVG2S0HTA00 512MB NAND flash
             if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76))
@@ -584,7 +609,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM, NDISK_T *NDISK_info)
                 NDISK_info->nBlockPerZone = pSM->uBlockPerFlash + 1;   // blocks per zone
                 NDISK_info->nPagePerBlock = pSM->uPagePerBlock;
                 NDISK_info->nPageSize     = pSM->nPageSize;
-                NDISK_info->nLBPerZone    = 4000;   // logical blocks per zone
+                NDISK_info->nLBPerZone    = 2000;   // logical blocks per zone
 
                 pSM->uSectorPerFlash = pSM->uSectorPerBlock * NDISK_info->nLBPerZone / 1000 * 999;
                 break;
@@ -3206,7 +3231,7 @@ UINT32 fmiSM_GetIBRAreaSize(FMI_SM_INFO_T *pSM)
         }
         else
         {
-            // Since SLC NAND need less BCH correct bits and for backward compatible (NAND card in FA93 project),
+            // Since SLC NAND need less BCH correct bits and for backward compatible (NAND card in other project),
             // so keep first 4 blocks to use IBR BCH rule.
             uIBRAreaSize = 4;
         }

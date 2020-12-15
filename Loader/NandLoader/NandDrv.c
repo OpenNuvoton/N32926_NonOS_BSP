@@ -86,7 +86,7 @@ void sicSMsetBCH(FMI_SM_INFO_T *pSM, int inIBR)
 {
     outpw(REG_SMCSR, inpw(REG_SMCSR) & ~SMCR_BCH_TSEL);     // clear BCH select
 
-    //--- Set registers that depend on page size. According to FA92 sepc, the correct order is
+    //--- Set registers that depend on page size. According to the sepc, the correct order is
     //--- 1. SMCR_BCH_TSEL  : to support T24, MUST set SMCR_BCH_TSEL before SMCR_PSIZE.
     //--- 2. SMCR_PSIZE     : set SMCR_PSIZE will auto change SMRE_REA128_EXT to default value.
     //--- 3. SMRE_REA128_EXT: to use non-default value, MUST set SMRE_REA128_EXT after SMCR_PSIZE.
@@ -195,7 +195,9 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
     tempID[3] = inpw(REG_SMDATA);
     tempID[4] = inpw(REG_SMDATA);
 
-    if (tempID[0] == 0xC2)
+    if (((tempID[0] == 0xC2) && (tempID[1] == 0x79)) ||
+        ((tempID[0] == 0xC2) && (tempID[1] == 0x76)))
+        // Don't support ECC for NAND Interface ROM
         pSM->bIsCheckECC = FALSE;
     else
         pSM->bIsCheckECC = TRUE;
@@ -217,6 +219,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_512B;
             pSM->bIsNandECC4 = TRUE;
+            pSM->bIsMLCNand = FALSE;
             break;
 
         case 0x76:  // 64M
@@ -227,6 +230,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_512B;
             pSM->bIsNandECC4 = TRUE;
+            pSM->bIsMLCNand = FALSE;
             break;
 
         case 0x75:  // 32M
@@ -237,6 +241,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = FALSE;
             pSM->nPageSize = NAND_PAGE_512B;
             pSM->bIsNandECC4 = TRUE;
+            pSM->bIsMLCNand = FALSE;
             break;
 
         case 0x73:  // 16M
@@ -247,11 +252,12 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = FALSE;
             pSM->nPageSize = NAND_PAGE_512B;
             pSM->bIsNandECC4 = TRUE;
+            pSM->bIsMLCNand = FALSE;
             break;
 
         /* page size 2KB */
         case 0xf1:  // 128M
-        case 0xd1:  // 128M
+        case 0xd1:
             pSM->uBlockPerFlash = 1023;
             pSM->uPagePerBlock = 64;
             pSM->uSectorPerBlock = 256;
@@ -259,6 +265,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = FALSE;
             pSM->nPageSize = NAND_PAGE_2KB;
             pSM->bIsNandECC8 = TRUE;
+            pSM->bIsMLCNand = FALSE;
 
             // 2013/10/22, support MXIC MX30LF1G08AA NAND flash
             // 2015/06/22, support MXIC MX30LF1G18AC NAND flash
@@ -292,15 +299,35 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_2KB;
             pSM->bIsNandECC8 = TRUE;
+
+            // 2018/10/29, support MXIC MX30LF2G18AC NAND flash
+            if ((tempID[0]==0xC2)&&(tempID[1]==0xDA)&&(tempID[2]==0x90)&&(tempID[3]==0x95)&&(tempID[4]==0x06))
+            {
+                // The first ID of this NAND is 0xC2 BUT it is NOT NAND ROM (read only)
+                // So, we MUST modify the configuration of it
+                //      1. change pSM->bIsCheckECC to TRUE to enable ECC feature;
+                pSM->bIsCheckECC = TRUE;
+            }
             break;
 
         case 0xdc:  // 512M
+            // 2020/10/08, support Micron MT29F4G08ABAEA 512MB NAND flash
+            if ((tempID[0]==0x2C)&&(tempID[2]==0x90)&&(tempID[3]==0xA6)&&(tempID[4]==0x54))
+            {
+                pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
+                pSM->uPagePerBlock   = 64;
+                pSM->nPageSize       = NAND_PAGE_4KB;
+                pSM->uSectorPerBlock = pSM->nPageSize / 512 * pSM->uPagePerBlock;
+                pSM->bIsMLCNand      = FALSE;
+                pSM->bIsMulticycle   = TRUE;
+                pSM->bIsNandECC24    = TRUE;
+                pSM->uSectorPerFlash = 1022976;
+                break;
+            }
+
             // 2017/9/19, To support both Maker Founder MP4G08JAA
             //                        and Toshiba TC58NVG2S0HTA00 512MB NAND flash
-            // 2020/06/23, support Micron MT29F4G08ABAEA 512MB NAND flash
-            if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76) ||
-                (tempID[0]==0x2C)&&(tempID[2]==0x90)&&(tempID[3]==0xA6)&&(tempID[4]==0x76)
-               )
+            if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76))
             {
                 pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
                 pSM->uPagePerBlock   = 64;
@@ -332,6 +359,15 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_2KB;
             pSM->bIsNandECC8 = TRUE;
+
+            // 2018/10/29, support MXIC MX30LF4G18AC NAND flash
+            if ((tempID[0]==0xC2)&&(tempID[1]==0xDC)&&(tempID[2]==0x90)&&(tempID[3]==0x95)&&(tempID[4]==0x56))
+            {
+                // The first ID of this NAND is 0xC2 BUT it is NOT NAND ROM (read only)
+                // So, we MUST modify the configuration of it
+                //      1. change pSM->bIsCheckECC to TRUE to enable ECC feature;
+                pSM->bIsCheckECC = TRUE;
+            }
             break;
 
         case 0xd3:  // 1024M
@@ -373,6 +409,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
                 pSM->uPagePerBlock = 64;
                 pSM->uSectorPerBlock = 256;
                 pSM->nPageSize = NAND_PAGE_2KB;
+                pSM->bIsMLCNand = FALSE;
             }
             else if ((tempID[3] & 0x33) == 0x21)
             {
@@ -388,6 +425,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
                 pSM->uPagePerBlock = 64;
                 pSM->uSectorPerBlock = 512; /* 64x8 */
                 pSM->nPageSize = NAND_PAGE_4KB;
+                pSM->bIsMLCNand = FALSE;
             }
             break;
 
@@ -515,7 +553,7 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM)
                 break;
             }
 
-            DBG_PRINTF("ERROR: SM ID not support!! [%02x][%02x][%02x][%02x][%02x]\n", tempID[0], tempID[1], tempID[2], tempID[3], tempID[4]);
+            ERR_PRINTF("ERROR: SM ID not support!! [%02x][%02x][%02x][%02x][%02x]\n", tempID[0], tempID[1], tempID[2], tempID[3], tempID[4]);
             return -1;
     }
 

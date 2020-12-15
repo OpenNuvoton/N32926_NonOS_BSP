@@ -854,6 +854,8 @@ extern INT  InitUsbSystem(void);
 extern INT  UsbInitializeOHCI(void);
 extern INT  UsbInitializeHCD(void);
 extern INT  UsbReleaseHCD(void);
+extern INT  UsbEnableOverCurrent(BOOL bEnable); /* MUST call before InitUsbSystem() */
+
 #if 0 //#ifdef ECOS
 extern void  Hub_CheckIrqEvent(cyg_addrword_t);
 #else

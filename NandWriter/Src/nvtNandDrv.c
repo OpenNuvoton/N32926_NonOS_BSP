@@ -65,7 +65,9 @@ INT nvtSM_ReadID(FMI_SM_INFO_T *pSM)
     tempID[3] = inpw(REG_SMDATA);
     tempID[4] = inpw(REG_SMDATA);
 
-    if (tempID[0] == 0xC2)
+    if (((tempID[0] == 0xC2) && (tempID[1] == 0x79)) ||
+        ((tempID[0] == 0xC2) && (tempID[1] == 0x76)))
+        // Don't support ECC for NAND Interface ROM
         pSM->bIsCheckECC = FALSE;
     else
         pSM->bIsCheckECC = TRUE;
@@ -90,7 +92,7 @@ INT nvtSM_ReadID(FMI_SM_INFO_T *pSM)
             break;
 
         case 0x76:  // 64M
-        case 0x5A:
+        case 0x5A:  // 64M XtraROM
             pSM->uSectorPerFlash = 127872;
             pSM->uBlockPerFlash = 4095;
             pSM->uPagePerBlock = 32;
@@ -165,9 +167,47 @@ INT nvtSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_2KB;
             pSM->bIsNandECC8 = TRUE;
+
+            // 2018/10/29, support MXIC MX30LF2G18AC NAND flash
+            if ((tempID[0]==0xC2)&&(tempID[1]==0xDA)&&(tempID[2]==0x90)&&(tempID[3]==0x95)&&(tempID[4]==0x06))
+            {
+                // The first ID of this NAND is 0xC2 BUT it is NOT NAND ROM (read only)
+                // So, we MUST modify the configuration of it
+                //      1. change pSM->bIsCheckECC to TRUE to enable ECC feature;
+                pSM->bIsCheckECC = TRUE;
+            }
             break;
 
         case 0xdc:  // 512M
+            // 2020/10/08, support Micron MT29F4G08ABAEA 512MB NAND flash
+            if ((tempID[0]==0x2C)&&(tempID[2]==0x90)&&(tempID[3]==0xA6)&&(tempID[4]==0x54))
+            {
+                pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
+                pSM->uPagePerBlock   = 64;
+                pSM->nPageSize       = NAND_PAGE_4KB;
+                pSM->uSectorPerBlock = pSM->nPageSize / 512 * pSM->uPagePerBlock;
+                pSM->bIsMLCNand      = FALSE;
+                pSM->bIsMulticycle   = TRUE;
+                pSM->bIsNandECC24    = TRUE;
+                pSM->uSectorPerFlash = pSM->uSectorPerBlock * 2000 / 1000 * 999;
+                break;
+            }
+
+            // 2017/9/19, To support both Maker Founder MP4G08JAA
+            //                        and Toshiba TC58NVG2S0HTA00 512MB NAND flash
+            if ((tempID[0]==0x98)&&(tempID[2]==0x90)&&(tempID[3]==0x26)&&(tempID[4]==0x76))
+            {
+                pSM->uBlockPerFlash  = 2047;        // block index with 0-base. = physical blocks - 1
+                pSM->uPagePerBlock   = 64;
+                pSM->nPageSize       = NAND_PAGE_4KB;
+                pSM->uSectorPerBlock = pSM->nPageSize / 512 * pSM->uPagePerBlock;
+                pSM->bIsMLCNand      = FALSE;
+                pSM->bIsMulticycle   = TRUE;
+                pSM->bIsNandECC8     = TRUE;
+                pSM->uSectorPerFlash = pSM->uSectorPerBlock * 2000 / 1000 * 999;
+                break;
+            }
+
             if ((tempID[3] & 0x33) == 0x11)
             {
                 pSM->uBlockPerFlash = 4095;
@@ -186,6 +226,15 @@ INT nvtSM_ReadID(FMI_SM_INFO_T *pSM)
             pSM->bIsMulticycle = TRUE;
             pSM->nPageSize = NAND_PAGE_2KB;
             pSM->bIsNandECC8 = TRUE;
+
+            // 2018/10/29, support MXIC MX30LF4G18AC NAND flash
+            if ((tempID[0]==0xC2)&&(tempID[1]==0xDC)&&(tempID[2]==0x90)&&(tempID[3]==0x95)&&(tempID[4]==0x56))
+            {
+                // The first ID of this NAND is 0xC2 BUT it is NOT NAND ROM (read only)
+                // So, we MUST modify the configuration of it
+                //      1. change pSM->bIsCheckECC to TRUE to enable ECC feature;
+                pSM->bIsCheckECC = TRUE;
+            }
             break;
 
         case 0xd3:

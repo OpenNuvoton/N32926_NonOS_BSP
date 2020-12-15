@@ -21,9 +21,9 @@
 
 // define DATE FMI_DATE_CODE and show it when running to make maintaining easy.
 #ifdef OPT_FPGA_DEBUG
-    #define FMI_DATE_CODE   "20181029 for FPGA"
+    #define FMI_DATE_CODE   "20201214 for FPGA"
 #else
-    #define FMI_DATE_CODE   "20181029"
+    #define FMI_DATE_CODE   "20201214"
 #endif
 
 // Define _SIC_USE_INT_ to run code that use interrupt function
