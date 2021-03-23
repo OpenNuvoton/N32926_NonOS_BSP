@@ -2419,8 +2419,16 @@ static INT sicSMInit(INT chipSel, NDISK_T *NDISK_info)
  *---------------------------------------------------------------------------*/
 void sicSMsetBCH(FMI_SM_INFO_T *pSM, int inIBR)
 {
+    volatile UINT32 u32PowerOn, powerOnPageSize, powerOnEcc;
+
     if (inIBR)
     {
+        u32PowerOn = inp32(REG_CHIPCFG);
+        // CHIPCFG[9:8] : 0=2KB, 1=4KB, 2=8KB, 3=Ignore power-on setting
+        powerOnPageSize = (u32PowerOn & (NPAGE)) >> 8;
+        // CHIPCFG[11,1] : 0=BCH12, 1=BCH24, 2=BCH15, 3=Ignore BCH
+        powerOnEcc = ((u32PowerOn & (BIT11)) >> 10) | ((u32PowerOn & (BIT1)) >> 1);
+
 //        DBG_PRINTF("sicSMsetBCH() set BCH to IBR rule\n");
         // page size 512B: BCH T4, Spare area size 16 bytes
         // page size 2KB:  BCH T4, Spare area size 64 bytes
@@ -2435,10 +2443,22 @@ void sicSMsetBCH(FMI_SM_INFO_T *pSM, int inIBR)
         }
         else if (pSM->nPageSize == NAND_PAGE_2KB)
         {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 64);
+            if ((powerOnPageSize == 0) && (powerOnEcc == 0))
+            {
+                // For power-on setting enabled for both 2KB page size and ECC-12.
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T12);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 100);
+            }
+            else
+            {
+                // Default setting is ECC-4 for 2KB page size.
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 64);
+            }
         }
         else if (pSM->nPageSize == NAND_PAGE_4KB)
         {
