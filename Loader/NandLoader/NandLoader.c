@@ -13,7 +13,7 @@
 #include "W55FA92_reg.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define DATE_CODE   "20210315"
+#define DATE_CODE   "20210426"
 
 /* global variable */
 typedef struct nand_info
@@ -227,12 +227,12 @@ void initClock(void)
     //--- support UPLL 192MHz, MPLL 288MHz, APLL 432MHz
     outp32(REG_CKDQSDS, E_CLKSKEW);
     #ifdef __DDR2__
-        outp32(REG_SDTIME, 0x2A38F726);     // REG_SDTIME for N32926 288MHz SDRAM clock
+        outp32(REG_SDTIME, 0x2A38F726);     // REG_SDTIME for 288MHz SDRAM clock
         outp32(REG_SDMR, 0x00000432);
         outp32(REG_MISC_SSEL, 0x00000155);  // set MISC_SSEL to Reduced Strength to improve EMI
     #endif
 
-    // initial DRAM clock BEFORE inital system clock since we change it from low (216MHz by IBR) to high (288MHz)
+    // initial DRAM clock BEFORE initial system clock since we change it from low (216MHz by IBR) to high (288MHz)
     sysSetDramClock(eSYS_MPLL, 288000000, 288000000);   // change from 216MHz (IBR) to 288MHz
 
     // initial system clock
@@ -259,7 +259,7 @@ void initClock(void)
         outp32(REG_MISC_SSEL, 0x00000155);  // set MISC_SSEL to Reduced Strength to improve EMI
     #endif
 
-    // initial DRAM clock BEFORE inital system clock since we change it from low (216MHz by IBR) to high (360MHz)
+    // initial DRAM clock BEFORE initial system clock since we change it from low (216MHz by IBR) to high (360MHz)
     sysSetDramClock(eSYS_MPLL, 360000000, 360000000);   // change from 216MHz (IBR) to 360MHz,
 
     // initial system clock
@@ -317,7 +317,6 @@ int main()
     u32Hclk1Hz = sysGetHCLK1Clock();
     u32ApbHz = sysGetAPBClock();
     u32DramHz = sysGetDramClock();
-    //ysprintf("APLL Clock = %d\n", u32APllHz);
     sysprintf("UPLL Clock = %d\n", u32PllHz);
     sysprintf("System Clock = %d\n", u32SysHz);
     sysprintf("CPU Clock = %d\n", u32CpuHz);
@@ -327,8 +326,8 @@ int main()
     sysprintf("REG_CLKDIV4=0x%08X, HCLK234=0x%X\n", inp32(REG_CLKDIV4), (inp32(REG_CLKDIV4) & HCLK234_N)>>4);
 #endif
 
-    outp32(REG_APBCLK, inp32(REG_APBCLK) | RTC_CKE);     // enable RTC clock since FA92 IBR disable it.
-    RTC_Check();    // waiting for RTC regiesters ready for access
+    outp32(REG_APBCLK, inp32(REG_APBCLK) | RTC_CKE);     // enable RTC clock since IBR disable it.
+    RTC_Check();    // waiting for RTC registers ready for access
 
     // RTC H/W Power Off Function Configuration
     outp32(PWRON, (inp32(PWRON) & ~PCLR_TIME) | 0x00060005);   // Press Power Key during 6 sec to Power off (0x'6'0005)
@@ -400,7 +399,7 @@ int main()
             pImageList = pImageList+12;
         }
 
-        pImageList=((unsigned int*)(((unsigned int)image_buffer)|0x80000000));
+        pImageList = ((unsigned int*)(((unsigned int)image_buffer)|0x80000000));
         memset((char *)&image, 0, sizeof(NVT_NAND_INFO_T));
 
 #ifdef __USER_DEFINE_FUNC

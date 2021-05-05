@@ -19,7 +19,8 @@ extern unsigned int Image$$ZI$$Limit;
 
 void _sys_exit(int return_code)
 {
-label:  goto label; /* endless loop */
+label:
+    goto label; /* endless loop */
 }
 
 void _ttywrch(int ch)
@@ -30,8 +31,11 @@ void _ttywrch(int ch)
 
 
 #pragma import(__use_two_region_memory)
-__value_in_regs struct R0_R3 {unsigned heap_base, stack_base, heap_limit, stack_limit;} 
-    __user_initial_stackheap(unsigned int R0, unsigned int SP, unsigned int R2, unsigned int SL)
+__value_in_regs struct R0_R3
+{
+    unsigned heap_base, stack_base, heap_limit, stack_limit;
+}
+__user_initial_stackheap(unsigned int R0, unsigned int SP, unsigned int R2, unsigned int SL)
 {
     struct R0_R3 config;
 
@@ -40,16 +44,16 @@ __value_in_regs struct R0_R3 {unsigned heap_base, stack_base, heap_limit, stack_
     config.stack_base = SP;
     config.heap_limit = SP - 0x8000;
 
-/*
-To place heap_base directly above the ZI area, use:
-    extern unsigned int Image$$ZI$$Limit;
-    config.heap_base = (unsigned int)&Image$$ZI$$Limit;
-(or &Image$$region_name$$ZI$$Limit for scatterloaded images)
+    /*
+    To place heap_base directly above the ZI area, use:
+        extern unsigned int Image$$ZI$$Limit;
+        config.heap_base = (unsigned int)&Image$$ZI$$Limit;
+    (or &Image$$region_name$$ZI$$Limit for scatterloaded images)
 
-To specify the limits for the heap & stack, use e.g:
-    config.heap_limit = SL;
-    config.stack_limit = SL;
-*/
+    To specify the limits for the heap & stack, use e.g:
+        config.heap_limit = SL;
+        config.stack_limit = SL;
+    */
 
     return config;
 }

@@ -1,6 +1,6 @@
 /**************************************************************************//**
  * @file     Secureic.c
- * @brief    This code provide the Demo code for RPMC operation. Please do not copy the 	
+ * @brief    This code provide the Demo code for RPMC operation. Please do not copy the     
  *           rootkey generate method directly. Rootkey generate method should be keep in
  *           secret and should not exposed. 
  *
@@ -14,164 +14,199 @@
 #include "wblib.h"
 #include "Gneiss.h"
 
-#define DBG_PRINTF	sysprintf
+#define DBG_PRINTF    sysprintf
 
 #define KEY_INDEX 1
 void RPMC_CreateRootKey(unsigned char *u8uid, unsigned int id_len, unsigned char *rootkey);
 
 int main()
 {
-	WB_UART_T uart;
-	UINT32 u32ExtFreq;
-	int count = 0;
-	UINT8 	u8UID[8];
-	UINT8 	u8JID[3];
-	unsigned char ROOTKey[32];	// Rootkey array
-	
-	unsigned char HMACKey[32];	// HMACkey array
-	unsigned char HMACMessage[4]; // HMAC message data, use for update HMAC key
-	unsigned char Input_tag[12];	// Input tag data for request conte
-	unsigned char RPMCStatus;
-	unsigned int RPMC_counter;
+    WB_UART_T uart;
+    UINT32 u32ExtFreq;
+    int count = 0;
+    UINT8     u8UID[8];
+    UINT8     u8JID[3];
+    unsigned char ROOTKey[32];      // Rootkey array
+    unsigned char HMACKey[32];      // HMACkey array
+    unsigned char HMACMessage[4];   // HMAC message data, use for update HMAC key
+    unsigned char Input_tag[12];    // Input tag data for request conte
+    unsigned char RPMCStatus;
+    unsigned int RPMC_counter;
   
-	u32ExtFreq = sysGetExternalClock();    	/* Hz unit */	
-	uart.uart_no = WB_UART_1;
-	uart.uiFreq = u32ExtFreq;
-	uart.uiBaudrate = 115200;
-	uart.uiDataBits = WB_DATA_BITS_8;
-	uart.uiStopBits = WB_STOP_BITS_1;
-	uart.uiParity = WB_PARITY_NONE;
-	uart.uiRxTriggerLevel = LEVEL_1_BYTE;
-	sysInitializeUART(&uart);	
+    u32ExtFreq = sysGetExternalClock();        /* Hz unit */
+    uart.uart_no = WB_UART_1;
+    uart.uiFreq = u32ExtFreq;
+    uart.uiBaudrate = 115200;
+    uart.uiDataBits = WB_DATA_BITS_8;
+    uart.uiStopBits = WB_STOP_BITS_1;
+    uart.uiParity = WB_PARITY_NONE;
+    uart.uiRxTriggerLevel = LEVEL_1_BYTE;
+    sysInitializeUART(&uart);    
 
-	DBG_PRINTF("SpiFlash Test...\n");
+    /**********************************************************************************************
+     * Clock Constraints:
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from
+     *     same clock source
+     *********************************************************************************************/
+#if 0
+    /**********************************************************************************************
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     *
+     * Following example shows the Memory Clock = System Clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else
+    /**********************************************************************************************
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     *
+     * Following example shows to speed up clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
 
-	spiFlashInit();
-	
-		
-	if ((RPMC_ReadJEDECID(u8JID)) == -1)
-	{
-		sysprintf("read id error !!\n");
-		return -1;
-	}
+    DBG_PRINTF("SpiFlash Test...\n");
 
-	sysprintf("SPI flash jid [0x%02X_%02X_%02X]\n",u8JID[0],u8JID[1],u8JID[2]);
-	
-	
-	if ((RPMC_ReadUID(u8UID)) == -1)
-	{
-		sysprintf("read id error !!\n");
-		return -1;
-	}
+    spiFlashInit();
 
-	sysprintf("SPI flash uid [0x%02X%02X%02X%02X%02X%02X%02X%02X]\n",u8UID[0], u8UID[1],u8UID[2], u8UID[3],u8UID[4], u8UID[5],u8UID[6], u8UID[7]);
+    if ((RPMC_ReadJEDECID(u8JID)) == -1)
+    {
+        sysprintf("read id error !!\n");
+        return -1;
+    }
+
+    sysprintf("SPI flash jid [0x%02X_%02X_%02X]\n",u8JID[0],u8JID[1],u8JID[2]);
+    
+    
+    if ((RPMC_ReadUID(u8UID)) == -1)
+    {
+        sysprintf("read id error !!\n");
+        return -1;
+    }
+
+    sysprintf("SPI flash uid [0x%02X%02X%02X%02X%02X%02X%02X%02X]\n",u8UID[0], u8UID[1],u8UID[2], u8UID[3],u8UID[4], u8UID[5],u8UID[6], u8UID[7]);
   
-	/* first stage, initial rootkey */
-	RPMC_CreateRootKey((unsigned char *)u8UID,8, ROOTKey);	// caculate ROOTKey with UID & ROOTKeyTag by SHA256
+    /* first stage, initial rootkey */
+    RPMC_CreateRootKey((unsigned char *)u8UID,8, ROOTKey);    /* caculate ROOTKey with UID & ROOTKeyTag by SHA256 */
 
-	RPMCStatus = RPMC_WrRootKey(KEY_INDEX, ROOTKey);        // initial Rootkey, use first rootkey/counter pair
-	if(RPMCStatus == 0x80)
-	{
-		// Write rootkey success
-		sysprintf("RPMC_WrRootKey Success - 0x%02X!!\n",RPMCStatus );
-	}
-	else
-	{
-		// write rootkey fail, check datasheet for the error bit
-		sysprintf("RPMC_WrRootKey Fail - 0x%02X!!\n",RPMCStatus );
-	}
-	/* initial rootkey operation done     */
+    RPMCStatus = RPMC_WrRootKey(KEY_INDEX, ROOTKey);          /* initial Rootkey, use first rootkey/counter pair */
+    if(RPMCStatus == 0x80)
+    {
+        /* Write rootkey success */
+        sysprintf("RPMC_WrRootKey Success - 0x%02X!!\n",RPMCStatus );
+    }
+    else
+    {
+        /* write rootkey fail, check datasheet for the error bit */
+        sysprintf("RPMC_WrRootKey Fail - 0x%02X!!\n",RPMCStatus );
+    }
+    /* initial rootkey operation done     */
 
-	/* Second stage, update HMACKey after ever power on. without update HMACkey, Gneiss would not function*/
-	HMACMessage[0] = rand()%0x100;        // Get random data for HMAC message, it can also be serial number, RTC information and so on.
-	HMACMessage[1] = rand()%0x100;
-	HMACMessage[2] = rand()%0x100;
-	HMACMessage[3] = rand()%0x100;
+    /* Second stage, update HMACKey after ever power on. without update HMACkey, Gneiss would not function*/
+    HMACMessage[0] = rand()%0x100;        /* Get random data for HMAC message, it can also be serial number, RTC information and so on. */
+    HMACMessage[1] = rand()%0x100;
+    HMACMessage[2] = rand()%0x100;
+    HMACMessage[3] = rand()%0x100;
 
-	/* Update HMAC key and get new HMACKey. 
-	HMACKey is generated by SW using Rootkey and HMACMessage.
-	RPMC would also generate the same HMACKey by HW */
-	RPMCStatus = RPMC_UpHMACkey(KEY_INDEX, ROOTKey, HMACMessage, HMACKey); 	
-	if(RPMCStatus == 0x80)
-	{
-		// update HMACkey success
-		sysprintf("RPMC_UpHMACkey Success - 0x%02X!!\n",RPMCStatus );
-	}
-	else
-	{
-		// write HMACkey fail, check datasheet for the error bit
-		sysprintf("RPMC_UpHMACkey Fail - 0x%02X!!\n",RPMCStatus );
-	}
-	
-	/* Third stage, increase RPMC counter */  
-	/* input tag is send in to RPMC, it could be time stamp, serial number and so on*/
-	Input_tag[0] = '2';
-	Input_tag[1] = '0';
-	Input_tag[2] = '1';
-	Input_tag[3] = '6';
-	Input_tag[4] = '0';
-	Input_tag[5] = '5';
-	Input_tag[6] = '2';
-	Input_tag[7] = '7';
-	Input_tag[8] = '1';
-	Input_tag[9] = '6';
-	Input_tag[10] = '2';
-	Input_tag[11] = '7';	
-	
-	RPMCStatus = RPMC_IncCounter(KEY_INDEX, HMACKey, Input_tag);	
-	if(RPMCStatus == 0x80){
-		// increase counter success
-		sysprintf("RPMC_IncCounter Success - 0x%02X!!\n",RPMCStatus );
-	}
-	else{
-		// increase counter fail, check datasheet for the error bit
-		sysprintf("RPMC_IncCounter Fail - 0x%02X!!\n",RPMCStatus );
-	}
-	
-	/* counter data in stoage in public array counter[], data is available if RPMC_IncCounter() operation successed */	
-	RPMC_counter = RPMC_ReadCounterData();
-	
-	/* increase RPMC counter done*/
-	sysprintf("RPMC_counter 0x%X\n",RPMC_counter);
+    /* Update HMAC key and get new HMACKey.
+       HMACKey is generated by SW using Rootkey and HMACMessage.
+       RPMC would also generate the same HMACKey by HW */
+    RPMCStatus = RPMC_UpHMACkey(KEY_INDEX, ROOTKey, HMACMessage, HMACKey);
+    if(RPMCStatus == 0x80)
+    {
+        /* update HMACkey success */
+        sysprintf("RPMC_UpHMACkey Success - 0x%02X!!\n",RPMCStatus );
+    }
+    else
+    {
+        /* write HMACkey fail, check datasheet for the error bit */
+        sysprintf("RPMC_UpHMACkey Fail - 0x%02X!!\n",RPMCStatus );
+    }
+    
+    /* Third stage, increase RPMC counter */  
+    /* input tag is send in to RPMC, it could be time stamp, serial number and so on*/
+    Input_tag[0] = '2';
+    Input_tag[1] = '0';
+    Input_tag[2] = '1';
+    Input_tag[3] = '6';
+    Input_tag[4] = '0';
+    Input_tag[5] = '5';
+    Input_tag[6] = '2';
+    Input_tag[7] = '7';
+    Input_tag[8] = '1';
+    Input_tag[9] = '6';
+    Input_tag[10] = '2';
+    Input_tag[11] = '7';
+    
+    RPMCStatus = RPMC_IncCounter(KEY_INDEX, HMACKey, Input_tag);    
+    if(RPMCStatus == 0x80)
+    {
+        /* increase counter success */
+        sysprintf("RPMC_IncCounter Success - 0x%02X!!\n",RPMCStatus );
+    }
+    else{
+        /* increase counter fail, check datasheet for the error bit */
+        sysprintf("RPMC_IncCounter Fail - 0x%02X!!\n",RPMCStatus );
+    }
+    
+    /* counter data in stoage in public array counter[], data is available if RPMC_IncCounter() operation successed */
+    RPMC_counter = RPMC_ReadCounterData();
+    
+    /* increase RPMC counter done*/
+    sysprintf("RPMC_counter 0x%X\n",RPMC_counter);
 
-	/* Main security operation call challenge*/
-	while(1)
-	{
-		if(RPMC_Challenge(KEY_INDEX, HMACKey, Input_tag)!=0)
-		{
-			sysprintf("RPMC_Challenge Fail!!\n" );
-			/* return signature miss-match */
-			return 0;
-		}
-		else
-		{
-			if(count > 500)
-			{
-				sysprintf("\n" );
-				RPMCStatus = RPMC_IncCounter(KEY_INDEX, HMACKey, Input_tag);			
-				if(RPMCStatus == 0x80)
-				{
-				    // increase counter success
-				    sysprintf("RPMC_IncCounter Success - 0x%02X!!\n",RPMCStatus );
-				}
-				else
-				{
-					// increase counter fail, check datasheet for the error bit
-				    sysprintf("RPMC_IncCounter Fail - 0x%02X!!\n",RPMCStatus );
-				    while(1);
-				}
-				/* counter data in stoage in public array counter[], data is available if RPMC_IncCounter() operation successed */
-				RPMC_counter = RPMC_ReadCounterData();
-				
-				/* increase RPMC counter done*/
-				sysprintf("RPMC_counter 0x%X\n",RPMC_counter);
-				count = 0;
-			}
-			else
-				count++;
-			sysprintf("." );
-		}
-	}
-	return 0;
+    /* Main security operation call challenge*/
+    while(1)
+    {
+        if(RPMC_Challenge(KEY_INDEX, HMACKey, Input_tag)!=0)
+        {
+            sysprintf("RPMC_Challenge Fail!!\n" );
+            /* return signature miss-match */
+            return 0;
+        }
+        else
+        {
+            if(count > 500)
+            {
+                sysprintf("\n" );
+                RPMCStatus = RPMC_IncCounter(KEY_INDEX, HMACKey, Input_tag);
+                if(RPMCStatus == 0x80)
+                {
+                    /* increase counter success */
+                    sysprintf("RPMC_IncCounter Success - 0x%02X!!\n",RPMCStatus );
+                }
+                else
+                {
+                    /* increase counter fail, check datasheet for the error bit */
+                    sysprintf("RPMC_IncCounter Fail - 0x%02X!!\n",RPMCStatus );
+                    while(1);
+                }
+                /* counter data in stoage in public array counter[], data is available if RPMC_IncCounter() operation successed */
+                RPMC_counter = RPMC_ReadCounterData();
+                
+                /* increase RPMC counter done*/
+                sysprintf("RPMC_counter 0x%X\n",RPMC_counter);
+                count = 0;
+            }
+            else
+                count++;
+            sysprintf("." );
+        }
+    }
+    return 0;
 }
 

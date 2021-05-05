@@ -81,115 +81,191 @@ INT fmiSM_Reset(void)
  *      None
  * RETURN:
  *      None.
+ * NOTE:
+ *      Set registers that depend on page size. According to the sepc, the correct order is
+ *      1. SMCR_BCH_TSEL  : to support T24, MUST set SMCR_BCH_TSEL before SMCR_PSIZE.
+ *      2. SMCR_PSIZE     : set SMCR_PSIZE will auto change SMRE_REA128_EXT to default value.
+ *      3. SMRE_REA128_EXT: to use non-default value, MUST set SMRE_REA128_EXT after SMCR_PSIZE.
  *---------------------------------------------------------------------------*/
 void sicSMsetBCH(FMI_SM_INFO_T *pSM, int inIBR)
 {
     volatile UINT32 u32PowerOn, powerOnPageSize, powerOnEcc;
+    volatile UINT32 bch, oob;
 
-    outpw(REG_SMCSR, inpw(REG_SMCSR) & ~SMCR_BCH_TSEL);     // clear BCH select
+    u32PowerOn = inp32(REG_CHIPCFG);
+    // CHIPCFG[9:8]  : 0=2KB,   1=4KB,   2=8KB,   3=Ignore power-on setting
+    powerOnPageSize = (u32PowerOn & (NPAGE)) >> 8;
+    // CHIPCFG[11,1] : 0=BCH12, 1=BCH15, 2=BCH24, 3=Ignore BCH and power-on setting
+    powerOnEcc = ((u32PowerOn & (BIT11)) >> 10) | ((u32PowerOn & (BIT1)) >> 1);
 
-    //--- Set registers that depend on page size. According to the sepc, the correct order is
-    //--- 1. SMCR_BCH_TSEL  : to support T24, MUST set SMCR_BCH_TSEL before SMCR_PSIZE.
-    //--- 2. SMCR_PSIZE     : set SMCR_PSIZE will auto change SMRE_REA128_EXT to default value.
-    //--- 3. SMRE_REA128_EXT: to use non-default value, MUST set SMRE_REA128_EXT after SMCR_PSIZE.
-    if (inIBR)
+    if ((powerOnPageSize == 3)||(powerOnEcc == 3))  // Ignore power-on setting
     {
-        u32PowerOn = inp32(REG_CHIPCFG);
-        // CHIPCFG[9:8] : 0=2KB, 1=4KB, 2=8KB, 3=Ignore power-on setting
-        powerOnPageSize = (u32PowerOn & (NPAGE)) >> 8;
-        // CHIPCFG[11,1] : 0=BCH12, 1=BCH24, 2=BCH15, 3=Ignore BCH
-        powerOnEcc = ((u32PowerOn & (BIT11)) >> 10) | ((u32PowerOn & (BIT1)) >> 1);
-
-        DBG_PRINTF("sicSMsetBCH() set BCH to IBR rule\n");
-        // page size 512B: BCH T4, Spare area size 16 bytes
-        // page size 2KB:  BCH T4, Spare area size 64 bytes
-        // page size 4KB:  BCH T8, Spare area size 128 bytes
-        // page size 8K:   BCH T12, Spare area size 376 bytes
-        if (pSM->nPageSize == NAND_PAGE_512B)
+        //--- Without Power-on setting. Set BCH by rule of SIC/NAND dirver.
+        if (inIBR)
         {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_512));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 16);
-        }
-        else if (pSM->nPageSize == NAND_PAGE_2KB)
-        {
-            if ((powerOnPageSize == 0) && (powerOnEcc == 0))
+            //DBG_PRINTF("sicSMsetBCH() set BCH to IBR rule\n");
+            // page size 512B: BCH T4, Spare area size 16 bytes
+            // page size 2KB:  BCH T4, Spare area size 64 bytes
+            // page size 4KB:  BCH T8, Spare area size 128 bytes
+            // page size 8K:   BCH T12, Spare area size 376 bytes
+            if (pSM->nPageSize == NAND_PAGE_512B)
             {
-                // For power-on setting enabled for both 2KB page size and ECC-12.
-                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T12);
-                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
-                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 100);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_512));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 16);
             }
-            else
+            else if (pSM->nPageSize == NAND_PAGE_2KB)
             {
-                // Default setting is ECC-4 for 2KB page size.
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
                 outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
                 outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
                 outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 64);
             }
-        }
-        else if (pSM->nPageSize == NAND_PAGE_4KB)
-        {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T8);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 128);
-        }
-        else if (pSM->nPageSize == NAND_PAGE_8KB)
-        {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T12);            // BCH_12 is selected
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);
-        }
-    }
-    else    // not in IBR area
-    {
-        DBG_PRINTF("sicSMsetBCH() set BCH to Normal rule\n");
-        // page size 512B: BCH T4, Spare area size 16 bytes
-        // page size 2KB:  BCH T8, Spare area size 64 bytes
-        // page size 4KB:  BCH T8, Spare area size 128 bytes or
-        //                 BCH T12, Spare area size 224 bytes or
-        //                 BCH T24, Spare area size 216 bytes
-        // page size 8K:   BCH T24, Spare area size 376 bytes
-        if (pSM->nPageSize == NAND_PAGE_512B)
-        {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_512));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 16);
-        }
-        else if (pSM->nPageSize == NAND_PAGE_2KB)
-        {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T8);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 64);
-        }
-        else if (pSM->nPageSize == NAND_PAGE_4KB)
-        {
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
-            if (pSM->bIsNandECC8 == TRUE)
+            else if (pSM->nPageSize == NAND_PAGE_4KB)
             {
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
                 outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T8);
-                //outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
                 outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 128);
             }
-            else if (pSM->bIsNandECC12 == TRUE) // for Hynix H27UAG8T2A
+            else if (pSM->nPageSize == NAND_PAGE_8KB)
             {
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
                 outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T12);
-                //outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
-                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 224);
-            }
-            else if (pSM->bIsNandECC24 == TRUE) // for Micron MT29F16G08CBACA and MT29F32G08CBACA
-            {
-                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T24);
-                //outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
-                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 216);
+
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);
             }
         }
-        else if (pSM->nPageSize == NAND_PAGE_8KB)
+        else    // not in IBR area
         {
-            outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T24);
-            outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
-            outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);
+            //DBG_PRINTF("sicSMsetBCH() set BCH to Normal rule\n");
+            // page size 512B: BCH T4, Spare area size 16 bytes
+            // page size 2KB:  BCH T8, Spare area size 64 bytes
+            // page size 4KB:  BCH T8, Spare area size 128 bytes or
+            //                 BCH T12, Spare area size 216 bytes (224 for special case) or
+            //                 BCH T24, Spare area size 216 bytes
+            // page size 8K:   BCH T24, Spare area size 376 bytes
+            if (pSM->nPageSize == NAND_PAGE_512B)
+            {
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T4);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_512));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 16);
+            }
+            else if (pSM->nPageSize == NAND_PAGE_2KB)
+            {
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T8);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 64);
+            }
+            else if (pSM->nPageSize == NAND_PAGE_4KB)
+            {
+                if (pSM->bIsNandECC8 == TRUE)
+                {
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T8);
+                    outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
+                    outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 128);
+                }
+                else if (pSM->bIsNandECC12 == TRUE)
+                {
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T12);
+                    outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
+                    outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 216);  // Redundant area size
+                }
+                else if (pSM->bIsNandECC24 == TRUE) // for Micron MT29F16G08CBACA and MT29F32G08CBACA
+                {
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                    outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T24);
+                    outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
+                    outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 216);
+                }
+            }
+            else if (pSM->nPageSize == NAND_PAGE_8KB)
+            {
+                outpw(REG_SMCSR, inpw(REG_SMCSR) &  ~SMCR_BCH_TSEL);
+                outpw(REG_SMCSR, inpw(REG_SMCSR) | BCH_T24);
+                outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
+                outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | 376);
+            }
         }
+    }
+
+    //--- With Power-on setting. Set BCH by Power-on setting rule of IBR for ALL blocks.
+    // CHIPCFG[9:8]  : 0=2KB,   1=4KB,   2=8KB,   3=Ignore power-on setting
+    // CHIPCFG[11,1] : 0=BCH12, 1=BCH15, 2=BCH24, 3=Ignore BCH and power-on setting
+    // BCH T12 : 2K+100 / 4K+192 / 8K+376
+    // BCH T15 : 2K+124 / 4K+240 / 8K+472
+    // BCH T24 : 2K+100 / 4K+188 / 8K+368  ** IBR cannot support 2K+BCH T24 since it use 2K+98.
+    else if (powerOnPageSize == 0)  // 2KB
+    {
+        outpw(REG_SMCSR, inpw(REG_SMCSR) & ~SMCR_BCH_TSEL);
+        if (powerOnEcc == 0)        // BCH T12
+        {
+            bch = BCH_T12;
+            oob = 100;
+        }
+        else if (powerOnEcc == 1)   // BCH T15
+        {
+            bch = BCH_T15;
+            oob = 124;
+        }
+        else if (powerOnEcc == 2)   // BCH T24
+        {
+            bch = BCH_T24;
+            oob = 100;
+        }
+        outpw(REG_SMCSR, inpw(REG_SMCSR) | bch);
+        outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_2K));
+        outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | oob);
+    }
+    else if (powerOnPageSize == 1)  // 4KB
+    {
+        outpw(REG_SMCSR, inpw(REG_SMCSR) & ~SMCR_BCH_TSEL);
+        if (powerOnEcc == 0)        // BCH T12
+        {
+            bch = BCH_T12;
+            oob = 192;
+        }
+        else if (powerOnEcc == 1)   // BCH T15
+        {
+            bch = BCH_T15;
+            oob = 240;
+        }
+        else if (powerOnEcc == 2)   // BCH T24
+        {
+            bch = BCH_T24;
+            oob = 188;
+        }
+        outpw(REG_SMCSR, inpw(REG_SMCSR) | bch);
+        outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_4K));
+        outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | oob);
+    }
+    else if (powerOnPageSize == 2)  // 8KB
+    {
+        outpw(REG_SMCSR, inpw(REG_SMCSR) & ~SMCR_BCH_TSEL);
+        if (powerOnEcc == 0)        // BCH T12
+        {
+            bch = BCH_T12;
+            oob = 376;
+        }
+        else if (powerOnEcc == 1)   // BCH T15
+        {
+            bch = BCH_T15;
+            oob = 472;
+        }
+        else if (powerOnEcc == 2)   // BCH T24
+        {
+            bch = BCH_T24;
+            oob = 368;
+        }
+        outpw(REG_SMCSR, inpw(REG_SMCSR) | bch);
+        outpw(REG_SMCSR, (inpw(REG_SMCSR)&(~SMCR_PSIZE)) | (PSIZE_8K));
+        outpw(REG_SMREAREA_CTL, (inpw(REG_SMREAREA_CTL) & ~SMRE_REA128_EXT) | oob);
     }
 }
 

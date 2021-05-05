@@ -38,11 +38,65 @@ __align (32) char g_baAudioBuf[BUFSIZE];
 //====================================================================================
 int main(void)
 {
-//	UINT32 nAudioState = 0;
-	UINT32 /*nBufSize,*/ uWriteAddr, uReadAddr;
-//	BOOL bRet;
-	unsigned int ii=0;
+	UINT32 uWriteAddr, uReadAddr;
+    WB_UART_T uart;
+    UINT32 u32ExtFreq, u32PllOutKHz;
 
+    u32ExtFreq = sysGetExternalClock();
+    uart.uart_no = WB_UART_1;
+    uart.uiFreq = u32ExtFreq;   //use APB clock
+    uart.uiBaudrate = 115200;
+    uart.uiDataBits = WB_DATA_BITS_8;
+    uart.uiStopBits = WB_STOP_BITS_1;
+    uart.uiParity = WB_PARITY_NONE;
+    uart.uiRxTriggerLevel = LEVEL_1_BYTE;
+    sysInitializeUART(&uart);
+    sysSetLocalInterrupt(ENABLE_FIQ_IRQ);
+
+    u32PllOutKHz = sysGetPLLOutputHz(eSYS_UPLL, u32ExtFreq);
+    sysprintf("Power on UPLL out frequency %d Khz\n", u32PllOutKHz);
+    u32PllOutKHz = sysGetPLLOutputHz(eSYS_MPLL, u32ExtFreq);
+    sysprintf("Power on MPLL out frequency %d Khz\n", u32PllOutKHz);
+
+    u32PllOutKHz = sysGetAPBClock();
+    sysprintf("APB %d Khz\n", u32PllOutKHz);
+		
+    /********************************************************************************************** 
+     * Clock Constraints: 
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock   
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from 
+     *     same clock source	 
+     *********************************************************************************************/
+#if 0 
+    /********************************************************************************************** 
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below  
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     * 
+     * Following example shows the Memory Clock = System Clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement. 
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else 
+    /********************************************************************************************** 
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below  
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     * 
+     * Following example shows to speed up clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
+	
 	uWriteAddr = (UINT32) g_baAudioBuf;
 	uReadAddr = (UINT32) g_baAudioBuf;
 
@@ -67,9 +121,7 @@ int main(void)
 	DrvI2S_StartPlay((S_DRVI2S_PLAY*) &g_sPlay);		
 	sysprintf(" I2S start Recording stereo in 44.1 kHz sampling rate \n\n");
 
-	
 	while(1)
-//	while(ii++<1000000)
 	{
 	    while (inp32(REG_I2S_ACTL_RSR) & R_DMA_RIA_IRQ)
 	    {
@@ -86,7 +138,6 @@ int main(void)
 	    }
 	}	    
 	
-	return 0;
 }
 
 

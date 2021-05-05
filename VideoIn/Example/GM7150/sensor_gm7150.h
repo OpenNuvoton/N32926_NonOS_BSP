@@ -11,8 +11,8 @@
  * Copyright (c) 2005,2006 Mauro Carvalho Chehab (mchehab@infradead.org)
  * This code is placed under the terms of the GNU General Public License v2
  */
-#ifndef	_SENSOR_GM7150AM_H
-#define	_SENSOR_GM7150AM_H
+#ifndef _SENSOR_GM7150AM_H
+#define _SENSOR_GM7150AM_H
 
 typedef UINT32 tvp_std_id;
 
@@ -37,52 +37,52 @@ typedef UINT32 tvp_std_id;
 #define TVP_STD_NTSC_M_KR      ((tvp_std_id)0x00008000)
 
 /* some merged standards */
-#define TVP_STD_MN	(TVP_STD_PAL_M|TVP_STD_PAL_N|TVP_STD_PAL_Nc|TVP_STD_NTSC)
-#define TVP_STD_B	(TVP_STD_PAL_B|TVP_STD_PAL_B1)
-#define TVP_STD_GH	(TVP_STD_PAL_G|TVP_STD_PAL_H)
-#define TVP_STD_DK	(TVP_STD_PAL_DK)
+#define TVP_STD_MN  (TVP_STD_PAL_M|TVP_STD_PAL_N|TVP_STD_PAL_Nc|TVP_STD_NTSC)
+#define TVP_STD_B   (TVP_STD_PAL_B|TVP_STD_PAL_B1)
+#define TVP_STD_GH  (TVP_STD_PAL_G|TVP_STD_PAL_H)
+#define TVP_STD_DK  (TVP_STD_PAL_DK)
 
 /* some common needed stuff */
-#define TVP_STD_PAL_BG		(TVP_STD_PAL_B		|\
-				 TVP_STD_PAL_B1	|\
-				 TVP_STD_PAL_G)
-#define TVP_STD_PAL_DK		(TVP_STD_PAL_D		|\
-				 TVP_STD_PAL_D1	|\
-				 TVP_STD_PAL_K)
-#define TVP_STD_PAL		(TVP_STD_PAL_BG	|\
-				 TVP_STD_PAL_DK	|\
-				 TVP_STD_PAL_H		|\
-				 TVP_STD_PAL_I)
-#define TVP_STD_NTSC           (TVP_STD_NTSC_M	|\
-				 TVP_STD_NTSC_M_JP     |\
-				 TVP_STD_NTSC_M_KR)
+#define TVP_STD_PAL_BG      (TVP_STD_PAL_B      |\
+                 TVP_STD_PAL_B1 |\
+                 TVP_STD_PAL_G)
+#define TVP_STD_PAL_DK      (TVP_STD_PAL_D      |\
+                 TVP_STD_PAL_D1 |\
+                 TVP_STD_PAL_K)
+#define TVP_STD_PAL     (TVP_STD_PAL_BG |\
+                 TVP_STD_PAL_DK |\
+                 TVP_STD_PAL_H      |\
+                 TVP_STD_PAL_I)
+#define TVP_STD_NTSC           (TVP_STD_NTSC_M  |\
+                 TVP_STD_NTSC_M_JP     |\
+                 TVP_STD_NTSC_M_KR)
 
-#define TVP_STD_525_60		(TVP_STD_PAL_M		|\
-				 TVP_STD_PAL_60	|\
-				 TVP_STD_NTSC		|\
-				 TVP_STD_NTSC_443)
-#define TVP_STD_625_50		(TVP_STD_PAL		|\
-				 TVP_STD_PAL_N		|\
-				 TVP_STD_PAL_Nc)
+#define TVP_STD_525_60      (TVP_STD_PAL_M      |\
+                 TVP_STD_PAL_60 |\
+                 TVP_STD_NTSC       |\
+                 TVP_STD_NTSC_443)
+#define TVP_STD_625_50      (TVP_STD_PAL        |\
+                 TVP_STD_PAL_N      |\
+                 TVP_STD_PAL_Nc)
 
 #define TVP_STD_UNKNOWN        0
-#define TVP_STD_ALL            (TVP_STD_525_60	|\
-				 TVP_STD_625_50) 
-				 
-				 
-#define GM7150_H_MAX           	720
-#define GM7150_V_MAX_525_60    	480
-#define GM7150_V_MAX_OTHERS    	576
-#define GM7150_MAX_CROP_LEFT   	511
-#define GM7150_MAX_CROP_TOP    	127
-#define GM7150_CROP_SHIFT      	2
+#define TVP_STD_ALL            (TVP_STD_525_60  |\
+                 TVP_STD_625_50)
 
-#define	GM7150_A1P1A		    0
-#define	GM7150_A1P1B		    1
-#define	GM7150_SVIDEO		    2
 
- 
-//#define	GM7150_SENSOR
+#define GM7150_H_MAX            720
+#define GM7150_V_MAX_525_60     480
+#define GM7150_V_MAX_OTHERS     576
+#define GM7150_MAX_CROP_LEFT    511
+#define GM7150_MAX_CROP_TOP     127
+#define GM7150_CROP_SHIFT       2
+
+#define GM7150_A1P1A            0
+#define GM7150_A1P1B            1
+#define GM7150_SVIDEO           2
+
+
+//#define   GM7150_SENSOR
 
 #define GM7150_VD_IN_SRC_SEL_1      0x00 /* Video input source selection #1 */
 #define GM7150_ANAL_CHL_CTL         0x01 /* Analog channel controls */
@@ -134,7 +134,7 @@ typedef UINT32 tvp_std_id;
 #define GM7150_MACROVISION_OFF_CTR 0x2f /* Macrovision off counter */
 #define GM7150_REV_SELECT          0x30 /* revision select (GM7150AM1 only) */
 
-/* Reserved	31h-7Fh */
+/* Reserved 31h-7Fh */
 
 #define GM7150_MSB_DEV_ID          0x80 /* MSB of device ID */
 #define GM7150_LSB_DEV_ID          0x81 /* LSB of device ID */
@@ -149,12 +149,12 @@ typedef UINT32 tvp_std_id;
 #define GM7150_STATUS_REG_3        0x8a /* Status register #3 */
 #define GM7150_STATUS_REG_4        0x8b /* Status register #4 */
 #define GM7150_STATUS_REG_5        0x8c /* Status register #5 */
-/* Reserved	8Dh-8Fh */
- /* Closed caption data registers */
+/* Reserved 8Dh-8Fh */
+/* Closed caption data registers */
 #define GM7150_CC_DATA_INI         0x90
 #define GM7150_CC_DATA_END         0x93
 
- /* WSS data registers */
+/* WSS data registers */
 #define GM7150_WSS_DATA_INI        0x94
 #define GM7150_WSS_DATA_END        0x99
 
@@ -177,7 +177,7 @@ typedef UINT32 tvp_std_id;
 #define GM7150_TELETEXT_FIL2_END  0xba
 
 #define GM7150_TELETEXT_FIL_ENA    0xbb /* Teletext filter enable */
-/* Reserved	BCh-BFh */
+/* Reserved BCh-BFh */
 #define GM7150_INT_STATUS_REG_A    0xc0 /* Interrupt status register A */
 #define GM7150_INT_ENABLE_REG_A    0xc1 /* Interrupt enable register A */
 #define GM7150_INT_CONF            0xc2 /* Interrupt configuration */
@@ -192,7 +192,7 @@ typedef UINT32 tvp_std_id;
 #define GM7150_PIX_ALIGN_REG_LOW   0xcb /* Pixel alignment register low byte */
 #define GM7150_PIX_ALIGN_REG_HIGH  0xcc /* Pixel alignment register high byte */
 #define GM7150_FIFO_OUT_CTRL       0xcd /* FIFO output control */
-/* Reserved	CEh */
+/* Reserved CEh */
 #define GM7150_FULL_FIELD_ENA      0xcf /* Full field enable 1 */
 
 /* Line mode registers */
@@ -200,7 +200,7 @@ typedef UINT32 tvp_std_id;
 #define GM7150_LINE_MODE_END       0xfb
 
 #define GM7150_FULL_FIELD_MODE_REG 0xfc /* Full field mode register */
-/* Reserved	FDh-FFh */
+/* Reserved FDh-FFh */
 
-#endif	//_SENSOR_GM7150AM_H
+#endif  //_SENSOR_GM7150AM_H
 

@@ -1,6 +1,6 @@
 ;/**************************************************************************//**
 ; * @file     wb_dcache.s
-; * @brief    The dcache related functions of Nuvoton ARM9 MCU
+; * @brief    N3292x series dcache code
 ; *
 ; * SPDX-License-Identifier: Apache-2.0
 ; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
@@ -18,3 +18,4 @@ tci_loop
  	BX  r14
 		
 	END
+	

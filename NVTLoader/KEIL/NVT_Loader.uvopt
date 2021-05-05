@@ -220,8 +220,8 @@
       </OPTFL>
       <CpuCode>12</CpuCode>
       <DebugOpt>
-        <uSim>1</uSim>
-        <uTrg>0</uTrg>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
         <sLdApp>1</sLdApp>
         <sGomain>1</sGomain>
         <sRbreak>1</sRbreak>
@@ -230,7 +230,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -244,7 +244,7 @@
         <bEvRecOn>1</bEvRecOn>
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
-        <nTsel>-1</nTsel>
+        <nTsel>18</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -254,9 +254,41 @@
         <tDllPa></tDllPa>
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
-        <tIfile></tIfile>
-        <pMon></pMon>
+        <tIfile>..\..\N32926\N32926_NVTloader.ini</tIfile>
+        <pMon>Segger\JLTAgdi.dll</pMon>
       </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(5014=-1,-1,-1,-1,0)(5013=-1,-1,-1,-1,0)(5001=-1,-1,-1,-1,0)(7000=-1,-1,-1,-1,0)(7001=-1,-1,-1,-1,0)(7002=-1,-1,-1,-1,0)(5019=-1,-1,-1,-1,0)(9005=-1,-1,-1,-1,0)(9006=-1,-1,-1,-1,0)(9007=-1,-1,-1,-1,0)(9008=-1,-1,-1,-1,0)(9009=-1,-1,-1,-1,0)(9010=-1,-1,-1,-1,0)(9011=-1,-1,-1,-1,0)(2014=-1,-1,-1,-1,0)(2015=-1,-1,-1,-1,0)(5021=-1,-1,-1,-1,0)(5029=-1,-1,-1,-1,0)(2012=-1,-1,-1,-1,0)(5033=-1,-1,-1,-1,0)(2009=-1,-1,-1,-1,0)(5006=-1,-1,-1,-1,0)(2003=-1,-1,-1,-1,0)(2002=-1,-1,-1,-1,0)(125=-1,-1,-1,-1,0)(126=-1,-1,-1,-1,0)(5011=-1,-1,-1,-1,0)(5012=-1,-1,-1,-1,0)(2007=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>JLTAgdi</Key>
+          <Name>-O1070 -J1 -Y1000 -Z1 -FO7 -FDF8002000 -FC800 -FN0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>JLTDLG</Key>
+          <Name></Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(5014=-1,-1,-1,-1,0)(5013=-1,-1,-1,-1,0)(5001=-1,-1,-1,-1,0)(7000=-1,-1,-1,-1,0)(7001=-1,-1,-1,-1,0)(7002=-1,-1,-1,-1,0)(5019=-1,-1,-1,-1,0)(9005=-1,-1,-1,-1,0)(9006=-1,-1,-1,-1,0)(9007=-1,-1,-1,-1,0)(9008=-1,-1,-1,-1,0)(9009=-1,-1,-1,-1,0)(9010=-1,-1,-1,-1,0)(9011=-1,-1,-1,-1,0)(5015=-1,-1,-1,-1,0)(5016=-1,-1,-1,-1,0)(5021=-1,-1,-1,-1,0)(5029=-1,-1,-1,-1,0)(5017=-1,-1,-1,-1,0)(5033=-1,-1,-1,-1,0)(5031=-1,-1,-1,-1,0)(5006=-1,-1,-1,-1,0)(5008=-1,-1,-1,-1,0)(5007=-1,-1,-1,-1,0)(125=-1,-1,-1,-1,0)(126=-1,-1,-1,-1,0)(5011=-1,-1,-1,-1,0)(5012=-1,-1,-1,-1,0)(5009=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T5F</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>PWSTATINFO</Key>
+          <Name>200,50,700</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
       <Breakpoint/>
       <Tracepoint>
         <THDelay>0</THDelay>
@@ -264,12 +296,12 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
         <aPa>0</aPa>
-        <viewmode>0</viewmode>
+        <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
         <aTbox>0</aTbox>

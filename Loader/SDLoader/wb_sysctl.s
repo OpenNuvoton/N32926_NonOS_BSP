@@ -1,6 +1,6 @@
 ;/**************************************************************************//**
 ; * @file     wb_sysctl.s
-; * @brief    N3292x series system setup code
+; * @brief    N3292x series SYS code
 ; *
 ; * SPDX-License-Identifier: Apache-2.0
 ; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
@@ -27,3 +27,4 @@ sysSetupCP15
 
 		
 	END
+	

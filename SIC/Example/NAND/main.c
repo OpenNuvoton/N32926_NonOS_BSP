@@ -54,14 +54,14 @@ NDISK_T MassNDisk;
  *---------------------------------------------------------------------------*/
 void show_hex_data(unsigned char *ptr, unsigned int length)
 {
-    unsigned int line_len = 8;
+    unsigned int line_len = 16;
     unsigned int i;
 
     for (i=0; i<length; i++)
     {
         if (i % line_len == 0)
-            DBG_PRINTF("        ");
-        DBG_PRINTF("0x%02x ", *(ptr+i));
+            DBG_PRINTF("        0x");
+        DBG_PRINTF("%02x ", *(ptr+i));
         if (i % line_len == line_len-1)
             DBG_PRINTF("\n");
     }
@@ -180,17 +180,54 @@ int main(void)
     int result, i, pass, fail;
     int target_port = 0;
 
-    init_UART();
-    init_timer();
-
-    sysprintf("\n=====> W55FA92 Non-OS SIC/NAND Driver Sample Code [tick %d] <=====\n", sysGetTicks(0));
-
 #ifdef CACHE_ON
     //--- enable cache feature
     sysDisableCache();
     sysFlushCache(I_D_CACHE);
     sysEnableCache(CACHE_WRITE_BACK);
 #endif
+
+    init_UART();
+
+    /**********************************************************************************************
+     * Clock Constraints:
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from
+     *     same clock source
+     *********************************************************************************************/
+#if 0
+    /**********************************************************************************************
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     *
+     * Following example shows the Memory Clock = System Clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else
+    /**********************************************************************************************
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     *
+     * Following example shows to speed up clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
+
+    init_timer();
+
+    sysprintf("\n=====> W55FA92 Non-OS SIC/NAND Driver Sample Code [tick %d] <=====\n", sysGetTicks(0));
 
     //srand(time(NULL));
 
@@ -215,7 +252,7 @@ int main(void)
         i = 0;
         pass = 0;
         fail = 0;
-        while(1)
+
         {
             i++;
             DBG_PRINTF("=== Loop %d ...\n", i);

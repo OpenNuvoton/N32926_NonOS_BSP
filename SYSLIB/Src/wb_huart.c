@@ -32,9 +32,9 @@ extern PFN_SYS_UART_CALLBACK (pfnUartIntHandlerTable)[2][2];    /* defined on wb
 UINT32 _sys_uHUARTClockRate = EXTERNAL_CRYSTAL_CLOCK;
 PVOID  _sys_pvOldHuartVect;
 
-#define sysHuartTxBufReadNextOne()	(((_sys_uHuartTxHead+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxHead+1)
-#define sysHuartTxBufWriteNextOne()	(((_sys_uHuartTxTail+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxTail+1)
-#define HUART_BUFFSIZE	256
+#define sysHuartTxBufReadNextOne()  (((_sys_uHuartTxHead+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxHead+1)
+#define sysHuartTxBufWriteNextOne() (((_sys_uHuartTxTail+1)==HUART_BUFFSIZE)? (UINT32)NULL: _sys_uHuartTxTail+1)
+#define HUART_BUFFSIZE  256
 UINT8 _sys_ucHuartTxBuf[HUART_BUFFSIZE];
 UINT32 volatile _sys_uHuartTxHead, _sys_uHuartTxTail;
 
@@ -68,7 +68,8 @@ VOID sysHuartISR()
     regIER = inpb(REG_UART_IER + 0);
     u32EnableInt = regIER & regIIR;
     if (u32EnableInt & THRE_IF)
-    {   /* buffer empty */
+    {
+        /* buffer empty */
         if (_sys_uHuartTxHead == _sys_uHuartTxTail)
         {
             /* Disable interrupt if no any request! */
@@ -79,11 +80,11 @@ VOID sysHuartISR()
             /* Transmit data */
             for (i=0; i<8; i++)
             {
-                #ifdef __HW_SIM__
+#ifdef __HW_SIM__
 
-                #else
-                    outpb(REG_UART_THR+0, _sys_ucHuartTxBuf[_sys_uHuartTxHead]);
-                #endif
+#else
+                outpb(REG_UART_THR+0, _sys_ucHuartTxBuf[_sys_uHuartTxHead]);
+#endif
                 _sys_uHuartTxHead = sysHuartTxBufReadNextOne();
                 if (_sys_uHuartTxHead == _sys_uHuartTxTail) /* buffer empty */
                     break;
@@ -163,17 +164,17 @@ INT32 sysInitializeHUART(WB_UART_T *uart)
     static BOOL bIsResetFIFO = FALSE;
 
     /* Enable HUART multi-function pins*/
-	outp32(REG_CLKDIV3, (inp32(REG_CLKDIV3) & (~(UART0_N1| UART0_S| UART0_N0))));
-	outp32(REG_GPDFUN0, (inp32(REG_GPDFUN0) & ~(MF_GPD1|MF_GPD2)) | 0x110);	
-	outp32(REG_APBCLK, inp32(REG_APBCLK) | UART0_CKE);
+    outp32(REG_CLKDIV3, (inp32(REG_CLKDIV3) & (~(UART0_N1| UART0_S| UART0_N0))));
+    outp32(REG_GPDFUN0, (inp32(REG_GPDFUN0) & ~(MF_GPD1|MF_GPD2)) | 0x110);
+    outp32(REG_APBCLK, inp32(REG_APBCLK) | UART0_CKE);
 
     /* Check the supplied parity */
     if ((uart->uiParity != WB_PARITY_NONE) &&
-        (uart->uiParity != WB_PARITY_EVEN) &&
-        (uart->uiParity != WB_PARITY_ODD))
+            (uart->uiParity != WB_PARITY_EVEN) &&
+            (uart->uiParity != WB_PARITY_ODD))
 
-            /* The supplied parity is not valid */
-            return (INT32)WB_INVALID_PARITY;
+        /* The supplied parity is not valid */
+        return (INT32)WB_INVALID_PARITY;
 
     /* Check the supplied number of data bits */
     else if ((uart->uiDataBits != WB_DATA_BITS_5) &&
@@ -181,20 +182,20 @@ INT32 sysInitializeHUART(WB_UART_T *uart)
              (uart->uiDataBits != WB_DATA_BITS_7) &&
              (uart->uiDataBits != WB_DATA_BITS_8))
 
-            /* The supplied data bits value is not valid */
-            return (INT32)WB_INVALID_DATA_BITS;
+        /* The supplied data bits value is not valid */
+        return (INT32)WB_INVALID_DATA_BITS;
 
     /* Check the supplied number of stop bits */
     else if ((uart->uiStopBits != WB_STOP_BITS_1) &&
              (uart->uiStopBits != WB_STOP_BITS_2))
 
-            /* The supplied stop bits value is not valid */
-            return (INT32)WB_INVALID_STOP_BITS;
+        /* The supplied stop bits value is not valid */
+        return (INT32)WB_INVALID_STOP_BITS;
 
     /* Verify the baud rate is within acceptable range */
     else if (uart->uiBaudrate < 1200)
-            /* The baud rate is out of range */
-            return (INT32)WB_INVALID_BAUD;
+        /* The baud rate is out of range */
+        return (INT32)WB_INVALID_BAUD;
 
     /* Reset the TX/RX FIFOs */
     if(bIsResetFIFO==FALSE)
@@ -262,5 +263,6 @@ void sysHuartTransfer(char* pu8buf, UINT32 u32Len)
             outpb(REG_UART_THR+0, *pu8buf++);
             u32Len = u32Len - 1;
         }
-    } while(u32Len != 0) ;
+    }
+    while(u32Len != 0) ;
 }

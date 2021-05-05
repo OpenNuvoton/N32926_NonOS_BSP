@@ -13,7 +13,7 @@ extern UINT g_Font_Height, g_Font_Width, g_Font_Step;
 #define COLOR_RGB16_RED     0xF800
 #define COLOR_RGB16_WHITE   0xFFFF
 #define COLOR_RGB16_GREEN   0x07E0
-#define	COLOR_RGB16_BLUE    0x001F
+#define COLOR_RGB16_BLUE    0x001F
 #define COLOR_RGB16_BLACK   0x0000
 
 

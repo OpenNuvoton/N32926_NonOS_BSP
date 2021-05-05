@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
- 
+
 /****************************************************************************
- * 
+ *
  * FILENAME
  *     wbtypes.h
  *
@@ -25,7 +25,7 @@
  *     None
  *
  * HISTORY
- *     03/11/02		 Ver 1.0 Created by PC30 YCHuang
+ *     03/11/02      Ver 1.0 Created by PC30 YCHuang
  *
  * REMARK
  *     None
@@ -47,10 +47,10 @@
 #ifndef TRUE
 #define TRUE              (1)
 #endif
-#if defined(__GNUC__) || (defined(__CC_ARM) && !defined(__UVISION_VERSION)) 
+#if defined(__GNUC__) || (defined(__CC_ARM) && !defined(__UVISION_VERSION))
 typedef void            VOID;
 #elif defined(__UVISION_VERSION)
-#define VOID		  void
+#define VOID          void
 #endif
 typedef void *            PVOID;
 
@@ -108,6 +108,6 @@ typedef unsigned char     REG8;
 typedef unsigned short    REG16;
 typedef unsigned int      REG32;
 
-#define ERRCODE		  INT32  
+#define ERRCODE       INT32
 #endif /* _WBTYPES_H */
 

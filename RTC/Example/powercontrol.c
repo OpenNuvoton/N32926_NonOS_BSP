@@ -108,6 +108,9 @@ void Smpl_RTC_Powerdown_Wakeup(void)
 			{
 				sCurTime.u32cHour = 0;
 				sCurTime.u32cDay++;
+				sCurTime.u32cDayOfWeek++;
+				if(sCurTime.u32cDayOfWeek>RTC_SATURDAY)
+					sCurTime.u32cDayOfWeek = RTC_SUNDAY;
 			}			
 		}				
 	}			

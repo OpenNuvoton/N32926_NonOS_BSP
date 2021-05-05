@@ -27,12 +27,19 @@ extern VOID spuSetDacSlaveMode(void);
 
 MV_CFG_T	_tMvCfg;
 int iii = 0;
+int setvolume=1;
 
 void  mp3_play_callback(MV_CFG_T *ptMvCfg)
 {
 	MV_INFO_T 	*ptMvInfo;
 	static INT	last_time = 0;
 
+	if (setvolume ==1)
+	{
+		aviSetPlayVolume	(100);
+		setvolume=0;
+	}
+	
 	mflGetMovieInfo(ptMvCfg, &ptMvInfo);
 
 	if ((sysGetTicks(TIMER0) - last_time > 100) &&
@@ -61,15 +68,44 @@ int main()
 
 	
 	/* CACHE_ON	*/
+		sysInvalidCache(); 	
 	sysEnableCache(CACHE_WRITE_BACK);
 
-	/*-----------------------------------------------------------------------*/
-	/*  CPU/HCLK/APB:  192/96/48                                             */
-	/*-----------------------------------------------------------------------*/
-  sysSetDramClock(eSYS_MPLL, 288000000, 288000000);
-	sysSetSystemClock(eSYS_UPLL, 		//E_SYS_SRC_CLK eSrcClk,
-					192000000,		//UINT32 u32PllHz,
-					192000000);		//UINT32 u32SysHz,
+    /********************************************************************************************** 
+     * Clock Constraints: 
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock   
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from 
+     *     same clock source	 
+     *********************************************************************************************/
+#if 0 
+    /********************************************************************************************** 
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below  
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     * 
+     * Following example shows the Memory Clock = System Clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement. 
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else 
+    /********************************************************************************************** 
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below  
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     * 
+     * Following example shows to speed up clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
 
 	u32ExtFreq = sysGetExternalClock();
 

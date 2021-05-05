@@ -13,7 +13,7 @@
 #include "task.h"
 
 
-#define DEF_WORKER_NUMBER	4
+#define DEF_WORKER_NUMBER   4
 //#define STORAGE_SD
 
 //#ifdef __GNUC__
@@ -23,75 +23,76 @@
 #ifdef STORAGE_SD
 
 #define ENABLE_SD_ONE_PART
-#define ENABLE_SD_0             
+#define ENABLE_SD_0
 //#define ENABLE_SD_1
 //#define ENABLE_SD_2
 //#define ENABLE_SDIO_1
 
-#define DEF_DISK_VOLUME_STR_SIZE	20
+#define DEF_DISK_VOLUME_STR_SIZE    20
 static char s_szDiskVolume[DEF_DISK_VOLUME_STR_SIZE] = {0x00};
 
 UINT32 StorageForSD(void)
 {
-	uint32_t u32ExtFreq;
-	uint32_t u32PllOutHz;
-	uint32_t u32BlockSize, u32FreeSize, u32DiskSize;
+    uint32_t u32ExtFreq;
+    uint32_t u32PllOutHz;
+    uint32_t u32BlockSize, u32FreeSize, u32DiskSize;
 
-	u32ExtFreq = sysGetExternalClock();
-	u32PllOutHz = sysGetPLLOutputHz(eSYS_UPLL, u32ExtFreq);
-	memset(s_szDiskVolume, 0x00, DEF_DISK_VOLUME_STR_SIZE);
-	
+    u32ExtFreq = sysGetExternalClock();
+    u32PllOutHz = sysGetPLLOutputHz(eSYS_UPLL, u32ExtFreq);
+    memset(s_szDiskVolume, 0x00, DEF_DISK_VOLUME_STR_SIZE);
+
 #if defined(ENABLE_SD_ONE_PART)
-	sicIoctl(SIC_SET_CLOCK, u32PllOutHz/1000, 0, 0);	
+    sicIoctl(SIC_SET_CLOCK, u32PllOutHz/1000, 0, 0);
 #if defined(ENABLE_SDIO_1)
-	sdioOpen();	
-	if (sdioSdOpen1()<=0)			//cause crash on Doorbell board SDIO slot. conflict with sensor pin
-	{
-		printf("Error in initializing SD card !! \n");						
-		s_bFileSystemInitDone = TRUE;
-		return -1;
-	}	
+    sdioOpen();
+    if (sdioSdOpen1()<=0)           //cause crash on Doorbell board SDIO slot. conflict with sensor pin
+    {
+        printf("Error in initializing SD card !! \n");
+        s_bFileSystemInitDone = TRUE;
+        return -1;
+    }
 #elif defined(ENABLE_SD_1)
-	sicOpen();
-	if (sicSdOpen1()<=0)
-	{
-		printf("Error in initializing SD card !! \n");						
-		s_bFileSystemInitDone = TRUE;
-		return -1;
-	}
+    sicOpen();
+    if (sicSdOpen1()<=0)
+    {
+        printf("Error in initializing SD card !! \n");
+        s_bFileSystemInitDone = TRUE;
+        return -1;
+    }
 #elif defined(ENABLE_SD_2)
-	sicOpen();
-	if (sicSdOpen2()<=0)
-	{
-		printf("Error in initializing SD card !! \n");						
-		s_bFileSystemInitDone = TRUE;
-		return -1;
-	}
+    sicOpen();
+    if (sicSdOpen2()<=0)
+    {
+        printf("Error in initializing SD card !! \n");
+        s_bFileSystemInitDone = TRUE;
+        return -1;
+    }
 #elif defined(ENABLE_SD_0)
-	sicOpen();
-	if (sicSdOpen0()<=0)
-	{
-		printf("Error in initializing SD card !! \n");						
-		return -1;
-	}
+    sicOpen();
+    if (sicSdOpen0()<=0)
+    {
+        printf("Error in initializing SD card !! \n");
+        return -1;
+    }
 #endif
-#endif			
+#endif
 
-	sprintf(s_szDiskVolume, "C");
+    sprintf(s_szDiskVolume, "C");
 
 #if defined(ENABLE_SD_ONE_PART)
-	fsAssignDriveNumber(s_szDiskVolume[0], DISK_TYPE_SD_MMC, 0, 1);
+    fsAssignDriveNumber(s_szDiskVolume[0], DISK_TYPE_SD_MMC, 0, 1);
 #endif
 
-	if(fsDiskFreeSpace(s_szDiskVolume[0], &u32BlockSize, &u32FreeSize, &u32DiskSize) != FS_OK){
-		return -2;
-	}
+    if(fsDiskFreeSpace(s_szDiskVolume[0], &u32BlockSize, &u32FreeSize, &u32DiskSize) != FS_OK)
+    {
+        return -2;
+    }
 
-	printf("SD card block_size = %d\n", u32BlockSize);   
-	printf("SD card free_size = %dkB\n", u32FreeSize);   
-	printf("SD card disk_size = %dkB\n", u32DiskSize);   
+    printf("SD card block_size = %d\n", u32BlockSize);
+    printf("SD card free_size = %dkB\n", u32FreeSize);
+    printf("SD card disk_size = %dkB\n", u32DiskSize);
 
-	return 0;
+    return 0;
 }
 #else
 #define NAND_2      1   // comment to use 1 disk for NAND, uncomment to use 2 disk
@@ -170,117 +171,118 @@ halt:
 
 static void worker_nvtfat ( void *pvArgs )
 {
-	int id = *((int*)pvArgs);
-	int hFile = 0;
-	int32_t i32Ret;
-	int32_t num = 0;
-	int i32Counter=0;
-	int j;
-	FILE_STAT_T sFileState;
-	char szFileName[64];
-	char szUnicodeFileName[128];
-	char testBuf[DEF_BUF_SIZE];
-		
-	while(1)
-	{
-		int wsize = (rand()%DEF_BUF_SIZE)+1;
+    int id = *((int*)pvArgs);
+    int hFile = 0;
+    int32_t i32Ret;
+    int32_t num = 0;
+    int i32Counter=0;
+    int j;
+    FILE_STAT_T sFileState;
+    char szFileName[64];
+    char szUnicodeFileName[128];
+    char testBuf[DEF_BUF_SIZE];
 
-		// Open
-		sprintf(szFileName, "C:\\%d_%d.txt", id, i32Counter);
-		fsAsciiToUnicode(szFileName, szUnicodeFileName, TRUE);
+    while(1)
+    {
+        int wsize = (rand()%DEF_BUF_SIZE)+1;
 
-		hFile = fsOpenFile(szUnicodeFileName, NULL, O_RDWR | O_CREATE);
-		if (hFile < 0)
-		{
-			printf("Fail to open - %d.\n", id);
-			goto exit_worker_nvtfat;
-		}
-		printf("opened %s.\n", szFileName);
+        // Open
+        sprintf(szFileName, "C:\\%d_%d.txt", id, i32Counter);
+        fsAsciiToUnicode(szFileName, szUnicodeFileName, TRUE);
 
-		memset( testBuf, id, wsize );
-		
-		// Write
-		num = 0;
-		i32Ret = fsWriteFile(hFile, (UINT8 *)testBuf, wsize, (INT *)&num);
-		if (i32Ret < 0 || (num != wsize) )
-		{
-			printf("Fail to write - %s %x.\n", szFileName, i32Ret);
-			goto exit_worker_nvtfat;
-		}
-		printf("wrote %d to %s.\n", wsize, szFileName);
+        hFile = fsOpenFile(szUnicodeFileName, NULL, O_RDWR | O_CREATE);
+        if (hFile < 0)
+        {
+            printf("Fail to open - %d.\n", id);
+            goto exit_worker_nvtfat;
+        }
+        printf("opened %s.\n", szFileName);
 
-		// Close
-		i32Ret = fsCloseFile(hFile);
-		printf("closed %s. %x\n", szFileName, i32Ret);
-	
-		memset((void*)&sFileState, 0, sizeof(FILE_STAT_T) );
-		
-		// Stat
-		if( ((i32Ret =fsGetFileStatus(-1, szUnicodeFileName, NULL, &sFileState)) < 0) ){
-			printf("Fail to stat - %s %x\n", szFileName, i32Ret);
-			goto exit_worker_nvtfat;
-		}
+        memset( testBuf, id, wsize );
 
-		if ( sFileState.n64FileSize != wsize )
-		{
-			printf("wrong stat.size - %s %x\n", szFileName, i32Ret);
-			goto exit_worker_nvtfat;
-		}
+        // Write
+        num = 0;
+        i32Ret = fsWriteFile(hFile, (UINT8 *)testBuf, wsize, (INT *)&num);
+        if (i32Ret < 0 || (num != wsize) )
+        {
+            printf("Fail to write - %s %x.\n", szFileName, i32Ret);
+            goto exit_worker_nvtfat;
+        }
+        printf("wrote %d to %s.\n", wsize, szFileName);
+
+        // Close
+        i32Ret = fsCloseFile(hFile);
+        printf("closed %s. %x\n", szFileName, i32Ret);
+
+        memset((void*)&sFileState, 0, sizeof(FILE_STAT_T) );
+
+        // Stat
+        if( ((i32Ret =fsGetFileStatus(-1, szUnicodeFileName, NULL, &sFileState)) < 0) )
+        {
+            printf("Fail to stat - %s %x\n", szFileName, i32Ret);
+            goto exit_worker_nvtfat;
+        }
+
+        if ( sFileState.n64FileSize != wsize )
+        {
+            printf("wrong stat.size - %s %x\n", szFileName, i32Ret);
+            goto exit_worker_nvtfat;
+        }
 //#ifdef __GNUC__
-		printf("Size: %d%d bytes\n", (int)(sFileState.n64FileSize>>32), (int)sFileState.n64FileSize);
-		printf("file name = %s\n",szFileName);
+        printf("Size: %d%d bytes\n", (int)(sFileState.n64FileSize>>32), (int)sFileState.n64FileSize);
+        printf("file name = %s\n",szFileName);
 //#else
-//		printf("Size: %" PRIu64 " bytes, %s\n", sFileState.n64FileSize, szFileName);
+//      printf("Size: %" PRIu64 " bytes, %s\n", sFileState.n64FileSize, szFileName);
 //#endif
-		// Open
-		hFile = fsOpenFile(szUnicodeFileName, NULL, O_RDWR);
-		if (hFile < 0)
-		{
-			printf("Fail to open - %d.\n", id);
-			goto exit_worker_nvtfat;
-		}
-		printf("opened %s.\n", szFileName);
-		
-		memset( testBuf, 0, wsize );
-		
-		// Read
-		num = 0;
-		i32Ret = fsReadFile(hFile, (void*)&testBuf[0], wsize, &num);
-		if (i32Ret < 0 || (num != wsize))
-		{
-			printf("Fail to read - %s. %x\n", szFileName, i32Ret);
-			goto exit_worker_nvtfat;
-		}
-		printf("readed %d from %s.\n", wsize, szFileName);
+        // Open
+        hFile = fsOpenFile(szUnicodeFileName, NULL, O_RDWR);
+        if (hFile < 0)
+        {
+            printf("Fail to open - %d.\n", id);
+            goto exit_worker_nvtfat;
+        }
+        printf("opened %s.\n", szFileName);
 
-		// Verify
-		for ( j=0; j<wsize; j++ )
-			if ( (int)testBuf[j] != (id&0xff) )
-			{
-				printf("verify fail -> %d %d\n", id, testBuf[j]);
-				goto exit_worker_nvtfat;
-			}
-		printf("Verified %s.\n", szFileName);
+        memset( testBuf, 0, wsize );
 
-		// Close
-		i32Ret = fsCloseFile(hFile);
-		printf("closed %s %x.\n", szFileName, i32Ret);
+        // Read
+        num = 0;
+        i32Ret = fsReadFile(hFile, (void*)&testBuf[0], wsize, &num);
+        if (i32Ret < 0 || (num != wsize))
+        {
+            printf("Fail to read - %s. %x\n", szFileName, i32Ret);
+            goto exit_worker_nvtfat;
+        }
+        printf("readed %d from %s.\n", wsize, szFileName);
 
-		i32Counter++;
-			
-		// Delete
-		i32Ret = fsDeleteFile(szUnicodeFileName, NULL);
-		printf("Deleted %s. %x\n", szFileName, i32Ret);
-	}
+        // Verify
+        for ( j=0; j<wsize; j++ )
+            if ( (int)testBuf[j] != (id&0xff) )
+            {
+                printf("verify fail -> %d %d\n", id, testBuf[j]);
+                goto exit_worker_nvtfat;
+            }
+        printf("Verified %s.\n", szFileName);
+
+        // Close
+        i32Ret = fsCloseFile(hFile);
+        printf("closed %s %x.\n", szFileName, i32Ret);
+
+        i32Counter++;
+
+        // Delete
+        i32Ret = fsDeleteFile(szUnicodeFileName, NULL);
+        printf("Deleted %s. %x\n", szFileName, i32Ret);
+    }
 
 exit_worker_nvtfat:
 
-	if (hFile)
-		i32Ret = fsCloseFile(hFile);
+    if (hFile)
+        i32Ret = fsCloseFile(hFile);
 
-	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Worker %d die. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", id );
-	
-	vTaskDelete(NULL);
+    printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Worker %d die. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", id );
+
+    vTaskDelete(NULL);
 }
 
 static void prvSetupHardware(void)
@@ -300,15 +302,51 @@ static void prvSetupHardware(void)
     sysInitializeUART(&uart);
 
     sysEnableCache(CACHE_WRITE_BACK);
+    /**********************************************************************************************
+     * Clock Constraints:
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from
+     *     same clock source
+     *********************************************************************************************/
+#if 0
+    /**********************************************************************************************
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     *
+     * Following example shows the Memory Clock = System Clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else
+    /**********************************************************************************************
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     *
+     * Following example shows to speed up clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllHz,
+                      240000000);           //UINT32 u32SysHz,
+    sysSetCPUClock(240000000/2);
+#endif
+
 
     printf("fsInitFileSystem.\n");
-	fsInitFileSystem();
-	
+    fsInitFileSystem();
+
 #ifdef STORAGE_SD
-	printf("\nstart the SD NVTFAT FreeRTOS demo\n");
-	StorageForSD();
+    printf("\nstart the SD NVTFAT FreeRTOS demo\n");
+    StorageForSD();
 #else
-	printf("\nstart the NAND¡@NVTFAT FreeRTOS demo\n");
+    printf("\nstart the NAND¡@NVTFAT FreeRTOS demo\n");
     StorageForNAND();
 #endif
 
@@ -316,71 +354,73 @@ static void prvSetupHardware(void)
 
 int main(void)
 {
-	int i=0;
+    int i=0;
 
-	char szBuf[configMAX_TASK_NAME_LEN];
-	TaskHandle_t  pxID_worker_nvtfat[DEF_WORKER_NUMBER];
+    char szBuf[configMAX_TASK_NAME_LEN];
+    TaskHandle_t  pxID_worker_nvtfat[DEF_WORKER_NUMBER];
 
-	int i32Argv[DEF_WORKER_NUMBER];
-		
-	prvSetupHardware();
+    int i32Argv[DEF_WORKER_NUMBER];
 
-	for (i=0; i<DEF_WORKER_NUMBER; i++)
-	{
-		//pthread_create( &pxID_worker_nvtfat[i], &nvtfat_attr[i], worker_nvtfat, (void*)&i32Argv[i] );
-	    /* Create the task, storing the handle. */
-		i32Argv[i]=i+1;
-		snprintf(szBuf, sizeof(szBuf), "worker-%d", i32Argv[i]);
+    prvSetupHardware();
+
+    for (i=0; i<DEF_WORKER_NUMBER; i++)
+    {
+        //pthread_create( &pxID_worker_nvtfat[i], &nvtfat_attr[i], worker_nvtfat, (void*)&i32Argv[i] );
+        /* Create the task, storing the handle. */
+        i32Argv[i]=i+1;
+        snprintf(szBuf, sizeof(szBuf), "worker-%d", i32Argv[i]);
         xTaskCreate( worker_nvtfat,        /* Function that implements the task. */
-                 szBuf,     					 /* Text name for the task. */
-                 8*1024,     					 /* Stack size in words, not bytes. */
-                 (void*)&i32Argv[i],   /* Parameter passed into the task. */
-                 configMAX_PRIORITIES-1,	/* Priority at which the task is created. */
-				 //1,
-                 &pxID_worker_nvtfat[i] );      		/* Used to pass out the created task's handle. */
-	}
-	
-	vTaskStartScheduler();
-	for(;;);
-	
-	fsCloseFileSystem();
+                     szBuf,                          /* Text name for the task. */
+                     8*1024,                         /* Stack size in words, not bytes. */
+                     (void*)&i32Argv[i],   /* Parameter passed into the task. */
+                     configMAX_PRIORITIES-1,    /* Priority at which the task is created. */
+                     //1,
+                     &pxID_worker_nvtfat[i] );              /* Used to pass out the created task's handle. */
+    }
+
+    vTaskStartScheduler();
+    for(;;);
+
+    fsCloseFileSystem();
 
 #ifndef STORAGE_SD
-	GNAND_UnMountNandDisk(&ptNDisk);
-	sicClose();
+    GNAND_UnMountNandDisk(&ptNDisk);
+    sicClose();
 #endif
-	
-	return 0;
+
+    return 0;
 }
 
 /*-----------------------------------------------------------*/
 
 void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 {
-	( void ) pcTaskName;
-	( void ) pxTask;
+    ( void ) pcTaskName;
+    ( void ) pxTask;
 
-	/* Run time stack overflow checking is performed if
-	configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
-	function is called if a stack overflow is detected. */
-	printf("%s\n", __func__);
+    /* Run time stack overflow checking is performed if
+    configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
+    function is called if a stack overflow is detected. */
+    printf("%s\n", __func__);
 
-	taskDISABLE_INTERRUPTS();
-	for( ;; );
+    taskDISABLE_INTERRUPTS();
+    for( ;; );
 }
 
-void vApplicationMallocFailedHook( void ){
-	printf("%s\n", __func__);
+void vApplicationMallocFailedHook( void )
+{
+    printf("%s\n", __func__);
 }
 
 // We need this when configSUPPORT_STATIC_ALLOCATION is enabled
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,
-                                    uint32_t *pulIdleTaskStackSize ) {
+                                    uint32_t *pulIdleTaskStackSize )
+{
 
 // This is the static memory (TCB and stack) for the idle task
-static StaticTask_t xIdleTaskTCB; // __attribute__ ((section (".rtos_heap")));
-static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE]; // __attribute__ ((section (".rtos_heap"))) __attribute__((aligned (8)));
+    static StaticTask_t xIdleTaskTCB; // __attribute__ ((section (".rtos_heap")));
+    static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE]; // __attribute__ ((section (".rtos_heap"))) __attribute__((aligned (8)));
 
 
     *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;

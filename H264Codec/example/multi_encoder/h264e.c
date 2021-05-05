@@ -50,7 +50,9 @@ typedef struct ENCODE_INFO {
 	int CurrntQuant;			// must : Quant for first frame and can be changed by programmer
 	int BitRate;				// must 
 	int YUVRawBuffer;
+	int YUVRawBufferAligned32;    
 	int BitStreamBuf;
+	int BitStreamBufAligned32;    
 	H264RateControl *rate_control;
 } enode_info;
 
@@ -95,20 +97,23 @@ int h264_init(int instance)
 	    }
 
 		// Allocate YUV raw Data Buffer
-	    YUVRawDataBuf=(int)malloc(Enc_File[i].ImgWidth * Enc_File[i].ImgHeight *3/2);
+	    YUVRawDataBuf=(int)malloc(Enc_File[i].ImgWidth * Enc_File[i].ImgHeight *3/2+32);
 	    if(YUVRawDataBuf <= 0)
 	        return -1;
 	    printf("Raw data Buffer addr=0x%x\n",YUVRawDataBuf);  
 	    
 	    Enc_File[i].YUVRawBuffer =  YUVRawDataBuf;
+	    Enc_File[i].YUVRawBufferAligned32 =  (YUVRawDataBuf+31)/32*32;      // aligned 32   
 	     
 		// Allocate Bit Straem Buffer
-	    YUVRawDataBuf=(int)malloc(Enc_File[i].ImgWidth * Enc_File[i].ImgHeight *3/2);
+	    YUVRawDataBuf=(int)malloc(Enc_File[i].ImgWidth * Enc_File[i].ImgHeight *3/2+32);
 	    if(YUVRawDataBuf <= 0)
 	        return -1;
 	    printf("Bit Stream Buf addr=0x%x\n",YUVRawDataBuf);  
 	    
 	    Enc_File[i].BitStreamBuf =  YUVRawDataBuf;
+	    Enc_File[i].BitStreamBufAligned32 =  (YUVRawDataBuf+31)/32*32;      // aligned 32
+        printf("Aligned Bit Stream Buf addr=0x%x\n",Enc_File[i].BitStreamBufAligned32);         
 
 	    memset(&enc_param, 0, sizeof(FAVC_ENC_PARAM));
 
@@ -218,15 +223,15 @@ int favc_encode(int bRateControl)
 	        y_image_size = Enc_File[i].ImgWidth *  Enc_File[i].ImgHeight;
 	    	total_image_size =  y_image_size * 3 / 2;
 	    
-		    fsReadFile(Enc_File[i].YUVFileHandle, (UINT8 *)( Enc_File[i].YUVRawBuffer | CACHE_BIT31), total_image_size,&readbyte);   
+		    fsReadFile(Enc_File[i].YUVFileHandle, (UINT8 *)( Enc_File[i].YUVRawBufferAligned32 | CACHE_BIT31), total_image_size,&readbyte);   
 	    
 	    	if (readbyte == total_image_size)
 	    	{
-			    enc_param.pu8YFrameBaseAddr = (unsigned char *) Enc_File[i].YUVRawBuffer;   //input user continued virtual address (Y), Y=0 when NVOP
-    			enc_param.pu8UFrameBaseAddr = (unsigned char *)(Enc_File[i].YUVRawBuffer + y_image_size);   // (U)
-			    enc_param.pu8VFrameBaseAddr = (unsigned char *)(Enc_File[i].YUVRawBuffer + y_image_size +(y_image_size >> 2) );  // (V)			    
+			    enc_param.pu8YFrameBaseAddr = (unsigned char *) Enc_File[i].YUVRawBufferAligned32;   //input user continued virtual address (Y), Y=0 when NVOP
+    			enc_param.pu8UFrameBaseAddr = (unsigned char *)(Enc_File[i].YUVRawBufferAligned32 + y_image_size);   // (U)
+			    enc_param.pu8VFrameBaseAddr = (unsigned char *)(Enc_File[i].YUVRawBufferAligned32 + y_image_size +(y_image_size >> 2) );  // (V)			    
 
-			    enc_param.bitstream =  (void *)Enc_File[i].BitStreamBuf;   
+			    enc_param.bitstream =  (void *)(Enc_File[i].BitStreamBufAligned32|CACHE_BIT31);   
 			    enc_param.ssp_output = -1;
 			    enc_param.intra = -1;
 			    enc_param.u32IPInterval = 0; 
@@ -257,7 +262,7 @@ int favc_encode(int bRateControl)
 			        printf("Index =%d, Frame = %d, Quant= %d\n", i,j, Enc_File[i].CurrntQuant);
 			    }
 
-	            fsWriteFile(Enc_File[i].BSFileHandle, (UINT8 *)Enc_File[i].BitStreamBuf,  enc_param.bitstream_size, &writebyte);        
+	            fsWriteFile(Enc_File[i].BSFileHandle, (UINT8 *)(Enc_File[i].BitStreamBufAligned32|CACHE_BIT31),  enc_param.bitstream_size, &writebyte);        
 
 			}	// if (readbyte == total_image_size)	    
 	    }	// for(i=0;i<instance;i++)
@@ -329,6 +334,9 @@ int main(void)
 	int SD_clock; 	
 	WB_UART_T uart;	
 	
+  sysInvalidCache();    
+	sysEnableCache(CACHE_WRITE_BACK);	
+	
 	u32ExtFreq = sysGetExternalClock();
 		
 	uart.uart_no = WB_UART_1;
@@ -340,6 +348,42 @@ int main(void)
 	uart.uiRxTriggerLevel = LEVEL_1_BYTE; 
 
 	sysInitializeUART(&uart);
+    
+    /********************************************************************************************** 
+     * Clock Constraints: 
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock   
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from 
+     *     same clock source	 
+     *********************************************************************************************/
+#if 0 
+    /********************************************************************************************** 
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below  
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     * 
+     * Following example shows the Memory Clock = System Clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement. 
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else 
+    /********************************************************************************************** 
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below  
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     * 
+     * Following example shows to speed up clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif    
 	
 	sysSetTimerReferenceClock (TIMER0, u32ExtFreq);
 	sysStartTimer(TIMER0, 100, PERIODIC_MODE);	

@@ -1,11 +1,36 @@
 /**************************************************************************//**
  * @file     wb_config.c
- * @brief    PLL control functions of Nuvoton ARM9 MCU
+ * @version  V3.00
+ * @brief    N3292x series SYS driver source file
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 
+/****************************************************************************
+ *
+ * FILENAME : wb_config.c
+ *
+ * VERSION  : 1.1
+ *
+ * DESCRIPTION :
+ *               PLL control functions of Nuvoton ARM9 MCU
+ *
+ * HISTORY
+ *   2008-06-25  Ver 1.0 draft by Min-Nan Cheng
+ * Modification
+ *   2011-06-01  Ver 1.1 draft by Shih-Wen Chou
+ *
+ *      IBR set clocks default value
+ *          UPLL= 240MHz
+ *          SYS = 120MHz
+ *          CPU = 60MHz
+ *          HCLK = 60MHz
+ *
+ *
+ *
+ *
+ ****************************************************************************/
 #include <string.h>
 #include "wblib.h"
 #define REAL_CHIP
@@ -22,9 +47,9 @@ extern UINT8  _tmp_buf[];
 
 //#define W55FA92_A_VERSION
 #ifdef W55FA92_A_VERSION
-    #define REG_DLLMODE_R 0xb0003058
+#define REG_DLLMODE_R 0xb0003058
 #else
-    #define REG_DLLMODE_R   0xb0003058  /* Not fix in B version. still read in 3058 */
+#define REG_DLLMODE_R   0xb0003058  /* Not fix in B version. still read in 3058 */
 #endif
 
 
@@ -54,13 +79,13 @@ UINT32 u32ClkSkewInit = 0;
 UINT32 sysGetPLLOutputHz(
     E_SYS_SRC_CLK eSysPll,
     UINT32 u32FinHz
-    )
+)
 {
-    UINT32 u32PllCntlReg=0, u32Fout;
+    UINT32 u32PllCntlReg, u32Fout;
     UINT32 NF, NR, NO;
     UINT32 u32NOArray[] = { 1, 2, 4, 8};
 
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 //  if(eSysPll==eSYS_APLL)
 //      u32PllCntlReg = inp32(REG_APLLCON);
 //  else
@@ -76,13 +101,13 @@ UINT32 sysGetPLLOutputHz(
     NR = (u32PllCntlReg & 0x780)>>7;
     NO = u32NOArray[((u32PllCntlReg&0x1800)>>11)];
 
-    //DBG_PRINTF("NR, NF, NO = %d, %d, %d\n", NR, NF, NO);
     u32Fout = u32FinHz/NO/NR*NF;
-    #ifdef REAL_CHIP
+#ifdef REAL_CHIP
     return u32Fout;
-    #else
+#else
     return u32FinHz;
-    #endif
+#endif
+
 }
 /*-----------------------------------------------------------------------------------------------------------
  *
@@ -120,20 +145,24 @@ INT32 _sysGetPLLControlRegister(UINT32 u32FinKHz, UINT32 u32TargetHz)
     INT32 i32IdxNO;
     UINT32 u32NOArray[] = { 1, 2, 4, 8};
 #if 0
-    for(u32IdxM=MIN_FBDV_M;u32IdxM<MAX_FBDV_M;u32IdxM=u32IdxM+1)
-    {//u32IdxM=NR >=4. Fedback divider.
-        for(u32IdxN=MIN_INDV_N;u32IdxN<MAX_INDV_N;u32IdxN=u32IdxN+1)
-        {//u32IdxN=N >=2. (NR = u32IdxN). Input divider
-            for(i32IdxNO=0;i32IdxNO<4;i32IdxNO=i32IdxNO+1)
+    for(u32IdxM=MIN_FBDV_M; u32IdxM<MAX_FBDV_M; u32IdxM=u32IdxM+1)
+    {
+        //u32IdxM=NR >=4. Fedback divider.
+        for(u32IdxN=MIN_INDV_N; u32IdxN<MAX_INDV_N; u32IdxN=u32IdxN+1)
+        {
+            //u32IdxN=N >=2. (NR = u32IdxN). Input divider
+            for(i32IdxNO=0; i32IdxNO<4; i32IdxNO=i32IdxNO+1)
             {
 #else
     /* To get little jiter on PLL output, i32IdxNO has better =0x03 or 0x02 */
-    for(i32IdxNO=3;i32IdxNO>0;i32IdxNO=i32IdxNO-1)
+    for(i32IdxNO=3; i32IdxNO>0; i32IdxNO=i32IdxNO-1)
     {
-        for(u32IdxM=MIN_FBDV_M;u32IdxM<MAX_FBDV_M;u32IdxM=u32IdxM+1)
-        {//u32IdxM=NR >=4. Fedback divider.
-            for(u32IdxN=MIN_INDV_N;u32IdxN<MAX_INDV_N;u32IdxN=u32IdxN+1)
-            {//u32IdxN=N >=2. (NR = u32IdxN). Input divider
+        for(u32IdxM=MIN_FBDV_M; u32IdxM<MAX_FBDV_M; u32IdxM=u32IdxM+1)
+        {
+            //u32IdxM=NR >=4. Fedback divider.
+            for(u32IdxN=MIN_INDV_N; u32IdxN<MAX_INDV_N; u32IdxN=u32IdxN+1)
+    {
+                //u32IdxN=N >=2. (NR = u32IdxN). Input divider
 #endif
                 if(bIsCheckConstraint==TRUE)
                 {
@@ -182,7 +211,7 @@ void
 sysSetPLLControlRegister(
     E_SYS_SRC_CLK eSysPll,
     UINT32 u32PllValue
-    )
+)
 {
     if(eSysPll==eSYS_APLL)
         outp32(REG_APLLCON, u32PllValue);
@@ -253,7 +282,7 @@ void _sysClockSwitch(register E_SYS_SRC_CLK eSrcClk,
 		mov     reg2, #100
 		mov	    reg1, #0
 		mov	    reg0, #1
-loop1:	add     reg1, reg1, reg0
+        loop1:  add     reg1, reg1, reg0
 		cmp     reg1, reg2
         bne     loop1
     }
@@ -295,7 +324,7 @@ loop1:	add     reg1, reg1, reg0
 			mov     reg2, #1000
 			mov	    reg1, #0
 			mov	    reg0, #1
-loop1a:	add 		reg1, reg1, reg0
+            loop1a: add         reg1, reg1, reg0
 			cmp 	reg1, reg2
             bne     loop1a
         }
@@ -319,11 +348,12 @@ loop1a:	add 		reg1, reg1, reg0
 #else
     __asm
     {
-		;mov    reg2, #20000
+        ;
+        mov    reg2, #20000
 		mov     reg2, #200
 		mov	    reg1, #0
 		mov	    reg0, #1
-loop2:	add     reg1, reg1, reg0
+        loop2:  add     reg1, reg1, reg0
 		cmp     reg1, reg2
         bne     loop2
     }
@@ -352,7 +382,7 @@ loop2:	add     reg1, reg1, reg0
 		mov     reg2, #600
 		mov     reg1, #0
 		mov     reg0, #1
-loop3a:	add     reg1, reg1, reg0
+        loop3a: add     reg1, reg1, reg0
 		cmp     reg1, reg2
         bne     loop3a
     }
@@ -393,14 +423,17 @@ void _sysClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
             (VOID *)((UINT32)_sysClockSwitch | 0x80000000),
             PD_RAM_SIZE);                   //
 
-    if(sysGetCacheState()==TRUE){
+    if(sysGetCacheState()==TRUE)
+    {
         //DBG_PRINTF("Cache enable\n");
         bIsCacheState = TRUE;
         u32CacheMode = sysGetCacheMode();
         sysDisableCache();
         sysFlushCache(I_D_CACHE);
-    //}else{
-    //    DBG_PRINTF("Cache disable\n");
+    }
+    else
+    {
+        //DBG_PRINTF("Cache disable\n");
     }
 
     wb_func = (void(*)(E_SYS_SRC_CLK,
@@ -455,19 +488,21 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
     //UINT32 u32CpuFreq, u32Hclk1Frq, u32MclkClock, u32Hclk234;
     UINT32 u32SysDiv, u32DivN0, u32DivN1;
 
-    // 2014/4/30: NandLoader don't need it
+    // 2014/4/30: Loader don't need it
     //UINT32 u32DramSrc = (inp32(REG_CLKDIV7)&DRAM_S)>>3;
 
     g_u32ExtClk = sysGetExternalClock();
 
     /* Error Check */
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
-    if((u32PllHz%u32SysHz)!=0){
+    if((u32PllHz%u32SysHz)!=0)
+    {
         sysprintf("Err to set memory clock\n");//System divider for integrate and fractional part is not workable for DDR2/DDR  */
         return (ERRCODE)WB_INVALID_CLOCK;
     }
-    if((u32PllHz/u32SysHz)>(8*16)){
+    if((u32PllHz/u32SysHz)>(8*16))
+    {
         sysprintf("Err to set memory clock- Over system divider\n");
         return (ERRCODE)WB_INVALID_CLOCK;
     }
@@ -483,33 +518,45 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
         u32Hclk1Frq = u32CpuFreq;
 
     u32MclkClock = sysGetDramClock()/2;
-    if(u32DramSrc==eSrcClk){
-        if(u32MclkClock< u32Hclk1Frq){
+    if(u32DramSrc==eSrcClk)
+    {
+        if(u32MclkClock< u32Hclk1Frq)
+        {
             sysprintf("Err to set memory clock- Mclk>HCLK1\n");
             return (ERRCODE)WB_INVALID_CLOCK;
         }
-    }else   {
-        if(u32MclkClock<= u32Hclk1Frq){
+    }
+    else
+    {
+        if(u32MclkClock<= u32Hclk1Frq)
+        {
             sysprintf("Err to set memory clock- Mclk>HCLK1\n");
             return (ERRCODE)WB_INVALID_CLOCK;
         }
     }
     /* Judge MCLK > HCLK3 and HCLK4, assume HCLK234_DIV = 0 */
-    if(u32DramSrc==eSrcClk){
-        if(u32MclkClock< u32Hclk234){
+    if(u32DramSrc==eSrcClk)
+    {
+        if(u32MclkClock< u32Hclk234)
+        {
             sysprintf("Err to set memory clock- Mclk>HCLK3 and HCLK4\n");
             return (ERRCODE)WB_INVALID_CLOCK;
         }
-    }else{
-        if(u32MclkClock<= u32Hclk234){
+    }
+    else
+    {
+        if(u32MclkClock<= u32Hclk234)
+        {
             sysprintf("Err to set memory clock- Mclk>HCLK3 and HCLK4\n");
             return (ERRCODE)WB_INVALID_CLOCK;
         }
     }
 #endif
     u32SysDiv = u32PllHz / u32SysHz;
-    for(u32DivN1 = 1; u32DivN1<=16; u32DivN1=u32DivN1+1){
-        for(u32DivN0 = 1; u32DivN0<=8; u32DivN0=u32DivN0+1){
+    for(u32DivN1 = 1; u32DivN1<=16; u32DivN1=u32DivN1+1)
+    {
+        for(u32DivN0 = 1; u32DivN0<=8; u32DivN0=u32DivN0+1)
+        {
             if(u32SysDiv==u32DivN1*u32DivN0)
                 break;
         }
@@ -518,10 +565,12 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
         if(u32SysDiv==u32DivN1*u32DivN0)
                 break;
     }
-    if(u32DivN1>=17){
-        sysprintf("Can not set the clock due to divider is %d\n", u32SysDiv);
-        return (ERRCODE)WB_INVALID_CLOCK;
-    }
+// 2019/9/19: Loader don't need it
+//    if(u32DivN1>=17)
+//    {
+//        sysprintf("Can not set the clock due to divider is %d\n", u32SysDiv);
+//        return (ERRCODE)WB_INVALID_CLOCK;
+//    }
     if(u32DivN0!=0)
         u32DivN0 = u32DivN0-1;
     if(u32DivN1!=0)
@@ -530,7 +579,7 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
 
     switch(eSrcClk)
     {
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
         case eSYS_EXT:
 			//g_u32SysClkSrc =  eSYS_EXT;
@@ -548,10 +597,11 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
             g_u32UpllHz = u32PllHz;
             g_i32REG_UPLL = _sysGetPLLControlRegister((g_u32ExtClk/1000), g_u32UpllHz);
             //printf("UPLL register = %d\n", g_i32REG_UPLL);
-            if(g_i32REG_UPLL==-1)
-				return (ERRCODE)WB_INVALID_CLOCK;
+// 2019/9/19: Loader don't need it
+//            if(g_i32REG_UPLL==-1)
+//				return (ERRCODE)WB_INVALID_CLOCK;
             break;
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
         case eSYS_MPLL:
 			//g_u32SysClkSrc = eSYS_MPLL;
@@ -571,7 +621,7 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
         DBG_PRINTF("UPLL  = %d\n", u32RegPll);
         outp32(REG_UPLLCON , u32RegPll);
     }
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
     else if(eSrcClk==eSYS_APLL)
     {
@@ -610,7 +660,7 @@ sysSetSystemClock(E_SYS_SRC_CLK eSrcClk,        // Specified the system clock co
 */
 INT32 sysSetCPUClock(UINT32 u32CPUClock)
 {
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
     UINT32 CPUClock, u32CPUDiv;
     UINT32 u32SysClock = sysGetSystemClock();
@@ -655,19 +705,22 @@ INT32 sysSetAPBClock(UINT32 u32APBClock)
     UINT32 u32APBDiv;
     UINT32 u32HCLK1Clock;
     u32HCLK1Clock = sysGetHCLK1Clock();
-    if(u32APBClock> u32HCLK1Clock)
-		return (INT32)WB_INVALID_CLOCK;
+// 2019/9/19: Loader don't need it
+//    if(u32APBClock> u32HCLK1Clock)
+//		return (INT32)WB_INVALID_CLOCK;
     u32APBDiv = (u32HCLK1Clock/u32APBClock)-1;
     if((u32HCLK1Clock%u32APBClock) != 0)
         u32APBDiv = u32APBDiv+1;
 
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
-    if(u32APBDiv>7){
+    if(u32APBDiv>7)
+    {
         sysprintf("APB divider must be less  8\n");
 		return (INT32)WB_INVALID_CLOCK;
     }
-    if(u32APBDiv<1){
+    if(u32APBDiv<1)
+    {
         sysprintf("APB divider must be 1 at least\n");
 		return (INT32)WB_INVALID_CLOCK;
     }
@@ -710,11 +763,14 @@ UINT32 sysGetSystemClock(void)
     switch(u32SysSrc)
     {
         case 0:
-            u32SysSrc = u32Fin;                                     break;
+            u32SysSrc = u32Fin;
+        break;
         case 2:
-            u32SysSrc = sysGetPLLOutputHz(eSYS_APLL, u32Fin )/u32PllPreDiv; break;
+            u32SysSrc = sysGetPLLOutputHz(eSYS_APLL, u32Fin )/u32PllPreDiv;
+        break;
         case 3:
-            u32SysSrc = sysGetPLLOutputHz(eSYS_UPLL, u32Fin)/u32PllPreDiv;  break;
+            u32SysSrc = sysGetPLLOutputHz(eSYS_UPLL, u32Fin)/u32PllPreDiv;
+        break;
     }
 
     u32SysN1 = ((inp32(REG_CLKDIV0) & SYSTEM_N1)>>8) + 1;
@@ -805,11 +861,12 @@ UINT32 sysSetPllClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32TargetHz)
 
     u32FinHz = sysGetExternalClock();
 
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
     //Specified clock is system clock,  return working frequency directly.
     if( (inp32(REG_CLKDIV0) & SYSTEM_S)== 0x18 )
-    {//System from UPLL
+    {
+        //System from UPLL
         if(eSrcClk==eSYS_UPLL)
         {
             u32PllOutFreqHz = sysGetPLLOutputHz(eSrcClk, u32FinHz);
@@ -817,7 +874,8 @@ UINT32 sysSetPllClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32TargetHz)
         }
     }
     if( (inp32(REG_CLKDIV0) & SYSTEM_S)== 0x10 )
-    {//System from APLL
+    {
+        //System from APLL
         if(eSrcClk==eSYS_APLL)
         {
             u32PllOutFreqHz = sysGetPLLOutputHz(eSrcClk, u32FinHz);
@@ -848,7 +906,7 @@ UINT32 sysSetPllClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32TargetHz)
 #else
     u32PllReg = _sysGetPLLControlRegister((u32FinHz/1000), u32TargetHz);
     outp32(REG_APLLCON, u32PllReg);
-    return 0;   // NandLoader don't use return value.
+    return 0;   // Loader don't use return value.
 #endif
 }
 //==========================================================================================
@@ -889,7 +947,7 @@ UINT32 sysSetPllClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32TargetHz)
 #pragma GCC optimize ("O0")
 #endif
 
-#if 1
+#if 0
 #define dbg(u32LocalUartVar, x)  \
 								while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));\
 								outpb(REG_UART_THR+u32LocalUartVar, x);\
@@ -899,7 +957,7 @@ UINT32 sysSetPllClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32TargetHz)
 #define dbg_woc(u32LocalUartVar, x) \
 								while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));\
 								outpb(REG_UART_THR+u32LocalUartVar, x);\
-while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));
+                                while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));
 #else
 #define dbg(...)
 #define dbg_woc(...)
@@ -925,6 +983,7 @@ void _dramClockSwitch(register E_SYS_SRC_CLK eSrcClk,
 
 	register int reg2, reg1, reg0;
 	UINT32 u32mem_1aaaa8;
+    UINT32 u32mem_1fffff0;
     //UINT32 u32REG_CLKDIV0, High_Freq;
 
 #if 0
@@ -947,6 +1006,8 @@ void _dramClockSwitch(register E_SYS_SRC_CLK eSrcClk,
 	outp32(SRAM_UARTPORT, u32UartPort);
     u32mem_1aaaa8 = inp32(0x1aaaa8);    /* Back up content in address 0x1aaaa8 */
     outp32(0x1aaaa8, 0x5555aaaa);
+    u32mem_1fffff0 = inp32(0x1FFFFF0);
+
 	dbg(inp32(SRAM_UARTPORT), '0' + ((inp32(REG_CHIPCFG)&SDRAMSEL)>>4) );
     outp32(SRAM_MEMTYPE, ((inp32(REG_CHIPCFG)&SDRAMSEL)>>4) );
 	// Very important: Disable chip DLL first with 100us delay for calibration stable **********
@@ -971,7 +1032,7 @@ void _dramClockSwitch(register E_SYS_SRC_CLK eSrcClk,
 		mov     reg2, #0x200
 		mov     reg1, #0
 		mov     reg0, #1
-DRAM_A:	add     reg1, reg1, reg0
+        DRAM_A: add     reg1, reg1, reg0
 		cmp     reg1, reg2
             bne     DRAM_A
         }
@@ -989,11 +1050,11 @@ DRAM_A:	add     reg1, reg1, reg0
 
     u32REG_CLKDIV0 = inp32(REG_CLKDIV0);
 #else
-    #if 0
+#if 0
     dbg(u32LocalUartVar, '0'+(u32DramClkDiv&0x7));
-    #else
+#else
     dbg(inp32(SRAM_UARTPORT), '0'+(inp32(SRAM_DRAMDIVI)&0x7));
-    #endif
+#endif
     outp32(SRAM_REG_CLKDIV0, inp32(REG_CLKDIV0));
 #endif
 
@@ -1002,7 +1063,7 @@ DRAM_A:	add     reg1, reg1, reg0
 	/*********** DRAM enter self refresh mode ************/
 	
 #if 0
-    for(dly=0; dly<100;dly++);
+    for(dly=0; dly<100; dly++);
 #else
 #ifdef __GNUC__
 	__asm
@@ -1022,7 +1083,7 @@ DRAM_A:	add     reg1, reg1, reg0
 		mov     reg2, #0x100
 		mov		reg1, #0
 		mov		reg0, #1
-DRAM_S0:
+        DRAM_S0:
 		add		reg1, reg1, reg0
 		cmp		reg1, reg2
             bne     DRAM_S0
@@ -1031,17 +1092,23 @@ DRAM_S0:
 #endif		
 		
 #if 0
-    if(u32DramFreq>=96000000){
+    if(u32DramFreq>=96000000)
+    {
         dbg(u32LocalUartVar, 'H');
-    }else{
+    }
+    else
+    {
         dbg(u32LocalUartVar, 'L');
     }
 #else
-    if(inp32(SRAM_DRAMFREQ)>=96000000){
+    if(inp32(SRAM_DRAMFREQ)>=96000000)
+    {
         dbg(inp32(SRAM_UARTPORT), 'H');
 		//while(1)
 			//dbg(inp32(SRAM_UARTPORT), 'H');
-    }else{
+    }
+    else
+    {
         dbg(inp32(SRAM_UARTPORT), 'L');
     }
 #endif
@@ -1058,18 +1125,21 @@ DRAM_S0:
 
 
     //Set Pll clock
-    if(eSrcClk == eSYS_MPLL){
+    if(eSrcClk == eSYS_MPLL)
+    {
         outp32(REG_MPLLCON, u32PllReg);
         while((inp32(REG_POR_LVRD)&MPLL_LKDT)==0);
     }
-// 2014/4/30: NandLoader don't need it
+// 2014/4/30: Loader don't need it
 #if 0
-    else if(eSrcClk == eSYS_APLL){
+    else if(eSrcClk == eSYS_APLL)
+    {
         outp32(REG_APLLCON, u32PllReg);
         while((inp32(REG_POR_LVRD)&APLL_LKDT)==0);
     }
 #endif
-    else if(eSrcClk == eSYS_UPLL){
+    else if(eSrcClk == eSYS_UPLL)
+    {
         outp32(REG_UPLLCON, u32PllReg);
         while((inp32(REG_POR_LVRD)&UPLL_LKDT)==0);
     }
@@ -1079,7 +1149,7 @@ DRAM_S0:
     //Set DRAM clock divider and source
     outp32(REG_CLKDIV7,  u32DramClkDiv);
 #if 0
-    for(dly=0; dly<10;dly++);
+    for(dly=0; dly<10; dly++);
 #else
 #ifdef __GNUC__
 	__asm
@@ -1099,7 +1169,7 @@ DRAM_S0:
 		mov     reg2, #1000
 		mov     reg1, #0
 		mov     reg0, #1
-DRAM_S1:	
+        DRAM_S1:
 		add     reg1, reg1, reg0
 		cmp 	reg1, reg2
             bne     DRAM_S1
@@ -1118,9 +1188,9 @@ DRAM_S1:
 	/*********** DRAM escape self refresh mode ************/
 	
 #if 0
-    for(dly=0; dly<200;dly++);                      //Wait 200T
+    for(dly=0; dly<200; dly++);                     //Wait 200T
 #else
-  #ifdef __GNUC__
+#ifdef __GNUC__
 	__asm
     (
         "  mov 	%0, #2000     \n"
@@ -1132,7 +1202,7 @@ DRAM_S1:
         "  bne  DRAM1a         \n"
     	: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
     );
-  #else	
+#else
         __asm
         {
 		mov     reg2, #200
@@ -1163,19 +1233,23 @@ DRAM_S1:
 		//High_Freq = 96000000;
 	    outp32(SRAM_HIGH_FREQ, 96000000);
 	
-	if(inp32(SRAM_DRAMFREQ)>=96000000){
+    if(inp32(SRAM_DRAMFREQ)>=96000000)
+    {
 		dbg_woc(inp32(SRAM_UARTPORT), '+');
-	}else{
+    }
+    else
+    {
 		dbg_woc(inp32(SRAM_UARTPORT), '-');	
 	}
     //DRAM auto-calibration for optimal DRAM Phase
 #if 0
 	u32DramFreq = inp32(SRAM_DRAMFREQ);
-    if(u32DramFreq>=High_Freq)
+    if(u32DramFreq >= High_Freq)
 #else
 	if( inp32(SRAM_DRAMFREQ) >= inp32(SRAM_HIGH_FREQ) )
 #endif
-    {//High Frequency
+    {
+        //High Frequency
         outp32(REG_SDEMR, inp32(REG_SDEMR) & ~DLLEN);               // Enable  DLL of DDR2
         outp32(REG_SDMR,  0x532);                                   // RESET DLL(bit[8]) of DDR2
 
@@ -1199,7 +1273,7 @@ DRAM_S1:
 			mov     reg2, #50
 			mov     reg1, #0
 			mov     reg0, #1
-DRAMHA: 
+            DRAMHA:
 			add     reg1, reg1, reg0
 			cmp     reg1, reg2
             bne     DRAMHA
@@ -1207,7 +1281,7 @@ DRAMHA:
 #endif
 
         outp32(REG_SDMR,  0x432);                                   // RESET DLL(bit[8]) of DDR2
-again:
+        again:
 		outp32(REG_DLLMODE,  (inp32(REG_DLLMODE_R)&~0x8) | 0x10);	// Disable chip's DLL
 		outp32(REG_DLLMODE,   inp32(REG_DLLMODE_R)       | 0x18);	// Enable  chip's DLL
         outp32(REG_CKDQSDS, 0x00888800);                        // Skew for high freq
@@ -1220,9 +1294,9 @@ again:
 	                //outp32(REG_DLLMODE, (0x19+i) );              //DLLMODE phase search
 	        	    outp32(REG_DLLMODE, (0x19+inp32(SRAM_VAR)) );     //DLLMODE phase search
 #if 0
-                        for(dly=0; dly<0x2000;dly++);
+            for(dly=0; dly<0x2000; dly++);
 #else
-   #ifdef __GNUC__
+#ifdef __GNUC__
 					__asm
 					(
 						"  mov 	%0, #0x2000    \n"
@@ -1234,7 +1308,7 @@ again:
 						"  bne  DRAMHB         \n"
 						: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 					);
-   #else					
+#else
                                 __asm
                                 {
 						mov     reg2, #0x2000
@@ -1250,8 +1324,8 @@ again:
 #if 0
                  dly = (inp32(REG_CHIPCFG)&SDRAMSEL)>>4;
 //#else
-    #ifdef __GNUC__
-					#if 0
+#ifdef __GNUC__
+#if 0
 	        	    __asm
 					(
 						"  MOV     %2, #0xb0000000  \n"
@@ -1261,7 +1335,7 @@ again:
 						"  MOV     %0, %2           \n"
 						: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 					);
-					#endif
+#endif
 #else
 				    __asm
 					{
@@ -1273,21 +1347,25 @@ again:
                             }
 #endif
 #endif		
-	#ifdef __GNUC__
+#ifdef __GNUC__
+            outp32(0x1FFFFF0, 0);
 				if( inp32(SRAM_MEMTYPE) == 3)
-				{//DDR2 type
+            {
+                //DDR2 type
 					//dbg_woc(inp32(SRAM_UARTPORT), 'A');
 					outp32(REG_SDOPM, 0x01130476);         	//Set DQS_PHASE_RST
 					outp32(REG_SDOPM, 0x01030476);			//Clr DQS_PHASE_RST
 		        }
 				else if(  inp32(SRAM_MEMTYPE) == 2)
-				{//DDR type
+            {
+                //DDR type
 					//dbg_woc(inp32(SRAM_UARTPORT), 'B');
 					outp32(REG_SDOPM, 0x01130456);         	//Set DQS_PHASE_RST
 					outp32(REG_SDOPM, 0x01030456);			//Clr DQS_PHASE_RST
 		        }
 				else if(  inp32(SRAM_MEMTYPE) == 0)
-				{//DDR type
+            {
+                //DDR type
 					//dbg_woc(inp32(SRAM_UARTPORT), 'C');
 					outp32(REG_SDOPM, 0x01130416);         	//Set DQS_PHASE_RST
 					outp32(REG_SDOPM, 0x01030416);			//Clr DQS_PHASE_RST
@@ -1296,7 +1374,7 @@ again:
 				{
 					dbg(inp32(SRAM_UARTPORT), 'D');
 				}
-	#else			
+#else
 			    __asm
 				{
 					MOV     reg0, #0xb0000000
@@ -1305,20 +1383,26 @@ again:
 					MOV     reg0, reg0, LSR #30
 					MOV     dly, reg0
 				}
-                if(dly==3){//DDR2 type
+            outp32(0x1FFFFF0, 0);
+            if(dly==3) //DDR2 type
+            {
                         dbg_woc(inp32(SRAM_UARTPORT), 'A');						
                         outp32(REG_SDOPM, 0x01130476);              //Set DQS_PHASE_RST
                         outp32(REG_SDOPM, 0x01030476);              //Clr DQS_PHASE_RST
-                 }else if(dly==2){//DDR type
+            }
+            else if(dly==2)  //DDR type
+            {
 					dbg_woc(inp32(SRAM_UARTPORT), 'B');	
                     outp32(REG_SDOPM, 0x01130456);              //Set DQS_PHASE_RST
                         outp32(REG_SDOPM, 0x01030456);              //Clr DQS_PHASE_RST
-                 }else if(dly==0){//DDR type
+            }
+            else if(dly==0)  //DDR type
+            {
 					 dbg_woc(inp32(SRAM_UARTPORT), 'C');	
                     outp32(REG_SDOPM, 0x01130416);              //Set DQS_PHASE_RST
                         outp32(REG_SDOPM, 0x01030416);          //Clr DQS_PHASE_RST
                  }
-	#endif
+#endif
 	             //tmp = inp32(0x1aaaa8);              		//Dummy Read DRAM
                  outp32(SRAM_MEMCONTENT, inp32(0x1aaaa8));
 
@@ -1326,15 +1410,29 @@ again:
                  outp32(SRAM_SKEW, inp32(SRAM_SKEW)<<1);
 	             switch(inp32(SRAM_VAR))
                     {
-                    #if 0
-                       case 0:     skew_19 = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 1:     skew_1a = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 2:     skew_1b = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 3:     skew_1c = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 4:     skew_1d = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 5:     skew_1e = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                       case 6:     skew_1f  = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
-                    #else
+#if 0
+            case 0:
+                    skew_19 = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 1:
+                    skew_1a = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 2:
+                    skew_1b = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 3:
+                    skew_1c = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 4:
+                    skew_1d = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 5:
+                    skew_1e = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+            case 6:
+                    skew_1f  = (inp32(REG_SDOPM) & 0x10000000)!=0 ;
+                break;
+#else
 	                   //case 0:	   skew = (inp32(REG_SDOPM) & 0x10000000)!=0 ;    break;
 	                   //case 1:     skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
 	                   //case 2:     skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
@@ -1342,26 +1440,29 @@ again:
 	                   //case 4:     skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
 	                   //case 5:     skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
 	                   //case 6:     skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
-	                   case 0:	 outp32(SRAM_SKEW, ((inp32(REG_SDOPM) & 0x10000000)!=0) );   break;
+            case 0:
+                    outp32(SRAM_SKEW, ((inp32(REG_SDOPM) & 0x10000000)!=0) );
+                break;
 	                   case 1:
 	                   case 2:
 	                   case 3:
 	                   case 4:
 	                   case 5:
 	                   case 6:
-	                	   	   	   outp32(SRAM_SKEW, inp32(SRAM_SKEW) | ((inp32(REG_SDOPM) & 0x10000000)!=0) );   break;
+                                        outp32(SRAM_SKEW, inp32(SRAM_SKEW) | ((inp32(REG_SDOPM) & 0x10000000)!=0) );
+                break;
 	                	   	   	   //skew = skew | ((inp32(REG_SDOPM) & 0x10000000)!=0);    break;
-                    #endif
+#endif
                     }
 					outp32(SRAM_VAR, inp32(SRAM_VAR)+1);
 	        } //for(i=0; i<7; i=i+1)//
 
-/*
+        /*
             //Choose final DLLMODE value and re-calibration
             if( (skew_19==skew_1a) &&  (skew_1a==skew_1b)  && (skew_1b==skew_1c) && (skew_1c==skew_1d) ) {
             //////////// New modification ////////////////////////////
                 if( ((skew_1d!=skew_1e)  || (skew_1e!=skew_1f) )  && ((inp32(REG_SDOPM)>>28)>=3) ){ //>= 360M & SS case
-//                      outp32(REG_DLLMODE, 0x1f);
+        //                      outp32(REG_DLLMODE, 0x1f);
                         change = 5;
                     }
                     else
@@ -1389,7 +1490,7 @@ again:
             }
             else
                         outp32(REG_DLLMODE, 0x1a);
-*/
+        */
 #if 0
             while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));
         outpb(REG_UART_THR+u32LocalUartVar, skew_19+48);
@@ -1417,9 +1518,9 @@ again:
             }
 #endif
 #if 0
-                    for(dly=0; dly<0x2800;dly++);
+        for(dly=0; dly<0x2800; dly++);
 #else
-	#ifdef __GNUC__
+#ifdef __GNUC__
             __asm
 			(
 				"  mov 	%0, #0x2800    \n"
@@ -1431,7 +1532,7 @@ again:
 				"  bne  DRAMHC         \n"
 				: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 			);
-    #else					
+#else
                                 __asm
                                 {
 				mov     reg2, #0x2800
@@ -1447,17 +1548,20 @@ again:
 
 	        //dly = ((inp32(REG_CHIPCFG)&SDRAMSEL)>>4);
 	        if( inp32(SRAM_MEMTYPE) ==3)
-	        {//DDR2 type
+        {
+            //DDR2 type
                 outp32(REG_SDOPM, 0x01130476);          //DQS_PHASE_RST
                 outp32(REG_SDOPM, 0x01030476);
 	        }
 	        else if( inp32(SRAM_MEMTYPE) ==2)
-	        {//DDR type
+        {
+            //DDR type
                 outp32(REG_SDOPM, 0x01130456);          //DQS_PHASE_RST
                 outp32(REG_SDOPM, 0x01030456);
 	        }
 	        else if( inp32(SRAM_MEMTYPE) ==0)
-	        {//SDRAM type
+        {
+            //SDRAM type
                 outp32(REG_SDOPM, 0x01130416);          //DQS_PHASE_RST
                 outp32(REG_SDOPM, 0x01030416);
             }
@@ -1479,9 +1583,9 @@ again:
 //Bon           outp32(REG_DLLMODE, (inp32(REG_DLLMODE_R) - change) | 0x10 );  //Real DLL phase
         outp32(REG_DLLMODE,  0x1a );  //Real DLL phase
 #if 0
-                    for(dly=0; dly<0x2800;dly++);
+        for(dly=0; dly<0x2800; dly++);
 #else
-	#ifdef __GNUC__
+#ifdef __GNUC__
 			__asm
 			(
 				"  mov 	%0, #0x4000    \n"
@@ -1493,7 +1597,7 @@ again:
 				"  bne  DRAMHD         \n"
 				: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 			);
-    #else			
+#else
                                 __asm
                                 {
 				mov     reg2, #0x2800
@@ -1541,48 +1645,55 @@ again:
             goto again;
 
 
-	#ifdef N9H26K_A_VERSION
+#ifdef N9H26K_A_VERSION
 
-    #else
-        #if 0
+#else
+#if 0
         if(u32DramFreq>=180000000)
             outp32(REG_SDOPM, 0x0103046E);          // Enable open page
         else
             outp32(REG_SDOPM, 0x01030476);          // Disable open page
-        #else
+#else
 		//dly = (inp32(REG_CHIPCFG)&SDRAMSEL)>>4;
 		//if(u32DramFreq>=180000000)
 		if(inp32(SRAM_DRAMFREQ) >= 180000000)
 		{
 			if( inp32(SRAM_MEMTYPE) == 3)
-			{//DDR2 type
+            {
+                //DDR2 type
                 outp32(REG_SDOPM, 0x0103046E);          // Enable open page
 			}
 			else if( inp32(SRAM_MEMTYPE) == 2)
-			{//DDR type
+            {
+                //DDR type
                 outp32(REG_SDOPM, 0x0103044E);          // Enable open page
-			}else if( inp32(SRAM_MEMTYPE)  ==0)
-			{//SDRAM type
+            }
+            else if( inp32(SRAM_MEMTYPE)  ==0)
+            {
+                //SDRAM type
                 outp32(REG_SDOPM, 0x0103040E);          // Enable open page
              }
         }
         else
 		{
 			if( inp32(SRAM_MEMTYPE)  ==3)
-			{//DDR2 type
+            {
+                //DDR2 type
                 outp32(REG_SDOPM, 0x01030476);          // Disable open page
 			}
 			else if( inp32(SRAM_MEMTYPE)  ==2)
-			{//DDR type
+            {
+                //DDR type
                 outp32(REG_SDOPM, 0x01030456);          // Disable open page
 			}
 			else if( inp32(SRAM_MEMTYPE)  ==0)
-			{//SDRAM type
+            {
+                //SDRAM type
                 outp32(REG_SDOPM, 0x01030416);          // Disable open page
              }
 		 }			
-        #endif
-	#endif /* N9H26K_A_VERSION */
+#endif
+#endif /* N9H26K_A_VERSION */
 		if( inp32(SRAM_MEMTYPE)  ==2)//DDR
             outp32(REG_SDMR, inp32(REG_SDMR) & (~0xF0) | 0x30);     //CL = 3;
 
@@ -1592,9 +1703,9 @@ again:
 			dbg_woc(inp32(SRAM_UARTPORT), 'V');
             outp32(REG_SDEMR, inp32(REG_SDEMR)  | DLLEN);           //Disable DLL of DRAM device
 #if 0
-            for(dly=0; dly<0x2800;dly++);
+        for(dly=0; dly<0x2800; dly++);
 #else
-	#ifdef __GNUC__
+#ifdef __GNUC__
 			__asm
 			(
 				"  mov 	%0, #0x2800    \n"
@@ -1606,7 +1717,7 @@ again:
 				"  bne  DRAM_L         \n"
 				: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 			);
-    #else		
+#else
         __asm
         {
 				mov     reg2, #0x2800
@@ -1625,7 +1736,7 @@ again:
 #if 1
 	//		dly = (inp32(REG_CHIPCFG)&SDRAMSEL)>>4;
 #else		
-	 #ifdef __GNUC__
+#ifdef __GNUC__
 			__asm
 			(
 				"  MOV     %2, #0xb0000000  \n"
@@ -1646,40 +1757,46 @@ again:
             }
 #endif
 #endif		
-	#ifdef __GNUC__
+#ifdef __GNUC__
 			if(inp32(SRAM_MEMTYPE) == 3)
-			{//DDR2 type
+        {
+            //DDR2 type
                 outp32(REG_SDOPM,   0x00078476);                    //bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)
 			}
 			else if(inp32(SRAM_MEMTYPE) == 2)
-			{//DDR type
+        {
+            //DDR type
                 outp32(REG_SDOPM,   0x00078456);                    //bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)
                 outp32(REG_SDMR, inp32(REG_SDMR) & (~0xF0) | 0x20); //CL=2
 			}
 			else if(inp32(SRAM_MEMTYPE) == 0)
-			{//SDRAM type
+        {
+            //SDRAM type
                 outp32(REG_SDOPM,   0x00078416);                    //bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)
             }
-	#else			
+#else
 			if(inp32(SRAM_MEMTYPE) == 3)
-			{//DDR2 type
+        {
+            //DDR2 type
 				outp32(REG_SDOPM,   0x00078476);					//bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)				
 			}
 			else if(inp32(SRAM_MEMTYPE) == 2)
-			{//DDR type
+        {
+            //DDR type
 				outp32(REG_SDOPM,   0x00078456);					//bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)
 				outp32(REG_SDMR, inp32(REG_SDMR) & (~0xF0) | 0x20);	//CL=2				
 			}
 			else if(inp32(SRAM_MEMTYPE) == 0)
-			{//SDRAM type
+        {
+            //SDRAM type
 				outp32(REG_SDOPM,   0x00078416);					//bit[24]=0, bit[18]&[15]=1  and bit[4]=0 (SEL_USE_DLL)
 			}	
-    #endif			
+#endif
             outp32(REG_CKDQSDS, 0x0000ff00);                        // Skew for low freq
 #if 0
-    for(dly=0; dly<0x30;dly++);
+        for(dly=0; dly<0x30; dly++);
 #else
-	#ifdef __GNUC__
+#ifdef __GNUC__
 	__asm
 	(
 		"  mov 	%0, #2000    \n"
@@ -1691,13 +1808,13 @@ again:
 		"  bne  DRAM1B         \n"
 		: : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
 	);
-    #else
+#else
         __asm
         {
 		mov     reg2, #2000
 		mov     reg1, #0
 		mov     reg0, #1
-DRAM1B:	add     reg1, reg1, reg0
+            DRAM1B: add     reg1, reg1, reg0
 		cmp     reg1, reg2
             bne     DRAM1B
         }
@@ -1714,7 +1831,8 @@ DRAM1B:	add     reg1, reg1, reg0
 			//outpb(REG_UART_THR+u32LocalUartVar, '\n');
 			dbg(inp32(SRAM_UARTPORT), 'W');
 
-		}else
+        }
+        else
 		{
 			//outpb(REG_UART_THR+u32LocalUartVar, 'Z');
 			//while (!(inpw(REG_UART_FSR+u32LocalUartVar) & 0x400000));
@@ -1724,6 +1842,7 @@ DRAM1B:	add     reg1, reg1, reg0
         }
     }
     outp32(0x1aaaa8, u32mem_1aaaa8);    /* Restore content in address 0x1aaaa8 */
+    outp32(0x1FFFFF0, u32mem_1fffff0);      /* Restore content in address 0x1fffff0 */
 }
 #if defined (__GNUC__) && !defined (__CC_ARM)
 #pragma GCC pop_options
@@ -1766,13 +1885,16 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     DBG_PRINTF("memcpy ok\n");
 
 //  outp32(0xff000f80,10);
-    if(sysGetCacheState()==TRUE){
+    if(sysGetCacheState()==TRUE)
+    {
         //DBG_PRINTF("Cache enable\n");
         bIsCacheState = TRUE;
         u32CacheMode = sysGetCacheMode();
         sysDisableCache();
         sysFlushCache(I_D_CACHE);
-    //}else{
+    }
+    else
+    {
         //DBG_PRINTF("Cache disable\n");
     }
 
@@ -1806,47 +1928,82 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     UINT32 u32DramClock         DDR clock (2* SDIC)
 
 */
+extern BOOL _sys_bIsUARTInitial;
 UINT32 sysSetDramClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32PLLClockHz, UINT32 u32DdrClock)
 {
     UINT32 u32FinHz, u32DramDiv;
     UINT32 u32DivN1, u32DivN0, u32DramClockReg;
-    UINT32 u32CpuFreq, u32Hclk1Frq, u32Hclk234;
-    UINT32 u32DramClock = u32DdrClock/2;
-    UINT32 u32sysSrc = (inp32(REG_CLKDIV0)&SYSTEM_S)>>3;
+//    UINT32 u32CpuFreq, u32Hclk1Frq, u32Hclk234;
+//    UINT32 u32DramClock = u32DdrClock/2;
+//    UINT32 u32sysSrc = (inp32(REG_CLKDIV0)&SYSTEM_S)>>3;
+
+// 2021/4/26: Loader don't need it
+#if 0
+    WB_UART_T uart;
+
+    if (!_sys_bIsUARTInitial)
+    {
+        //Default use external clock 12MHz as source clock.
+        sysUartPort(1);
+        uart.uart_no = WB_UART_1;
+        uart.uiFreq = sysGetExternalClock();
+        uart.uiBaudrate = 115200;
+        uart.uiDataBits = WB_DATA_BITS_8;
+        uart.uiStopBits = WB_STOP_BITS_1;
+        uart.uiParity = WB_PARITY_NONE;
+        uart.uiRxTriggerLevel = LEVEL_1_BYTE;
+        sysInitializeUART(&uart);
+    }
+#endif
 
     /* Judge MCLK > HCLK1 */
+// 2019/9/19: Loader don't need it
+#if 0
     u32CpuFreq = sysGetCPUClock();
     if((inp32(REG_CLKDIV4)&CPU_N) == 0)
         u32Hclk1Frq = u32CpuFreq/2;
     else
         u32Hclk1Frq = u32CpuFreq;
-    if(u32sysSrc==eSrcClk){
-        if(u32DramClock< u32Hclk1Frq){
+    if(u32sysSrc==eSrcClk)
+    {
+        if(u32DramClock< u32Hclk1Frq)
+        {
             sysprintf("Err to set memory clock\n");
             return WB_INVALID_CLOCK;
         }
-    }else{
-        if(u32DramClock<= u32Hclk1Frq){
+    }
+    else
+    {
+        if(u32DramClock<= u32Hclk1Frq)
+        {
             sysprintf("Err to set memory clock\n");
             return WB_INVALID_CLOCK;
         }
     }
     /* Judge MCLK > HCLK3 and HCLK4, assume HCLK234_DIV = 0 */
     u32Hclk234 = sysGetHCLK234Clock();  /* HCLK234  */
-    if(u32sysSrc==eSrcClk){
-        if(u32DramClock< u32Hclk234){
-            sysprintf("Err to set memory clock\n");
-            return WB_INVALID_CLOCK;
-        }
-    }else{
-        if(u32DramClock<= u32Hclk234){
+    if(u32sysSrc==eSrcClk)
+    {
+        if(u32DramClock< u32Hclk234)
+        {
             sysprintf("Err to set memory clock\n");
             return WB_INVALID_CLOCK;
         }
     }
+    else
+    {
+        if(u32DramClock<= u32Hclk234)
+        {
+            sysprintf("Err to set memory clock\n");
+            return WB_INVALID_CLOCK;
+        }
+    }
+#endif
     u32DramDiv = u32PLLClockHz/u32DdrClock;
-    for(u32DivN1 = 1; u32DivN1<=8; u32DivN1=u32DivN1+1){
-        for(u32DivN0 = 1; u32DivN0<=8; u32DivN0=u32DivN0+1){
+    for(u32DivN1 = 1; u32DivN1<=8; u32DivN1=u32DivN1+1)
+    {
+        for(u32DivN0 = 1; u32DivN0<=8; u32DivN0=u32DivN0+1)
+        {
             if(u32DramDiv==(u32DivN1*u32DivN0))
                 break;
         }
@@ -1855,10 +2012,12 @@ UINT32 sysSetDramClock(E_SYS_SRC_CLK eSrcClk, UINT32 u32PLLClockHz, UINT32 u32Dd
         if(u32DramDiv==(u32DivN1*u32DivN0))
             break;
     }
-    if(u32DivN0>=9){//Over 8*8 range or prime number (19, 17, 13, 15..)
-        sysprintf("Can not set the clock due to divider is %d\n", u32DramDiv);
-        return WB_INVALID_CLOCK;
-    }
+// 2019/9/19: Loader don't need it
+//    if(u32DivN0>=9) //Over 8*8 range or prime number (19, 17, 13, 15..)
+//    {
+//        sysprintf("Can not set the clock due to divider is %d\n", u32DramDiv);
+//        return WB_INVALID_CLOCK;
+//    }
     if(u32DivN0!=0)
         u32DivN0 = u32DivN0-1;
     if(u32DivN1!=0)

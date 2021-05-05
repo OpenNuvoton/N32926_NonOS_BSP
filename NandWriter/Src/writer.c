@@ -518,6 +518,11 @@ int main()
     outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) | SIC_RST);    // SIC engine reset is avtive
     outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) & ~SIC_RST);   // SIC engine reset is no active. Reset completed.
 
+    /* enable cache */
+    sysDisableCache();
+    sysInvalidCache();
+    sysEnableCache(CACHE_WRITE_BACK);
+
     //--- initial UART
     u32ExtFreq = sysGetExternalClock();     // KHz unit
     sysUartPort(1);
@@ -531,10 +536,42 @@ int main()
     sysInitializeUART(&uart);
     sysSetLocalInterrupt(ENABLE_FIQ_IRQ);
 
-    /* enable cache */
-    sysDisableCache();
-    sysInvalidCache();
-    sysEnableCache(CACHE_WRITE_BACK);
+
+    /**********************************************************************************************
+     * Clock Constraints:
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from
+     *     same clock source
+     *********************************************************************************************/
+#if 0
+    /**********************************************************************************************
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     *
+     * Following example shows the Memory Clock = System Clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else
+    /**********************************************************************************************
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     *
+     * Following example shows to speed up clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
 
     /* check SDRAM size and buffer address */
 
@@ -639,7 +676,7 @@ int main()
         //--- Write nothing if skip NAND1-1 in INI file
         if (Ini_Writer.NAND1_1_FAT == FAT_MODE_SKIP)
             goto WriteNandCard;
-    
+
         sysprintf("=====> Erase NAND chip on CS0 [%d] <=====\n", sysGetTicks(0));
         Draw_Font(COLOR_RGB16_WHITE, &s_sDemo_Font, font_x, font_y, "Erase NAND:");
         u32SkipX = 11;
@@ -696,7 +733,7 @@ int main()
     NandMark.Reserved = 0x00000000;
 
 #ifdef UPDATE_BOOT_CODE_OPTIONAL_SETTING
-    //--- The gNandLoaderSize MUST include 16 bytes for Boot Code Marker Header 
+    //--- The gNandLoaderSize MUST include 16 bytes for Boot Code Marker Header
     //    and User Defined Option size.
     gNandLoaderSize += (16 + optional_ini_size);
 #endif

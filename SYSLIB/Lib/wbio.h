@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
- 
+
 /****************************************************************************
- * 
+ *
  * FILENAME
  *     WBIO.h
  *
@@ -25,7 +25,7 @@
  *     None
  *
  * HISTORY
- *     03/28/02		 Ver 1.0 Created by PC30 YCHuang
+ *     03/28/02      Ver 1.0 Created by PC30 YCHuang
  *
  * REMARK
  *     None
@@ -69,7 +69,7 @@
 #define Equal(a,b)            (a==b ? 1 : 0)
 #define NotEqual(a,b)         (a==b ? 0 : 1)
 #define GreaterEqual(a,b)     (a>=b ? 1 : 0)
-#define LittleEqual(a,b)      (a<=b ? 1 : 0) 
+#define LittleEqual(a,b)      (a<=b ? 1 : 0)
 
 static __inline UINT16 Swap16(UINT16 val)
 {
@@ -85,9 +85,9 @@ static __inline UINT16 Get16(PUINT8 addr)
 {
 #ifdef LITTLE_ENDIAN
     return ((addr[1]<<8) | addr[0]);
-#else	
+#else
     return ((addr[0]<<8) | addr[1]);
-#endif    
+#endif
 }
 
 static __inline UINT32 Get32(PUINT8 addr)
@@ -107,7 +107,7 @@ static __inline void Set16(UINT16 val, PUINT8 addr)
 #else
     addr[0] = (UINT8)(val >> 8);
     addr[1] = (UINT8) val;
-#endif    
+#endif
 }
 
 static __inline void Set32(UINT32 val, PUINT8 addr)
@@ -122,7 +122,7 @@ static __inline void Set32(UINT32 val, PUINT8 addr)
     addr[1] = (UINT8)(val >> 16);
     addr[2] = (UINT8)(val >> 8);
     addr[3] = (UINT8) val & 0xff;
-#endif    
+#endif
 }
 
 #endif /* _WBIO_H */

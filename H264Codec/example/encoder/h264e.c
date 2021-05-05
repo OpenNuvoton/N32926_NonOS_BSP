@@ -49,8 +49,8 @@ int             favc_enc_fd=0;
 int             favc_dec_fd=0;
 H264RateControl h264_ratec;
 static int  favc_quant1=0;
-int             enc_mmap_addr;
-static unsigned int    out_virt_buffer1;
+int             enc_mmap_addr,enc_mmap_addr_aligned32;
+static unsigned int    out_virt_buffer1, out_virt_bufferAligned32;
 int dec_BS_buf_size;
 
 
@@ -69,10 +69,11 @@ int h264_init(video_profile *video_setting)
     }
     
 
-    enc_mmap_addr=(int)malloc(video_setting->width*video_setting->height*3/2);
+    enc_mmap_addr=(int)malloc(video_setting->width*video_setting->height*3/2+32);
     if(enc_mmap_addr <= 0)
         return -1;
     printf("mmap addr=0x%x\n",enc_mmap_addr);    
+    enc_mmap_addr_aligned32 = (enc_mmap_addr+ 31)/32*32;    // aligned 32
 
     memset(&enc_param, 0, sizeof(FAVC_ENC_PARAM));
 
@@ -250,6 +251,9 @@ int main(void)
 	
 	char ascii[256];	
 	
+  sysInvalidCache();    
+	sysEnableCache(CACHE_WRITE_BACK);	
+	
 	u32ExtFreq = sysGetExternalClock();
 		
 	uart.uart_no = WB_UART_1;
@@ -261,6 +265,42 @@ int main(void)
 	uart.uiRxTriggerLevel = LEVEL_1_BYTE; 
 
 	sysInitializeUART(&uart);
+    
+    /********************************************************************************************** 
+     * Clock Constraints: 
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock   
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from 
+     *     same clock source	 
+     *********************************************************************************************/
+#if 0 
+    /********************************************************************************************** 
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below  
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     * 
+     * Following example shows the Memory Clock = System Clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement. 
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else 
+    /********************************************************************************************** 
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below  
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     * 
+     * Following example shows to speed up clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif    
 	
 	sysSetTimerReferenceClock (TIMER0, u32ExtFreq);
 	sysStartTimer(TIMER0, 100, PERIODIC_MODE);	
@@ -322,10 +362,11 @@ int main(void)
     uv_image_size = y_image_size >> 1;
     total_image_size = y_image_size + uv_image_size;
     
-    out_virt_buffer1 = (unsigned int)malloc(total_image_size);
+    out_virt_buffer1 = (unsigned int)malloc(total_image_size+32);
     if (!out_virt_buffer1)
         goto file_close;    
     
+    out_virt_bufferAligned32 = (out_virt_buffer1+31)/32*32;     // aligned 32
 
     if (h264_init(&video_setting) < 0) 
     {
@@ -334,26 +375,26 @@ int main(void)
     }        
 
     
-    pict.data[0]=(unsigned char *)enc_mmap_addr;
-    pict.data[1]=(unsigned char *)(enc_mmap_addr + y_image_size);
-    pict.data[2]=(unsigned char *)(enc_mmap_addr + y_image_size +(y_image_size >> 2));    
+    pict.data[0]=(unsigned char *)enc_mmap_addr_aligned32;
+    pict.data[1]=(unsigned char *)(enc_mmap_addr_aligned32 + y_image_size);
+    pict.data[2]=(unsigned char *)(enc_mmap_addr_aligned32 + y_image_size +(y_image_size >> 2));    
 
 
     fcount = TEST_ROUND;
     for (i=0; i < fcount; i++)
     {
         // Read next QCIF H.264_2D source format   
-        fsReadFile(din, (UINT8 *)(enc_mmap_addr | CACHE_BIT31), total_image_size,&readbyte);             
+        fsReadFile(din, (UINT8 *)(enc_mmap_addr_aligned32 | CACHE_BIT31), total_image_size,&readbyte);             
         printf("Read byte =%d\n",readbyte);
         
         if (readbyte > 0)
         {
-            length = favc_encode(favc_enc_fd, &video_setting,(unsigned char *)out_virt_buffer1,(void *)&pict, 1);
+            length = favc_encode(favc_enc_fd, &video_setting,(unsigned char *)(out_virt_bufferAligned32|CACHE_BIT31),(void *)&pict, 1);
             //printf("encode length = %d\n",length); 
             if (length == 0)
                 break;
 #if WRITE_FILE      
-            fsWriteFile(dout, (UINT8 *)out_virt_buffer1, length, &writebyte);        
+            fsWriteFile(dout, (UINT8 *)(out_virt_bufferAligned32|CACHE_BIT31), length, &writebyte);        
 
 			//itoa(length, ascii, 10);
 			sprintf(ascii,"%d\n",length);

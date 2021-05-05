@@ -57,7 +57,7 @@ Undefined_Addr  DCD     Undefined_Handler
 SWI_Addr        DCD     SWI_Handler1
 Prefetch_Addr   DCD     Prefetch_Handler
 Abort_Addr      DCD     Abort_Handler
-				DCD		0
+                DCD     0
 IRQ_Addr        DCD     IRQ_Handler
 FIQ_Addr        DCD     FIQ_Handler
 

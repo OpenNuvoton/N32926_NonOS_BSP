@@ -405,7 +405,21 @@ int main()
     	sysInitializeUART(&uart);
     sysSetLocalInterrupt(ENABLE_FIQ_IRQ);	
 
-  
+    /********************************************************************************************** 
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below  
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     * 
+     * Following example shows to speed up clock case. User can specify different 
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+
   UART_printf("\n\nW55FA92 DIAG Program 1.0 - MAC\n\n");
 
 

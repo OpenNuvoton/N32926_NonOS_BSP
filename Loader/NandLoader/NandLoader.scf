@@ -1,6 +1,6 @@
 ;/**************************************************************************//**
 ; * @file     NandLoader.scf
-; * @brief    NandLoader scf file for N3292x series.
+; * @brief    NandLoader scf file for N3292x/N9H26 series.
 ; *
 ; * SPDX-License-Identifier: Apache-2.0
 ; * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.

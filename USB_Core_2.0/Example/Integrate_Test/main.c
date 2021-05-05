@@ -31,366 +31,366 @@
 
 INT  USBKeyboardInit(void);
 
-#define DUMMY_BUFFER_SIZE		(64 * 1024)
+#define DUMMY_BUFFER_SIZE        (64 * 1024)
 
 #ifdef ECOS
 #define sysGetTicks(TIMER0)   cyg_current_time()
 #endif
 
 #if defined (__GNUC__)
-UINT8	_JpegImage[256 * 1024] __attribute__((aligned(32))); ;
+UINT8    _JpegImage[256 * 1024] __attribute__((aligned(32))); ;
 #else
 UINT8 __align(32) _JpegImage[256 * 1024];
 #endif
 
-extern UINT32	_QueuedSize;
+extern UINT32    _QueuedSize;
 
 extern INT  W99683_HasImageQueued(void);
 
 
 void  GetJpegImage(UINT8 *image, UINT32 *len, INT interval)
 {
-	UINT8   *bufPTR;
-	INT     bufLEN;
-	UINT32	idx = 0;
-	
-	*len = 0;
-	/* Skip frames */
-	while (1)
-	{
-		if (W99683_GetFramePiece(&bufPTR, &bufLEN) < 0) 
-			;           /* W99683 is not enabled, we wait */
+    UINT8   *bufPTR;
+    INT     bufLEN;
+    UINT32    idx = 0;
+    
+    *len = 0;
+    /* Skip frames */
+    while (1)
+    {
+        if (W99683_GetFramePiece(&bufPTR, &bufLEN) < 0) 
+            ;           /* W99683 is not enabled, we wait */
 
-		if ((bufPTR[0] == 0xFF) && (bufPTR[1] == 0xD8))
-		{
-			if (interval == 0)
-				break;
-			interval--;
-		}
-	}
-	
-	while (1)
-	{	
-		memcpy(&image[idx], bufPTR, bufLEN);
-		idx += bufLEN;
-		*len += bufLEN;
-		
-		if (W99683_GetFramePiece(&bufPTR, &bufLEN) < 0) 
-			continue;		/* W99683 is not enabled, we wait */
-		
-		if ((bufPTR[0] == 0xFF) && (bufPTR[1] == 0xD8))
-			return;
-	}
+        if ((bufPTR[0] == 0xFF) && (bufPTR[1] == 0xD8))
+        {
+            if (interval == 0)
+                break;
+            interval--;
+        }
+    }
+    
+    while (1)
+    {    
+        memcpy(&image[idx], bufPTR, bufLEN);
+        idx += bufLEN;
+        *len += bufLEN;
+        
+        if (W99683_GetFramePiece(&bufPTR, &bufLEN) < 0) 
+            continue;        /* W99683 is not enabled, we wait */
+        
+        if ((bufPTR[0] == 0xFF) && (bufPTR[1] == 0xD8))
+            return;
+    }
 }
 
 
 static INT  Action_Compare(CHAR *suFileName1, CHAR *szAsciiName1, 
-							CHAR *suFileName2, CHAR *szAsciiName2)
+                            CHAR *suFileName2, CHAR *szAsciiName2)
 {
-	INT		hFile1, hFile2;
-	INT		nLen1, nLen2, nCount, nStatus1, nStatus2;
-	UINT8	buffer1[8192], buffer2[8192];
-	UINT32	nJpegLen;
-	
-	hFile1 = fsOpenFile(suFileName1, szAsciiName1, O_RDONLY);
-	if (hFile1 < 0)
-		return hFile1;
-	
-	hFile2 = fsOpenFile(suFileName2, szAsciiName2, O_RDONLY);
-	if (hFile2 < 0)
-		return hFile2;
-	
-	sysprintf("\nComparing file ...\n");
-	nCount = 0;
-	while (1)
-	{
-		nStatus1 = fsReadFile(hFile1, buffer1, 1024, &nLen1);
-		nStatus2 = fsReadFile(hFile2, buffer2, 1024, &nLen2);
+    INT        hFile1, hFile2;
+    INT        nLen1, nLen2, nCount, nStatus1, nStatus2;
+    UINT8    buffer1[8192], buffer2[8192];
+    UINT32    nJpegLen;
+    
+    hFile1 = fsOpenFile(suFileName1, szAsciiName1, O_RDONLY);
+    if (hFile1 < 0)
+        return hFile1;
+    
+    hFile2 = fsOpenFile(suFileName2, szAsciiName2, O_RDONLY);
+    if (hFile2 < 0)
+        return hFile2;
+    
+    sysprintf("\nComparing file ...\n");
+    nCount = 0;
+    while (1)
+    {
+        nStatus1 = fsReadFile(hFile1, buffer1, 1024, &nLen1);
+        nStatus2 = fsReadFile(hFile2, buffer2, 1024, &nLen2);
 
-		GetJpegImage(_JpegImage, &nJpegLen, 0);
-		
-		if ((nStatus1 == ERR_FILE_EOF) && (nStatus2 == ERR_FILE_EOF))
-		{
-			sysprintf("\ncompare ok!\n");
-			fsCloseFile(hFile1);
-			fsCloseFile(hFile2);
-			return 0;
-		}
-		
-		if (nLen1 != nLen2)
-			break;
-			
-		if (memcmp(buffer1, buffer2, 1024))
-			break;
-		
-		nCount++;
-		//if ((nCount % 1024) == 0)
-		//	sysprintf("%d KB    \r", nCount);
-	}
-	
-	sysprintf("\nFile Compare failed at offset %x\n", nCount * 1024);
-	
-	fsCloseFile(hFile1);
-	fsCloseFile(hFile2);
-	return -1;
+        GetJpegImage(_JpegImage, &nJpegLen, 0);
+        
+        if ((nStatus1 == ERR_FILE_EOF) && (nStatus2 == ERR_FILE_EOF))
+        {
+            sysprintf("\ncompare ok!\n");
+            fsCloseFile(hFile1);
+            fsCloseFile(hFile2);
+            return 0;
+        }
+        
+        if (nLen1 != nLen2)
+            break;
+            
+        if (memcmp(buffer1, buffer2, 1024))
+            break;
+        
+        nCount++;
+        //if ((nCount % 1024) == 0)
+        //    sysprintf("%d KB    \r", nCount);
+    }
+    
+    sysprintf("\nFile Compare failed at offset %x\n", nCount * 1024);
+    
+    fsCloseFile(hFile1);
+    fsCloseFile(hFile2);
+    return -1;
 }
 
 
 
 INT  copy_file(CHAR *suSrcName, CHAR *szSrcAsciiName, 
-					CHAR *suDstName, CHAR *szDstAsciiName)
+                    CHAR *suDstName, CHAR *szDstAsciiName)
 {
-	INT			hFileSrc, hFileDst, nByteCnt, nStatus;
-	UINT8		*pucBuff, *szFNameSrc, *szFNameDst;
-	UINT32		nJpegLen;
+    INT            hFileSrc, hFileDst, nByteCnt, nStatus;
+    UINT8        *pucBuff, *szFNameSrc, *szFNameDst;
+    UINT32        nJpegLen;
 
-	pucBuff = (UINT8 *)malloc(4096 + MAX_FILE_NAME_LEN + 512);
-	if (pucBuff == NULL)
-		return ERR_NO_FREE_MEMORY;
-		
-	szFNameSrc = pucBuff + 4096;
-	szFNameDst = szFNameSrc + MAX_FILE_NAME_LEN/2;
+    pucBuff = (UINT8 *)malloc(4096 + MAX_FILE_NAME_LEN + 512);
+    if (pucBuff == NULL)
+        return ERR_NO_FREE_MEMORY;
+        
+    szFNameSrc = pucBuff + 4096;
+    szFNameDst = szFNameSrc + MAX_FILE_NAME_LEN/2;
 
-	hFileSrc = fsOpenFile(suSrcName, szSrcAsciiName, O_RDONLY);
-	if (hFileSrc < 0)
-	{
-		free(pucBuff);
-		return hFileSrc;
-	}
+    hFileSrc = fsOpenFile(suSrcName, szSrcAsciiName, O_RDONLY);
+    if (hFileSrc < 0)
+    {
+        free(pucBuff);
+        return hFileSrc;
+    }
 
-	hFileDst = fsOpenFile(suDstName, szDstAsciiName, O_RDONLY);
-	if (hFileDst > 0)
-	{
-		fsCloseFile(hFileSrc);
-		fsCloseFile(hFileDst);
-		free(pucBuff);
-		return ERR_FILE_EXIST;
-	}
+    hFileDst = fsOpenFile(suDstName, szDstAsciiName, O_RDONLY);
+    if (hFileDst > 0)
+    {
+        fsCloseFile(hFileSrc);
+        fsCloseFile(hFileDst);
+        free(pucBuff);
+        return ERR_FILE_EXIST;
+    }
 
-	hFileDst = fsOpenFile(suDstName, szDstAsciiName, O_CREATE);
-	if (hFileDst < 0)
-	{
-		fsCloseFile(hFileSrc);
-		free(pucBuff);
-		return hFileDst;
-	}
+    hFileDst = fsOpenFile(suDstName, szDstAsciiName, O_CREATE);
+    if (hFileDst < 0)
+    {
+        fsCloseFile(hFileSrc);
+        free(pucBuff);
+        return hFileDst;
+    }
 
-   	while (1)
-   	{
-   		nStatus = fsReadFile(hFileSrc, pucBuff, 4096, &nByteCnt);
-   		if (nStatus < 0)
-   			break;
+       while (1)
+       {
+           nStatus = fsReadFile(hFileSrc, pucBuff, 4096, &nByteCnt);
+           if (nStatus < 0)
+               break;
 
-		nStatus = fsWriteFile(hFileDst, pucBuff, nByteCnt, &nByteCnt);
-   		if (nStatus < 0)
-   			break;
+        nStatus = fsWriteFile(hFileDst, pucBuff, nByteCnt, &nByteCnt);
+           if (nStatus < 0)
+               break;
 
-		GetJpegImage(_JpegImage, &nJpegLen, 0);
-	}
-	fsCloseFile(hFileSrc);
-	fsCloseFile(hFileDst);
-	free(pucBuff);
+        GetJpegImage(_JpegImage, &nJpegLen, 0);
+    }
+    fsCloseFile(hFileSrc);
+    fsCloseFile(hFileDst);
+    free(pucBuff);
 
-	if (nStatus == ERR_FILE_EOF)
-		nStatus = 0;
-	return nStatus;
+    if (nStatus == ERR_FILE_EOF)
+        nStatus = 0;
+    return nStatus;
 }
 
 
 
 INT Test()
 {
-	INT     nStatus;
-	//CHAR	szSrcA[24] = "C:\\tape001.mpg";
-	CHAR	szSrcA[24] = "C:\\1.mp4";
-	CHAR	szDstA[24] = "C:\\copya";
-	CHAR	suFileName1[64], suFileName2[64];
-	UINT32	nJpegLen;
+    INT     nStatus;
+    //CHAR    szSrcA[24] = "C:\\tape001.mpg";
+    CHAR    szSrcA[24] = "C:\\1.mp4";
+    CHAR    szDstA[24] = "C:\\copya";
+    CHAR    suFileName1[64], suFileName2[64];
+    UINT32    nJpegLen;
 
-	while (1)
-	{
-		sysprintf("Delete file: %s\n", szDstA);
-		fsAsciiToUnicode(szDstA, suFileName1, TRUE);
-		nStatus = fsDeleteFile(suFileName1, NULL);
-		if (nStatus < 0)
-			sysprintf("Failed, status = %x\n", nStatus);
+    while (1)
+    {
+        sysprintf("Delete file: %s\n", szDstA);
+        fsAsciiToUnicode(szDstA, suFileName1, TRUE);
+        nStatus = fsDeleteFile(suFileName1, NULL);
+        if (nStatus < 0)
+            sysprintf("Failed, status = %x\n", nStatus);
 
-		while (_QueuedSize > 16*1024)
-		{
-			GetJpegImage(_JpegImage, &nJpegLen, 0);
-			sysprintf(".");
-		}
+        while (_QueuedSize > 16*1024)
+        {
+            GetJpegImage(_JpegImage, &nJpegLen, 0);
+            sysprintf(".");
+        }
 
-		sysprintf("Copy file: %s\n", szSrcA);
-		fsAsciiToUnicode(szSrcA, suFileName1, TRUE);
-		fsAsciiToUnicode(szDstA, suFileName2, TRUE);
-		nStatus = copy_file(suFileName1, NULL, suFileName2, NULL);
-		if (nStatus < 0)
-		{
-			sysprintf("Failed, status = %x\n", nStatus);
-			exit(0);
-		}
+        sysprintf("Copy file: %s\n", szSrcA);
+        fsAsciiToUnicode(szSrcA, suFileName1, TRUE);
+        fsAsciiToUnicode(szDstA, suFileName2, TRUE);
+        nStatus = copy_file(suFileName1, NULL, suFileName2, NULL);
+        if (nStatus < 0)
+        {
+            sysprintf("Failed, status = %x\n", nStatus);
+            exit(0);
+        }
 
-		sysprintf("Compare file: %s and %s\n", szSrcA, szDstA);
-		fsAsciiToUnicode(szSrcA, suFileName1, TRUE);
-		fsAsciiToUnicode(szDstA, suFileName2, TRUE);
-		
-		if (Action_Compare(suFileName1, NULL, suFileName2, NULL) < 0)
-			break;
-	}	
-	return 0;
+        sysprintf("Compare file: %s and %s\n", szSrcA, szDstA);
+        fsAsciiToUnicode(szSrcA, suFileName1, TRUE);
+        fsAsciiToUnicode(szDstA, suFileName2, TRUE);
+        
+        if (Action_Compare(suFileName1, NULL, suFileName2, NULL) < 0)
+            break;
+    }    
+    return 0;
 }
 
 
 void  Isochronous_Test()
 {
-	CHAR    szFileName[32] = {'C',0,':',0,'\\',0,'1',0,0,0 };
-	CHAR    suFileName[128];
-	INT     nIdx = 0;
-	UINT32	nJpegLen;
-	INT    	hFile;
-	INT     nWriteBytes;
+    CHAR    szFileName[32] = {'C',0,':',0,'\\',0,'1',0,0,0 };
+    CHAR    suFileName[128];
+    INT     nIdx = 0;
+    UINT32    nJpegLen;
+    INT        hFile;
+    INT     nWriteBytes;
 
-	W99683Cam_Init();
+    W99683Cam_Init();
 
-	while (!W99683Cam_IsConnected())
-		Hub_CheckIrqEvent();
+    while (!W99683Cam_IsConnected())
+        Hub_CheckIrqEvent();
 
-	if (W99683Cam_Open() < 0)
-	{
-		sysprintf("Failed to open W99683 device!\n");
-		return;           /* _W99683_Camera is freed also */
-	}
+    if (W99683Cam_Open() < 0)
+    {
+        sysprintf("Failed to open W99683 device!\n");
+        return;           /* _W99683_Camera is freed also */
+    }
 
-	while (!W99683Cam_IsStreaming())
-		;   
+    while (!W99683Cam_IsStreaming())
+        ;   
 
-	/* Drop 5 pictures */
-	for (nIdx = 0; nIdx < 10; nIdx++)
-	//for (nIdx = 0; ; nIdx++)
-	{
-		sysprintf("%d GetJpegImage...\n", nIdx);
-		GetJpegImage(_JpegImage, &nJpegLen, 0);
-		sysprintf("ImageSize: %d, _QueuedSize: %d\n", nJpegLen, _QueuedSize);
-	}
-	
-	//Test();
-	
-	//Action_WriteSpeedTest(szFileName, NULL);
-	
-	for (nIdx = 0; nIdx < 30; nIdx++)
-	{
-reget:		
-		GetJpegImage(_JpegImage, &nJpegLen, 0);
-		if (_QueuedSize > 200000)
-		{
-			goto reget;
-		}
-		sysprintf("ImageSize: %d, _QueuedSize: %d\n", nJpegLen, _QueuedSize);
-		
-		/* Open a new file for writing */
-		sprintf(szFileName, "C:\\%04d.jpg", nIdx);
-		fsAsciiToUnicode(szFileName, suFileName, 1);
-		hFile = fsOpenFile(suFileName, NULL, O_CREATE);
-		if (hFile > 0)
-			sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
-		else
-		{
-			sysprintf("Failed to open file: %s (%x)\n", szFileName, hFile);
-			continue;
-		}
-		if ((fsWriteFile(hFile, _JpegImage, nJpegLen, &nWriteBytes) < 0) ||
-			(nWriteBytes != nJpegLen))
-			sysprintf("File write error! %d %d\n", nWriteBytes);
-		else
-			sysprintf("%d bytes\n", nWriteBytes);
-		fsCloseFile(hFile);
-	}
-	
-	while (1)
-		GetJpegImage(_JpegImage, &nJpegLen, 0);
+    /* Drop 5 pictures */
+    for (nIdx = 0; nIdx < 10; nIdx++)
+    //for (nIdx = 0; ; nIdx++)
+    {
+        sysprintf("%d GetJpegImage...\n", nIdx);
+        GetJpegImage(_JpegImage, &nJpegLen, 0);
+        sysprintf("ImageSize: %d, _QueuedSize: %d\n", nJpegLen, _QueuedSize);
+    }
+    
+    //Test();
+    
+    //Action_WriteSpeedTest(szFileName, NULL);
+    
+    for (nIdx = 0; nIdx < 30; nIdx++)
+    {
+reget:        
+        GetJpegImage(_JpegImage, &nJpegLen, 0);
+        if (_QueuedSize > 200000)
+        {
+            goto reget;
+        }
+        sysprintf("ImageSize: %d, _QueuedSize: %d\n", nJpegLen, _QueuedSize);
+        
+        /* Open a new file for writing */
+        sprintf(szFileName, "C:\\%04d.jpg", nIdx);
+        fsAsciiToUnicode(szFileName, suFileName, 1);
+        hFile = fsOpenFile(suFileName, NULL, O_CREATE);
+        if (hFile > 0)
+            sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
+        else
+        {
+            sysprintf("Failed to open file: %s (%x)\n", szFileName, hFile);
+            continue;
+        }
+        if ((fsWriteFile(hFile, _JpegImage, nJpegLen, &nWriteBytes) < 0) ||
+            (nWriteBytes != nJpegLen))
+            sysprintf("File write error! %d %d\n", nWriteBytes);
+        else
+            sysprintf("%d bytes\n", nWriteBytes);
+        fsCloseFile(hFile);
+    }
+    
+    while (1)
+        GetJpegImage(_JpegImage, &nJpegLen, 0);
 }
-UINT8	_JpegImage[256 * 1024];
-UINT8	_JpegImageR[256 * 1024];
+UINT8    _JpegImage[256 * 1024];
+UINT8    _JpegImageR[256 * 1024];
 
 void PenDriverAccess(UINT32 u32Count)
 {
-	CHAR szFileName[32] = {'C',0,':',0,'\\',0,'1',0,0,0 };
-	CHAR szAsciiStr[32]={0};
-	CHAR suFileName[128];
-	INT     nIdx = 0, nIdy=0;
-	UINT32	nJpegLen=256*1024;
-	INT    	hFile;
-	INT     nWriteBytes;
-	
-	sprintf(szAsciiStr, "C:\\Test");
-	fsAsciiToUnicode(szAsciiStr, suFileName, TRUE);
-	fsMakeDirectory(suFileName, NULL);
-	//for (nIdx = 0; nIdx < 60; nIdx++)
-	for (nIdx = 0; nIdx < u32Count; nIdx++)
-	{	
-		for (nIdy = 0; nIdy < (256*1024); nIdy=nIdy+1)
-			_JpegImage[nIdy] = (nIdy+(nIdy>>8)+(nIdy>>16))+nIdx;
-		
-		sysprintf("ImageSize: %d\n", nJpegLen);		
-		/* Open a new file for writing */
-		sprintf(szFileName, "C:\\Test\\%07d.jpg", nIdx);
-		fsAsciiToUnicode(szFileName, suFileName, 1);
-		hFile = fsOpenFile(suFileName, NULL, O_CREATE);
-		if (hFile > 0)
-			sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
-		else
-		{
-			sysprintf("Failed to open file: %s (%x)\n", szFileName, hFile);
-			continue;
-		}
-		if ((fsWriteFile(hFile, _JpegImage, nJpegLen, &nWriteBytes) < 0) ||
-			(nWriteBytes != nJpegLen))
-			sysprintf("File write error! %d %d\n", nWriteBytes);
-		else
-			sysprintf("%d bytes\n", nWriteBytes);
-		fsCloseFile(hFile);
-		hFile = fsOpenFile(suFileName, NULL, O_RDONLY );
-		if (hFile > 0)
-			sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
-		else
-		{
-			sysprintf("Opene file Error\n");
-			while(1);
-		}
-		if ((fsReadFile(hFile, _JpegImageR, nJpegLen, &nWriteBytes) < 0) ||
-			(nWriteBytes != nJpegLen))
-			sysprintf("File read error! %d %d\n", nWriteBytes);
-		fsCloseFile(hFile);		
-			
-		if(memcmp(_JpegImage, _JpegImageR, 256*1024)  != 0 )
-		{
-			sysprintf("Compare file error\n");
-			while(1);
-		}	
-					
-	}	
-	sysprintf("Done\n");
-}	
+    CHAR szFileName[32] = {'C',0,':',0,'\\',0,'1',0,0,0 };
+    CHAR szAsciiStr[32]={0};
+    CHAR suFileName[128];
+    INT     nIdx = 0, nIdy=0;
+    UINT32    nJpegLen=256*1024;
+    INT        hFile;
+    INT     nWriteBytes;
+    
+    sprintf(szAsciiStr, "C:\\Test");
+    fsAsciiToUnicode(szAsciiStr, suFileName, TRUE);
+    fsMakeDirectory(suFileName, NULL);
+    //for (nIdx = 0; nIdx < 60; nIdx++)
+    for (nIdx = 0; nIdx < u32Count; nIdx++)
+    {    
+        for (nIdy = 0; nIdy < (256*1024); nIdy=nIdy+1)
+            _JpegImage[nIdy] = (nIdy+(nIdy>>8)+(nIdy>>16))+nIdx;
+        
+        sysprintf("ImageSize: %d\n", nJpegLen);        
+        /* Open a new file for writing */
+        sprintf(szFileName, "C:\\Test\\%07d.jpg", nIdx);
+        fsAsciiToUnicode(szFileName, suFileName, 1);
+        hFile = fsOpenFile(suFileName, NULL, O_CREATE);
+        if (hFile > 0)
+            sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
+        else
+        {
+            sysprintf("Failed to open file: %s (%x)\n", szFileName, hFile);
+            continue;
+        }
+        if ((fsWriteFile(hFile, _JpegImage, nJpegLen, &nWriteBytes) < 0) ||
+            (nWriteBytes != nJpegLen))
+            sysprintf("File write error! %d %d\n", nWriteBytes);
+        else
+            sysprintf("%d bytes\n", nWriteBytes);
+        fsCloseFile(hFile);
+        hFile = fsOpenFile(suFileName, NULL, O_RDONLY );
+        if (hFile > 0)
+            sysprintf("Opene file:[%s], file handle:%d\n", szFileName, hFile);
+        else
+        {
+            sysprintf("Opene file Error\n");
+            while(1);
+        }
+        if ((fsReadFile(hFile, _JpegImageR, nJpegLen, &nWriteBytes) < 0) ||
+            (nWriteBytes != nJpegLen))
+            sysprintf("File read error! %d %d\n", nWriteBytes);
+        fsCloseFile(hFile);        
+            
+        if(memcmp(_JpegImage, _JpegImageR, 256*1024)  != 0 )
+        {
+            sysprintf("Compare file error\n");
+            while(1);
+        }    
+                    
+    }    
+    sysprintf("Done\n");
+}    
 
 INT main()
 {
-	INT			t0;
-	INT volatile i;
-	UINT32		uBlockSize, uFreeSize, uDiskSize;
-#ifndef ECOS	
-    WB_UART_T 	uart;
+    INT            t0;
+    INT volatile i;
+    UINT32        uBlockSize, uFreeSize, uDiskSize;
+#ifndef ECOS    
+    WB_UART_T     uart;
 #endif
 
-	UINT32 u32ExtFreq;
-	/* CACHE_ON	*/
-//	sysInvalidCache();
-//	sysEnableCache(CACHE_WRITE_BACK);
+    UINT32 u32ExtFreq;
+    /* CACHE_ON    */
+//    sysInvalidCache();
+//    sysEnableCache(CACHE_WRITE_BACK);
 
-#ifndef ECOS	
-	u32ExtFreq = sysGetExternalClock();    	/* Hz unit */	
-	uart.uiFreq = u32ExtFreq;
-	uart.uart_no= WB_UART_1;
+#ifndef ECOS    
+    u32ExtFreq = sysGetExternalClock();        /* Hz unit */    
+    uart.uiFreq = u32ExtFreq;
+    uart.uart_no= WB_UART_1;
     uart.uiBaudrate = 115200;
     uart.uiDataBits = WB_DATA_BITS_8;
     uart.uiStopBits = WB_STOP_BITS_1;
@@ -398,42 +398,78 @@ INT main()
     uart.uiRxTriggerLevel = LEVEL_1_BYTE;
     sysInitializeUART(&uart);
     sysSetTimerReferenceClock (TIMER0, u32ExtFreq);
-	sysStartTimer(TIMER0, 100, PERIODIC_MODE);	
-	
+    sysStartTimer(TIMER0, 100, PERIODIC_MODE);    
+    
 #endif
 
-	fsInitFileSystem();
-	sysprintf("Init USB...\n");
+    /**********************************************************************************************
+     * Clock Constraints:
+     * (a) If Memory Clock > System Clock, the source clock of Memory and System can come from
+     *     different clock source. Suggestion MPLL for Memory Clock, UPLL for System Clock
+     * (b) For Memory Clock = System Clock, the source clock of Memory and System must come from
+     *     same clock source
+     *********************************************************************************************/
+#if 0
+    /**********************************************************************************************
+     * Slower down system and memory clock procedures:
+     * If current working clock fast than desired working clock, Please follow the procedure below
+     * 1. Change System Clock first
+     * 2. Then change Memory Clock
+     *
+     * Following example shows the Memory Clock = System Clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetSystemClock(eSYS_EXT, 12000000, 12000000);
+    sysSetDramClock(eSYS_EXT, 12000000, 12000000);
+#else
+    /**********************************************************************************************
+     * Speed up system and memory clock procedures:
+     * If current working clock slower than desired working clock, Please follow the procedure below
+     * 1. Change Memory Clock first
+     * 2. Then change System Clock
+     *
+     * Following example shows to speed up clock case. User can specify different
+     * Memory Clock and System Clock depends on DRAM bandwidth or power consumption requirement.
+     *********************************************************************************************/
+    sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
+    sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
+                      240000000,            //UINT32 u32PllKHz,
+                      240000000);           //UINT32 u32SysKHz,
+    sysSetCPUClock(240000000/2);
+#endif
 
-	InitUsbSystem();       
+    fsInitFileSystem();
+    sysprintf("Init USB...\n");
 
-	UMAS_InitUmasDriver();
+    InitUsbSystem();       
 
-	USBKeyboardInit();
+    UMAS_InitUmasDriver();
 
-	/* wait hard disk ready */
-	t0 = sysGetTicks(TIMER0);
-	while (sysGetTicks(TIMER0) - t0 < 300)
-		;
-	
-	if (fsDiskFreeSpace('C', &uBlockSize, &uFreeSize, &uDiskSize) == 0)
-		sysprintf("Disk size = %d KB, Free speace = %d KB\n", uDiskSize, uFreeSize);
-	else
-		sysprintf("fsDiskFreeSpace failed!!\n");
+    USBKeyboardInit();
+
+    /* wait hard disk ready */
+    t0 = sysGetTicks(TIMER0);
+    while (sysGetTicks(TIMER0) - t0 < 300)
+        ;
+    
+    if (fsDiskFreeSpace('C', &uBlockSize, &uFreeSize, &uDiskSize) == 0)
+        sysprintf("Disk size = %d KB, Free speace = %d KB\n", uDiskSize, uFreeSize);
+    else
+        sysprintf("fsDiskFreeSpace failed!!\n");
 
 
-	for(i=0;i<1000000;i++)
-		;
+    for(i=0;i<1000000;i++)
+        ;
 
-	PenDriverAccess(60);		
+    PenDriverAccess(60);        
 
-	UMAS_RemoveUmasDriver();		
-	Isochronous_Test();
+    UMAS_RemoveUmasDriver();        
+    Isochronous_Test();
 }
 
 
 
-#ifndef ECOS	
+#ifndef ECOS    
 /*
  * standalone.c - minimal bootstrap for C library
  * Copyright (C) 2000 ARM Limited.

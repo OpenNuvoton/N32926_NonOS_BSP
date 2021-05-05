@@ -12,13 +12,13 @@
 
 void DemoAPI_UART(void)
 {
-	DBG_PRINTF("\nUART Test...\n");
+    DBG_PRINTF("\nUART Test...\n");
 #if 1
-	DBG_PRINTF("Type 'y' to finish UART test...\n");
-	while(1)
-	{
-		if (sysGetChar() == 'y')   break;
-	}
+    DBG_PRINTF("Type 'y' to finish UART test...\n");
+    while(1)
+    {
+        if (sysGetChar() == 'y')   break;
+    }
 #endif
-	DBG_PRINTF("Finish UART Testing...\n");
+    DBG_PRINTF("Finish UART Testing...\n");
 }

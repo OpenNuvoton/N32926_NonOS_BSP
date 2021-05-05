@@ -158,10 +158,3 @@ INT		nvtSetSdImageInfo(FW_UPDATE_INFO_T *pFW);
 void	nvtSdFormat(UINT32 firstSector, UINT32 totalSector);
 /*****************************/
 void 		apuDacOn(UINT8 level);
-
-
-
-
-
-
-

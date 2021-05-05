@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
- 
+
 /****************************************************************************
 * FILENAME
 *   wb_cache.c
@@ -21,7 +21,7 @@
 *   2008-06-25  Ver 1.0 draft by Min-Nan Cheng
 * Modification
 *   2011-06-01  Ver 1.1 draft by Shih-Wen Chou
-*   	
+*
 * REMARK
 *   None
  **************************************************************************/
@@ -37,91 +37,90 @@ extern int sysInitMMUTable(int);
 
 INT32 sysGetSdramSizebyMB()
 {
-	unsigned int volatile reg, totalsize=0;
+    unsigned int volatile reg, totalsize=0;
 
-	reg = inpw(REG_SDSIZE0) & 0x07;
-	switch(reg)
-	{
-		case 1:
-			totalsize += 2;
-			break;
+    reg = inpw(REG_SDSIZE0) & 0x07;
+    switch(reg)
+    {
+    case 1:
+        totalsize += 2;
+        break;
 
-		case 2:
-			totalsize += 4;
-			break;
+    case 2:
+        totalsize += 4;
+        break;
 
-		case 3:
-			totalsize += 8;
-			break;
+    case 3:
+        totalsize += 8;
+        break;
 
-		case 4:
-			totalsize += 16;
-			break;
+    case 4:
+        totalsize += 16;
+        break;
 
-		case 5:
-			totalsize += 32;
-			break;
+    case 5:
+        totalsize += 32;
+        break;
 
-		case 6:
-			totalsize += 64;
-			break;
-	}
+    case 6:
+        totalsize += 64;
+        break;
+    }
 
-	reg = inpw(REG_SDSIZE1) & 0x07;
-	switch(reg)
-	{
-		case 1:
-			totalsize += 2;
-			break;
+    reg = inpw(REG_SDSIZE1) & 0x07;
+    switch(reg)
+    {
+    case 1:
+        totalsize += 2;
+        break;
 
-		case 2:
-			totalsize += 4;
-			break;
+    case 2:
+        totalsize += 4;
+        break;
 
-		case 3:
-			totalsize += 8;
-			break;
+    case 3:
+        totalsize += 8;
+        break;
 
-		case 4:
-			totalsize += 16;
-			break;
+    case 4:
+        totalsize += 16;
+        break;
 
-		case 5:
-			totalsize += 32;
-			break;
+    case 5:
+        totalsize += 32;
+        break;
 
-		case 6:
-			totalsize += 64;
-			break;
-	}
+    case 6:
+        totalsize += 64;
+        break;
+    }
 
-	if (totalsize != 0)
-		return totalsize;
-	else
-		return (INT32)WB_MEM_INVALID_MEM_SIZE;	
+    if (totalsize != 0)
+        return totalsize;
+    else
+        return (INT32)WB_MEM_INVALID_MEM_SIZE;
 }
 
 
 INT32 sysEnableCache(UINT32 uCacheOpMode)
 {
-	sysInitMMUTable(uCacheOpMode);
-	_sys_IsCacheOn = TRUE;
-	_sys_CacheMode = uCacheOpMode;
-	
-	return Successful;
+    sysInitMMUTable(uCacheOpMode);
+    _sys_IsCacheOn = TRUE;
+    _sys_CacheMode = uCacheOpMode;
+
+    return Successful;
 }
-#if defined (__GNUC__) && !(__CC_ARM)
+#if defined ( __GNUC__ ) && !(__CC_ARM)
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
 void sys_flush_and_clean_dcache(void)
 {
-	volatile register int reg2;
-	__asm volatile(
-    " tci_loop100:                              \n"
-    "     MRC p15, #0, r15, c7, c14, #3         \n"     /* test clean and invalidate */
-    "     BNE tci_loop100                       \n"
-    : : : "memory");
-}  
+    __asm volatile(
+        "tci_loop:  \n\t"
+        "MRC p15, #0, r15, c7, c14, #3  \n\t" // test clean and invalidate
+        "BNE tci_loop  \n\t"
+    );
+}
 #pragma GCC pop_options
 #elif defined(__UVISION_VERSION)
 __asm void sys_flush_and_clean_dcache(void)
@@ -135,11 +134,11 @@ tci_loop
 
 VOID sysDisableCache()
 {
-	volatile int temp;
+    int temp;
 
-	sys_flush_and_clean_dcache();
+    sys_flush_and_clean_dcache();
 #if defined (__GNUC__) && !(__CC_ARM)
-	__asm volatile
+    __asm volatile
     (
         /*----- flush I, D cache & write buffer -----*/
         "MOV %0, #0x0				\n\t"
@@ -151,119 +150,119 @@ VOID sysDisableCache()
         "MRC p15, 0, %0, c1, c0, #0   \n\t" /* read Control register */
         "BIC %0, %0, #0x01            \n\t"
         "MCR p15, 0, %0, c1, c0, #0   \n\t" /* write Control register */
-		: :"r"(temp) : "memory"
+        : :"r"(temp) : "memory"
     );
 #else
-	__asm
-	{
-		/*----- flush I, D cache & write buffer -----*/
-		MOV temp, 0x0
-		MCR p15, 0, temp, c7, c5, 0 /* flush I cache */
-		MCR p15, 0, temp, c7, c6, 0 /* flush D cache */
-		MCR p15, 0, temp, c7, c10,4 /* drain write buffer */		
+    __asm
+    {
+        /*----- flush I, D cache & write buffer -----*/
+        MOV temp, 0x0
+        MCR p15, 0, temp, c7, c5, 0 /* flush I cache */
+        MCR p15, 0, temp, c7, c6, 0 /* flush D cache */
+        MCR p15, 0, temp, c7, c10,4 /* drain write buffer */
 
-		/*----- disable Protection Unit -----*/
-		MRC p15, 0, temp, c1, c0, 0 	/* read Control register */
-		BIC	temp, temp, 0x01
-		MCR p15, 0, temp, c1, c0, 0 	/* write Control register */
-		
-		/*----- disable I Cache -----*/
-		MRC p15, 0, temp, c1, c0, 0
-		bic temp, temp, #0x1000
-		MCR p15, 0, temp, c1, c0, 0
-			
-		/*----- disable D Cache -----*/		
-		MRC p15, 0, temp, c1, c0, 0
-		bic temp, temp, #0x04
-		MCR p15, 0, temp, c1, c0, 0
-	}
+        /*----- disable Protection Unit -----*/
+        MRC p15, 0, temp, c1, c0, 0     /* read Control register */
+        BIC temp, temp, 0x01
+        MCR p15, 0, temp, c1, c0, 0     /* write Control register */
+
+        /*----- disable I Cache -----*/
+        MRC p15, 0, temp, c1, c0, 0
+        bic temp, temp, #0x1000
+        MCR p15, 0, temp, c1, c0, 0
+
+        /*----- disable D Cache -----*/
+        MRC p15, 0, temp, c1, c0, 0
+        bic temp, temp, #0x04
+        MCR p15, 0, temp, c1, c0, 0
+    }
 #endif
-	
-	_sys_IsCacheOn = FALSE;
-	_sys_CacheMode = CACHE_DISABLE;
+
+    _sys_IsCacheOn = FALSE;
+    _sys_CacheMode = CACHE_DISABLE;
 }
 
 VOID sysFlushCache(INT32 nCacheType)
 {
-	volatile int temp;
+    int temp;
 
-	switch (nCacheType)
-	{
-		case I_CACHE:
-	#if defined (__GNUC__) && !(__CC_ARM)
-	        __asm volatile
-	        (
-	            /*----- flush I-cache -----*/
-	            "MOV %0, #0x0  \n\t"
-	            "MCR p15, #0, %0, c7, c5, 0  \n\t" /* invalidate I cache */
-	            : "=r"(temp)
-	            : "0" (temp)
-	            : "memory"
-	        );
-	#else
-			__asm
-			{
-				/*----- flush I-cache -----*/
-				MOV temp, 0x0
-				MCR p15, 0, temp, c7, c5, 0 /* invalidate I cache */
-			}
-	#endif
-			break;
+    switch (nCacheType)
+    {
+    case I_CACHE:
+#if defined (__GNUC__) && !(__CC_ARM)
+        __asm volatile
+        (
+            /*----- flush I-cache -----*/
+            "MOV %0, #0x0  \n\t"
+            "MCR p15, #0, %0, c7, c5, 0  \n\t" /* invalidate I cache */
+            : "=r"(temp)
+            : "0" (temp)
+            : "memory"
+        );
+#else
+        __asm
+        {
+            /*----- flush I-cache -----*/
+            MOV temp, 0x0
+            MCR p15, 0, temp, c7, c5, 0 /* invalidate I cache */
+        }
+#endif
+        break;
 
-		case D_CACHE:
-			sys_flush_and_clean_dcache();
-	#if defined (__GNUC__) && !(__CC_ARM)
-	        __asm volatile
-	        (
-	            /*----- flush D-cache & write buffer -----*/
-	            "MOV %0, #0x0 \n\t"
-	            "MCR p15, #0, %0, c7, c10, #4 \n\t" /* drain write buffer */
-	            :"=r" (temp)
-	            :"0"  (temp)
-	            :"memory"
-	        );
-	#else
-			__asm
-			{
-				/*----- flush D-cache & write buffer -----*/
-				MOV temp, 0x0			
-				MCR p15, 0, temp, c7, c10, 4 /* drain write buffer */
-			}
-	#endif
-			break;
+    case D_CACHE:
+        sys_flush_and_clean_dcache();
+#if defined (__GNUC__) && !(__CC_ARM)
+        __asm volatile
+        (
+            /*----- flush D-cache & write buffer -----*/
+            "MOV %0, #0x0 \n\t"
+            "MCR p15, #0, %0, c7, c10, #4 \n\t" /* drain write buffer */
+            :"=r" (temp)
+            :"0"  (temp)
+            :"memory"
+        );
+#else
+        __asm
+        {
+            /*----- flush D-cache & write buffer -----*/
+            MOV temp, 0x0
+            MCR p15, 0, temp, c7, c10, 4 /* drain write buffer */
+        }
+#endif
+        break;
 
-		case I_D_CACHE:
-			sys_flush_and_clean_dcache();
-	#if defined (__GNUC__) && !(__CC_ARM)
-	        __asm volatile
-	        (
-	            /*----- flush I, D cache & write buffer -----*/
-	            "MOV %0, #0x0  \n\t"
-	            "MCR p15, #0, %0, c7, c5, #0  \n\t" /* invalidate I cache */
-	            "MCR p15, #0, %0, c7, c10, #4 \n\t" /* drain write buffer */
-	            :"=r" (temp)
-	            :"0"  (temp)
-	            :"memory"
-	        );
-	#else
-			__asm
-			{
-				/*----- flush I, D cache & write buffer -----*/
-				MOV temp, 0x0
-				MCR p15, 0, temp, c7, c5, 0 /* invalidate I cache */
-				MCR p15, 0, temp, c7, c10, 4 /* drain write buffer */		
-			}
-	#endif
-			break;
+    case I_D_CACHE:
+        sys_flush_and_clean_dcache();
+#if defined (__GNUC__) && !(__CC_ARM)
+        __asm volatile
+        (
+            /*----- flush I, D cache & write buffer -----*/
+            "MOV %0, #0x0  \n\t"
+            "MCR p15, #0, %0, c7, c5, #0  \n\t" /* invalidate I cache */
+            "MCR p15, #0, %0, c7, c10, #4 \n\t" /* drain write buffer */
+            :"=r" (temp)
+            :"0"  (temp)
+            :"memory"
+        );
+#else
+        __asm
+        {
+            /*----- flush I, D cache & write buffer -----*/
+            MOV temp, 0x0
+            MCR p15, 0, temp, c7, c5, 0 /* invalidate I cache */
+            MCR p15, 0, temp, c7, c10, 4 /* drain write buffer */
+        }
+#endif
+        break;
 
-		default:
-			;
-	}
+    default:
+        ;
+    }
 }
 
 VOID sysInvalidCache()
 {
-	volatile int temp;
+    int temp;
 
 #if defined (__GNUC__) && !(__CC_ARM)
     __asm volatile
@@ -275,29 +274,29 @@ VOID sysInvalidCache()
         :"memory"
     );
 #else
-	__asm
+    __asm
     {
-		MOV temp, 0x0
-		MCR p15, 0, temp, c7, c7, 0 /* invalidate I and D cache */
-	}
+        MOV temp, 0x0
+        MCR p15, 0, temp, c7, c7, 0 /* invalidate I and D cache */
+    }
 #endif
 }
 
 BOOL sysGetCacheState()
 {
-	return _sys_IsCacheOn;
+    return _sys_IsCacheOn;
 }
 
 
 INT32 sysGetCacheMode()
 {
-	return _sys_CacheMode;
+    return _sys_CacheMode;
 }
 
 
 INT32 _sysLockCode(UINT32 addr, INT32 size)
 {
-    volatile int i, cnt, temp;
+    int i, cnt, temp;
 
 #if defined (__GNUC__) && !(__CC_ARM)
     __asm volatile
@@ -311,35 +310,35 @@ INT32 _sysLockCode(UINT32 addr, INT32 size)
         :"memory"
     );
 #else
-	__asm
-	{
-	    /* use way3 to lock instructions */
-		MRC p15, 0, temp, c9, c0, 1 ;
-		ORR temp, temp, 0x07 ;
-		MCR p15, 0, temp, c9, c0, 1 ;
-	}
+    __asm
+    {
+        /* use way3 to lock instructions */
+        MRC p15, 0, temp, c9, c0, 1 ;
+        ORR temp, temp, 0x07 ;
+        MCR p15, 0, temp, c9, c0, 1 ;
+    }
 #endif
-	
-	if (size % 16)  cnt = (size/16) + 1;
-	else            cnt = size / 16;
-	
-	for (i=0; i<cnt; i++)
-	{
+
+    if (size % 16)  cnt = (size/16) + 1;
+    else            cnt = size / 16;
+
+    for (i=0; i<cnt; i++)
+    {
 #if defined (__GNUC__) && !(__CC_ARM)
         __asm volatile
         (
             "MCR p15, #0, r0, c7, c13, #1 \n\t"
         );
 #else
-		__asm
-		{
-			MCR p15, 0, addr, c7, c13, 1;
-		}
+        __asm
+        {
+            MCR p15, 0, addr, c7, c13, 1;
+        }
 #endif
-	
-		addr += 16;
-	}
-	
+
+        addr += 16;
+    }
+
 #if defined (__GNUC__) && !(__CC_ARM)
     __asm volatile
     (
@@ -353,26 +352,26 @@ INT32 _sysLockCode(UINT32 addr, INT32 size)
         :"memory"
     );
 #else
-	__asm
-	{
-	    /* use way3 to lock instructions */
-		MRC p15, 0, temp, c9, c0, 1 ;
-		BIC temp, temp, 0x07 ;
-		ORR temp, temp, 0x08 ;
-		MCR p15, 0, temp, c9, c0, 1 ;
-	}
+    __asm
+    {
+        /* use way3 to lock instructions */
+        MRC p15, 0, temp, c9, c0, 1 ;
+        BIC temp, temp, 0x07 ;
+        ORR temp, temp, 0x08 ;
+        MCR p15, 0, temp, c9, c0, 1 ;
+    }
 #endif
-	
-	return Successful;
+
+    return Successful;
 
 }
 
 
 INT32 _sysUnLockCode()
 {
-    volatile int temp;
-	
-	/* unlock I-cache way 3 */
+    int temp;
+
+    /* unlock I-cache way 3 */
 #if defined (__GNUC__) && !(__CC_ARM)
     __asm volatile
     (
@@ -384,16 +383,16 @@ INT32 _sysUnLockCode()
         :"memory"
     );
 #else
-	__asm
-	{
-		MRC p15, 0, temp, c9, c0, 1;
-		BIC temp, temp, 0x08 ;
-		MCR p15, 0, temp, c9, c0, 1;
-	
-	}
+    __asm
+    {
+        MRC p15, 0, temp, c9, c0, 1;
+        BIC temp, temp, 0x08 ;
+        MCR p15, 0, temp, c9, c0, 1;
+
+    }
 #endif
- 
-	return Successful;
+
+    return Successful;
 }
 
 
