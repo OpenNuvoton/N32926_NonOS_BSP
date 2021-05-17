@@ -126,8 +126,8 @@ int main()
      *********************************************************************************************/
     sysSetDramClock(eSYS_MPLL, 360000000, 360000000);
     sysSetSystemClock(eSYS_UPLL,            //E_SYS_SRC_CLK eSrcClk,
-                      240000000,            //UINT32 u32PllKHz,
-                      240000000);           //UINT32 u32SysKHz,
+                      240000000,            //UINT32 u32PllHz,
+                      240000000);           //UINT32 u32SysHz,
     sysSetCPUClock(240000000/2);
 #endif
     
