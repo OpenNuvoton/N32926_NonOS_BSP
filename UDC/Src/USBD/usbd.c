@@ -14,7 +14,7 @@
 #include "W55FA92_reg.h"
 #include "usbd.h"
 
-#define DATA_CODE  "20210922"
+#define DATA_CODE  "20220217"
 
 #if defined (__GNUC__)
 volatile USBD_INFO_T usbdInfo  __attribute__((aligned(4))) = {0};
@@ -1371,6 +1371,7 @@ VOID usbd_isr(void)
 		if (IrqSt & CEP_STACOM_IS & IrqEn)
 		{
 			/* Update Device */
+				   	if (_usb_cmd_pkt.bmRequestType == 0)
 			usbd_update_device();			
 			outp32(CEP_IRQ_STAT, CEP_STACOM_IS);
 			
