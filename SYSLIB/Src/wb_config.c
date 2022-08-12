@@ -1282,11 +1282,11 @@ void _dramClockSwitch(register E_SYS_SRC_CLK eSrcClk,
             }
 #endif
 #endif
-						
+
 #if 0
             dly = (inp32(REG_CHIPCFG)&SDRAMSEL)>>4;
 #else
-  #ifdef __GNUC__
+#ifdef __GNUC__
             __asm
             (
                 "  MOV     %2, #0xb0000000  \n"
@@ -1296,9 +1296,9 @@ void _dramClockSwitch(register E_SYS_SRC_CLK eSrcClk,
                 "  MOV     %0, %2           \n"
                 : : "r"(reg2), "r"(reg1), "r"(reg0) :"memory"
             );
-  #endif
 #endif
-						
+#endif
+
 #ifdef __GNUC__
             outp32(0x1FFFFF0, 0);
             if( inp32(SRAM_MEMTYPE) == 3)
@@ -1809,6 +1809,7 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     BOOL bIsCacheState=FALSE;
     INT32  u32CacheMode;
     UINT32   vram_base, aic_status = 0, aic_statush=0;
+    UINT32 u32SPU_CH_PAUSE, u32LCM_TVCtl, u32AHBCLK;
 
     //VOID    (*wb_func)(UINT32,UINT32);
     VOID    (*wb_func)(UINT32,
@@ -1818,6 +1819,33 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
 
 //  DBG_PRINTF("_dramClockSwitchStart\n");
 
+    /* 2022/07/14 */
+    //backup AHBCLK
+    u32AHBCLK = inp32(REG_AHBCLK);
+    if( u32AHBCLK & SPU_CKE)
+    {
+        /* SPU enable */
+        /* backup SPU */
+        sysprintf("Pause SPU\n");
+        u32SPU_CH_PAUSE = inp32(REG_SPU_CH_PAUSE);
+        outp32(REG_SPU_CH_PAUSE, 0xFFFFFFFF);
+        outp32(REG_AHBCLK, inp32(REG_AHBCLK)&~SPU_CKE);
+    }
+    if( u32AHBCLK & VPOST_CKE)
+    {
+        /* VPOST enable */
+        /* VPOST Color Bar */
+        sysprintf("VPOST Color Mode\n");
+//              u32LCM_TVCtl = inp32(REG_LCM_TVCtl);
+//              outp32(REG_LCM_TVCtl, (inp32(REG_LCM_TVCtl)&TVCtl_TvSrc) | 0x800);
+
+        while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
+        outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
+
+        while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
+        outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
+        outp32(REG_AHBCLK, inp32(REG_AHBCLK)&~VPOST_CKE);
+    }
 
     aic_status = inpw(REG_AIC_IMR);
     aic_statush = inpw(REG_AIC_IMRH);
@@ -1867,8 +1895,25 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     if(bIsCacheState==TRUE)
         sysEnableCache(u32CacheMode);
 
+    /* 2022/07/14 */
+    if( u32AHBCLK & SPU_CKE)
+    {
+        /* SPU enable */
+        /* restore SPU */
+        outp32(REG_AHBCLK, inp32(REG_AHBCLK)|SPU_CKE);
+        outp32(REG_SPU_CH_PAUSE, u32SPU_CH_PAUSE);
+    }
+    if( u32AHBCLK & VPOST_CKE)
+    {
+        /* VPOST enable */
+        /* restore VPOST */
+        outp32(REG_AHBCLK, inp32(REG_AHBCLK)|VPOST_CKE);
+        outp32(REG_LCM_TVCtl, u32LCM_TVCtl);
+    }
+
     outpw(REG_AIC_MECR, aic_status);        // Restore AIC setting
     outpw(REG_AIC_MECRH,aic_statush);
+    outp32(REG_AHBCLK, u32AHBCLK);
 }
 /*
     Memory clock constraint

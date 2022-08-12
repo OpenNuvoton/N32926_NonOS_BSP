@@ -34,15 +34,15 @@
 
 	#ifdef __OTP_4BIT__
 		#ifdef __Security__
-			#define DATE_CODE   "20210507 4-Bit Mode with Security"	
+			#define DATE_CODE   "20220809 4-Bit Mode with Security"	
 		#else	
-			#define DATE_CODE   "20210507 4-Bit Mode"
+			#define DATE_CODE   "20220809 4-Bit Mode"
 		#endif			
 	#else
 		#ifdef __Security__
-			#define DATE_CODE   "20210507 with Security"	
+			#define DATE_CODE   "20220809 with Security"	
 		#else
-			#define DATE_CODE   "20210507"
+			#define DATE_CODE   "20220809"
 		#endif			
 	#endif
 #endif
