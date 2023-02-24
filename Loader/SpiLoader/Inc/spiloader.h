@@ -65,7 +65,7 @@
 #elif defined( __LCM_800x480__)
 	#define PANEL_WIDTH		800
 	#define PANEL_HEIGHT	480
-#elif defined( __LCM_QVGA__)
+#elif defined( __LCM_320x240__)
 	#define PANEL_WIDTH		320
 	#define PANEL_HEIGHT	240
 #elif defined( __LCM_128x64__)
