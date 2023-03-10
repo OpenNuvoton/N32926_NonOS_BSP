@@ -73,19 +73,9 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>0</IsCurrentTarget>
+        <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -103,9 +93,13 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>6</nTsel>
+        <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -141,6 +135,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -228,16 +225,6 @@
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -255,6 +242,10 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <nTsel>6</nTsel>
@@ -293,6 +284,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -380,16 +374,6 @@
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -407,6 +391,10 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <nTsel>6</nTsel>
@@ -445,6 +433,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -532,16 +523,6 @@
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -559,9 +540,13 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>6</nTsel>
+        <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -597,6 +582,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -684,16 +672,6 @@
         <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -711,6 +689,10 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <nTsel>6</nTsel>
@@ -749,6 +731,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -833,19 +818,9 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>1</IsCurrentTarget>
+        <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>12</CpuCode>
-      <DllOpt>
-        <SimDllName>SARM.DLL</SimDllName>
-        <SimDllArguments>-cAT91SAM9</SimDllArguments>
-        <SimDlgDllName>DARMATS9.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p91SAM9260</SimDlgDllArguments>
-        <TargetDllName>SARM.DLL</TargetDllName>
-        <TargetDllArguments></TargetDllArguments>
-        <TargetDlgDllName>TARMATS9.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p91SAM9260</TargetDlgDllArguments>
-      </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -863,9 +838,13 @@
         <tRmem>1</tRmem>
         <tRfunc>0</tRfunc>
         <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>6</nTsel>
+        <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -901,6 +880,9 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -937,6 +919,7 @@
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
@@ -950,6 +933,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\adc.c</PathWithFileName>
       <FilenameWithoutPath>adc.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -964,6 +949,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\demo.c</PathWithFileName>
       <FilenameWithoutPath>demo.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -978,6 +965,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_I2C.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_I2C.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -992,6 +981,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_NT99050.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_NT99050.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1006,6 +997,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_NT99141.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_NT99141.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1020,6 +1013,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_NT99160.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_NT99160.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1034,6 +1029,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_OV7670.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_OV7670.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1048,6 +1045,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_OV7725.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_OV7725.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1062,6 +1061,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\Smpl_OV9660.c</PathWithFileName>
       <FilenameWithoutPath>Smpl_OV9660.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1076,6 +1077,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\standalone.c</PathWithFileName>
       <FilenameWithoutPath>standalone.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1090,6 +1093,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\uvc_main.c</PathWithFileName>
       <FilenameWithoutPath>uvc_main.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1104,6 +1109,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\wb_init.s</PathWithFileName>
       <FilenameWithoutPath>wb_init.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1118,6 +1125,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\I2CS\DrvI2C.c</PathWithFileName>
       <FilenameWithoutPath>DrvI2C.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1132,6 +1141,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\lib\w55fa92_UDC.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_UDC.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1146,6 +1157,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\lib\w55fa92_UAVC.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_UAVC.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1160,6 +1173,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\lib\w55fa92_UAVC_YUV_Only.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_UAVC_YUV_Only.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1174,6 +1189,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\lib\w55fa92_UAVC_MJPEG_Only.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_UAVC_MJPEG_Only.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1188,6 +1205,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\SYSLIB\Lib\W55FA92_syslib.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_syslib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1202,6 +1221,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\I2C\lib\w55fa92_i2c.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_i2c.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1216,6 +1237,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\GPIO\lib\w55fa92_gpio.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_gpio.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1230,6 +1253,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\JPEG\LIB\w55fa92_jpeglib.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_jpeglib.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1244,6 +1269,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\VideoIn\Lib\W55FA92_VideoIn.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_VideoIn.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1258,6 +1285,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\AudioRecord\Lib\W55FA92_AUR.lib</PathWithFileName>
       <FilenameWithoutPath>W55FA92_AUR.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -1272,6 +1301,8 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\EDMA\lib\w55fa92_edma.lib</PathWithFileName>
       <FilenameWithoutPath>w55fa92_edma.lib</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
     </File>
   </Group>
 

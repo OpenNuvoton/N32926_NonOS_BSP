@@ -246,6 +246,8 @@ void jpegISR(void)
     			
     			u16Width = g_u32windowSizeX;			
 	    		u16Height = g_u32windowSizeY;
+          jpegInfo.jpeg_win_width = g_u32windowSizeX;       
+          jpegInfo.jpeg_win_height = g_u32windowSizeY;
 	    	}    	
     	
    			if(jpegInfo.stride)
@@ -849,9 +851,6 @@ INT jpegSetWindowDecode(
     outp32(REG_JWINDEC1, u16EndMCUY << 16 | u16EndMCUX); 
     outp32(REG_JWINDEC2, u32Stride);     
 	outp32(REG_JMCR, WIN_DEC);
-	sysprintf("\tJWINDEC0 0x%X\n", inp32(REG_JWINDEC0));
-	sysprintf("\tJWINDEC1 0x%X\n", inp32(REG_JWINDEC1));
-	sysprintf("\tJWINDEC2 0x%X\n", inp32(REG_JWINDEC2));
 	return E_SUCCESS;
 }
 
