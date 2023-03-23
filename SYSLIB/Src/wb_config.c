@@ -1818,7 +1818,11 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
                        UINT32);
 
 //  DBG_PRINTF("_dramClockSwitchStart\n");
-
+    aic_status = inpw(REG_AIC_IMR);
+    aic_statush = inpw(REG_AIC_IMRH);
+    outpw(REG_AIC_MDCR, 0xFFFFFFFF);    //Disable interrupt
+    outpw(REG_AIC_MDCRH, 0xFFFFFFFF);   //Disable interrupt
+		
     /* 2022/07/14 */
     //backup AHBCLK
     u32AHBCLK = inp32(REG_AHBCLK);
@@ -1826,7 +1830,7 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     {
         /* SPU enable */
         /* backup SPU */
-        sysprintf("Pause SPU\n");
+//        sysprintf("Pause SPU\n");
         u32SPU_CH_PAUSE = inp32(REG_SPU_CH_PAUSE);
         outp32(REG_SPU_CH_PAUSE, 0xFFFFFFFF);
         outp32(REG_AHBCLK, inp32(REG_AHBCLK)&~SPU_CKE);
@@ -1835,23 +1839,17 @@ void _dramClockSwitchStart(E_SYS_SRC_CLK eSrcClk,
     {
         /* VPOST enable */
         /* VPOST Color Bar */
-        sysprintf("VPOST Color Mode\n");
-//              u32LCM_TVCtl = inp32(REG_LCM_TVCtl);
-//              outp32(REG_LCM_TVCtl, (inp32(REG_LCM_TVCtl)&TVCtl_TvSrc) | 0x800);
+        if(inp32(REG_LCM_LCDCCtl) & LCDCCtl_LCDRUN)
+        {
+            while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
+            outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
 
-        while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
-        outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
-
-        while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
-        outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
-        outp32(REG_AHBCLK, inp32(REG_AHBCLK)&~VPOST_CKE);
+            while(!(inp32(REG_LCM_LCDCInt)&LCDCInt_VINT));
+            outp32(REG_LCM_LCDCInt, inp32(REG_LCM_LCDCInt)|LCDCInt_VINT);
+            outp32(REG_AHBCLK, inp32(REG_AHBCLK)&~VPOST_CKE);
+        }
     }
-
-    aic_status = inpw(REG_AIC_IMR);
-    aic_statush = inpw(REG_AIC_IMRH);
-    outpw(REG_AIC_MDCR, 0xFFFFFFFF);    //Disable interrupt
-    outpw(REG_AIC_MDCRH, 0xFFFFFFFF);   //Disable interrupt
-
+		
     vram_base = PD_RAM_BASE;
 
 //  outp32(0xff000f80,8);
