@@ -118,6 +118,7 @@
 #define JPEG_IOCTL_SET_DECODE_COMPLETE_CALBACKFUN			40
 #define JPEG_IOCTL_SET_ENCODE_COMPLETE_CALBACKFUN			41
 #define JPEG_IOCTL_SET_DECODE_ERROR_CALBACKFUN				42
+#define JPEG_IOCTL_GET_WINDOW_DECODE_SIZE                    43
 
 typedef BOOL (*PFN_JPEG_HEADERDECODE_CALLBACK)(void);
 typedef BOOL (*PFN_JPEG_CALLBACK)(void);
@@ -130,8 +131,6 @@ typedef struct{
     UINT32	height;			/*for decode*/
 	UINT32	jpeg_width;		/*for decode*/
     UINT32	jpeg_height;	/*for decode*/        
-	UINT32	jpeg_win_width;		/*for decode*/
-    UINT32	jpeg_win_height;	/*for decode*/   
     UINT32	stride;			/*for decode*/    
     /*encode information*/
     UINT32	bufferend;
