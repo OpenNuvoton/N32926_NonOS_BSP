@@ -14,7 +14,7 @@
 #include "W55FA92_reg.h"
 #include "usbd.h"
 
-#define DATA_CODE  "20230109"
+#define DATA_CODE  "20230504"
 
 #if defined (__GNUC__)
 volatile USBD_INFO_T usbdInfo  __attribute__((aligned(4))) = {0};
@@ -293,7 +293,6 @@ VOID usbd_update_device(void)
 				usbdInfo.remotewakeup=0;
 			}
 			break;
-		
 		default:
 			break;
 	}
@@ -330,7 +329,6 @@ VOID usbd_send_descriptor(void)
 					ptr = (UINT32 *)usbdInfo.pu32HOSConfDescriptor;
 				else if (usbdInfo._usbd_speedset == 1)
 					ptr = (UINT32 *)usbdInfo.pu32FOSConfDescriptor;	
-						
 			}
 			else if (usbdInfo.GET_STR_Flag == 1)
 				ptr = (UINT32 *)usbdInfo.pu32StringDescriptor[_usb_cmd_pkt.wValue & 0x7];
@@ -503,8 +501,7 @@ VOID usbd_control_packet(void)
 						
 				if(flag > 5)
 					break;	
-				
-			}		
+            }
 		}
     	usbdInfo.CLASS_CMD_Oflag = 1; 
     	   
@@ -534,7 +531,6 @@ VOID usbd_control_packet(void)
 					usbdInfo.USBModeFlag=1;	/*  acpi debug */
 					if (_usb_cmd_pkt.wLength > usbdInfo.u32DevDescriptorLen)
 						_usb_cmd_pkt.wLength = usbdInfo.u32DevDescriptorLen;
-
 					break;
 
 				case USB_DT_CONFIG:
@@ -572,10 +568,7 @@ VOID usbd_control_packet(void)
 					{
 						if (_usb_cmd_pkt.wLength > usbdInfo.u32FOSConfDescriptorLen)
 							_usb_cmd_pkt.wLength = usbdInfo.u32FOSConfDescriptorLen;	
-					}						
-					
-	
-
+                    }
 					break;
 
 				case USB_DT_STRING:
@@ -611,7 +604,6 @@ VOID usbd_control_packet(void)
 				outp32(CEP_IRQ_STAT, CEP_IN_TK_IS);
 				outp32(CEP_IRQ_ENB, CEP_IN_TK_IE);		//suppkt int ,status and in token
 			}
-	
 			break;
 
 		case USBR_SET_ADDRESS:
@@ -655,10 +647,8 @@ VOID usbd_control_packet(void)
 
 			usbdClearAllFlags();
 			usbdInfo.usbdGetConfig=1;			
-
-			outp32(CEP_IRQ_STAT, CEP_IN_TK_IS);
-			outp32(CEP_IRQ_ENB, CEP_IN_TK_IE);		/* status and in token */ 
-
+            outp32(CEP_IRQ_STAT, CEP_IN_TK_IS);
+            outp32(CEP_IRQ_ENB, CEP_IN_TK_IE);    /* status and in token */
 			break;
 
 		case USBR_SET_CONFIGURATION:
@@ -704,18 +694,15 @@ VOID usbd_control_packet(void)
 			
 			usbdClearAllFlags();
 			usbdInfo.usbdGetInterface = 1;			
-	
 			outp32(CEP_IRQ_STAT, CEP_IN_TK_IS);
 			outp32(CEP_IRQ_ENB, CEP_IN_TK_IE);		/* status and in token */		
 			break;
 
 		case USBR_SET_INTERFACE:
-
 			usbdInfo._usbd_altsel = _usb_cmd_pkt.wValue;
 			usbdInfo._usbd_intfsel = _usb_cmd_pkt.wIndex;
-			
 			if(usbdInfo.u32UVC)
-			{		  			
+            {
 				if ( usbdInfo._usbd_intfsel == 1 )  // for video interface
 				{
 					if (_usb_cmd_pkt.wValue != 0)      // Set alternative interface Video
@@ -730,7 +717,6 @@ VOID usbd_control_packet(void)
 		                outp32(DMA_CTRL_STS, inp32(DMA_CTRL_STS)|0x00000080);	/* Reset DMA */
 			            outp32(DMA_CTRL_STS, inp32(DMA_CTRL_STS)&0x0000007F);    
 	                    outp32(EPA_RSP_SC, BUF_FLUSH);	/* flush fifo */
-					         
 		                usbdInfo._usbd_DMA_In =1;                
 			            usbdInfo.AlternateFlag=0;
 				        usbdStatus.appConnected = 0;
@@ -759,11 +745,10 @@ VOID usbd_control_packet(void)
 	               	//outp32(DMA_CTRL_STS, inp32(DMA_CTRL_STS)&0x0000007F);    
 	               	//usbdInfo._usbd_DMA_In =1;    
 					//sysprintf("Interface no, alter no\n");                             
-	            }  
+                }
 			}
 			else
 			{
-
 	            if (_usb_cmd_pkt.wValue !=0)
 	            {
 	            	usbdInfo.AlternateFlag=1;
@@ -775,18 +760,14 @@ VOID usbd_control_packet(void)
 	            {
 	                outp32(DMA_CTRL_STS, inp32(DMA_CTRL_STS)|0x00000080);	/* Reset DMA */
 	                outp32(DMA_CTRL_STS, inp32(DMA_CTRL_STS)&0x0000007F);    
-	                             
 	                usbdInfo._usbd_DMA_In =1;                
 	                usbdInfo.AlternateFlag=0;
 	                usbdStatus.appConnected = 0;
-	            }  			
+                }
 			}	
 			outp32(CEP_IRQ_STAT, CEP_STACOM_IS);
 			outp32(CEP_CTRL_STAT, CEP_NAK_CLEAR);	/* clear nak so that sts stage is complete */
-			
-			
-			outp32(CEP_IRQ_ENB, CEP_STACOM_IE);				/* suppkt int ,status and in token */
-			
+            outp32(CEP_IRQ_ENB, CEP_STACOM_IE);    /* suppkt int ,status and in token */
 			break;
 
 		case USBR_SET_FEATURE:
@@ -830,16 +811,12 @@ VOID usbd_control_packet(void)
 					}
 					else
 						ReqErr=1; /* No such feature for device */
-
 					break;
-
 				case 1:		/* interface */
 					break;
-
 				case 2:		/* endpoint */
 					if((_usb_cmd_pkt.wValue & 0x3) == ENDPOINT_HALT)
 					{
-						//dx->chgfea=dx->feature | ENDPOINT_HALT;
 						if((_usb_cmd_pkt.wIndex & 0xF) == 0) 		/* endPoint zero */
 							usbdInfo._usbd_haltep = 0;
 						else if((_usb_cmd_pkt.wIndex & 0xF) == usbdInfo.i32EPA_Num)	/* endPoint A */
@@ -891,16 +868,12 @@ VOID usbd_control_packet(void)
 						usbdInfo.disableremotewakeup = 1;
 					else
 						ReqErr=1;	/* No such feature for device */
-
-					break;
-
-				case 1:		/* interface */
-					break;
-
-				case 2:		/* endpoint */
-					if((_usb_cmd_pkt.wValue & 0x3) == ENDPOINT_HALT)
-					{
-						//dx->chgfea=dx->feature |ENDPOINT_HALT;
+                    break;
+                case 1:  /* interface */
+                    break;
+                case 2:  /* endpoint */
+                    if((_usb_cmd_pkt.wValue & 0x3) == ENDPOINT_HALT)
+                    {
 						if((_usb_cmd_pkt.wIndex & 0xF) == 0) 		/* endPoint zero */
 							usbdInfo._usbd_unhaltep = 0;
 						else if((_usb_cmd_pkt.wIndex & 0xF) == usbdInfo.i32EPA_Num)	/* endPoint A */
@@ -916,7 +889,6 @@ VOID usbd_control_packet(void)
 					}
 					else
 						ReqErr=1;	/* Neither device,interface nor endpoint was choosen */
-						
 					break;
 
 				default:
@@ -958,15 +930,12 @@ VOID usbd_control_packet(void)
 					else 
 						usbdInfo.usbdGetStatusData = 0x1;
 					break;
-
-				case 1:	/* interface */
-					if (_usb_cmd_pkt.wIndex == 0)
-						usbdInfo.usbdGetStatusData = 0;	/* Status of interface zero */
-					else
-						ReqErr=1;	/* Status of interface non zero */
-
-					break;
-
+                case 1:   /* interface */
+                    if (_usb_cmd_pkt.wIndex == 0)
+                        usbdInfo.usbdGetStatusData = 0;  /* Status of interface zero */
+                    else
+                        ReqErr=1;  /* Status of interface non zero */  
+                    break;
 				case 2:	/* endpoint */
 					if (_usb_cmd_pkt.wIndex == 0x0)
 						usbdInfo.usbdGetStatusData = 0;	/* Status of Endpoint zero */
@@ -981,10 +950,9 @@ VOID usbd_control_packet(void)
 							usbdInfo.usbdGetStatusData = 0x1;
 						else
 							usbdInfo.usbdGetStatusData = 0;
-					}					
-					else
-						ReqErr=1;	/* Status of non-existing Endpoint */
-						
+                    }
+                    else
+                        ReqErr=1;  /* Status of non-existing Endpoint */
 					break;
 
 				default:
@@ -1004,7 +972,6 @@ VOID usbd_control_packet(void)
 
 	}	
 }
-
 
 VOID usbd_isr(void)
 {
@@ -1028,7 +995,6 @@ VOID usbd_isr(void)
 			{
 				usbdInfo._usbd_devstate = 1;	/* default state */
 				usbdInfo._usbd_address = 0;		/* zero */
-	
 				if(usbdInfo.pfnPlug!=NULL)
 					usbdInfo.pfnPlug();	
 				usbdInfo.u32VbusStatus = 1;
@@ -1165,49 +1131,49 @@ VOID usbd_isr(void)
 			g_bHostAttached = TRUE;	
             outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
 
-            outp32(USB_IRQ_STAT, SOF_IS);
-            outp32(CEP_IRQ_STAT, CEP_NAK_IS);
             test = inp32(PHY_CTL) & Vbus_status;
             for(i=0;i<0x40000;i++)
             {
-				if(test != (inp32(PHY_CTL) & Vbus_status))
-				{
-					if(inp32(PHY_CTL) & Vbus_status)
-					{
-						usbdInfo.u32VbusStatus = 1;
-						usbdStatus.usbConnected = 1;
-						outp32(PHY_CTL, (0x20 | Phy_suspend | vbus_detect));	
-					}
-					else	
-					{
-						outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
-						usbdInfo.u32VbusStatus = 0;	
-						usbdStatus.usbConnected = 0;
-						usbdInfo.USBModeFlag =0;
-						usbdInfo.AlternateFlag = 0;
-						usbdStatus.appConnected = 0;
-						usbdInfo.AlternateFlag_Audio = 0;
-						usbdStatus.appConnected_Audio = 0;
-						outp32(PHY_CTL, (0x20 | Phy_suspend));
+                outp32(USB_IRQ_STAT, SOF_IS);
+                outp32(CEP_IRQ_STAT, CEP_NAK_IS);
+                if(test != (inp32(PHY_CTL) & Vbus_status))
+                {
+                    if(inp32(PHY_CTL) & Vbus_status)
+                    {
+                        usbdInfo.u32VbusStatus = 1;
+                        usbdStatus.usbConnected = 1;
+                        outp32(PHY_CTL, (0x20 | Phy_suspend | vbus_detect));
+                    }
+                    else
+                    {
+                        outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
+                        usbdInfo.u32VbusStatus = 0;	
+                        usbdStatus.usbConnected = 0;
+                        usbdInfo.USBModeFlag =0;
+                        usbdInfo.AlternateFlag = 0;
+                        usbdStatus.appConnected = 0;
+                        usbdInfo.AlternateFlag_Audio = 0;
+                        usbdStatus.appConnected_Audio = 0;
+                        outp32(PHY_CTL, (0x20 | Phy_suspend));
                         g_u32Suspend_Flag = 0;
                        // sysprintf("Unplug(S)!!\n");
                         outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE|USB_SUS_REQ));
-                        outp32(USB_IRQ_STAT, SUS_IS);    /* Suspend */
+                        outp32(USB_IRQ_STAT, SUS_IS);    /* Suspend */     
+                        outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
                     }
-                    outp32(USB_IRQ_STAT, VBUS_IS);
+                    outp32(USB_IRQ_STAT, VBUS_IS);   
                     return;
                 }
                 if((inp32(CEP_IRQ_STAT) & CEP_NAK_IS) ||(inp32(USB_IRQ_STAT) & SOF_IS))
                 {
-                    outp32(CEP_IRQ_STAT, CEP_NAK_IS);
-                    outp32(USB_IRQ_STAT, SOF_IS);
-                    outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE|USB_SUS_REQ));
+                    outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
                     outp32(USB_IRQ_STAT, SUS_IS);    /* Suspend */
                     return;
                 }
             }
             outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE|USB_SUS_REQ));
             outp32(USB_IRQ_STAT, SUS_IS);    /* Suspend */
+
             if(usbdInfo.u32UVC)
             {
                 if(pfnSuspend !=NULL)
@@ -1219,13 +1185,13 @@ VOID usbd_isr(void)
             else
             {
                 if(g_u32Suspend_Flag == 1 && pfnSuspend !=NULL)
-                {
+                {     
                     pfnSuspend();
                     g_u32Suspend_Flag = 0;
                 }
             }
-			outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
-		}
+        outp32(USB_IRQ_ENB, (USB_RST_STS|USB_RESUME|VBUS_IE));
+    }
 
 		if (IrqSt & HISPD_IS & IrqEn)
 		{
@@ -1365,6 +1331,7 @@ VOID usbd_isr(void)
 		if (IrqSt & CEP_NAK_IS & IrqEn)
 		{
 			outp32(CEP_IRQ_STAT, CEP_NAK_IS);
+            
             if(inp32(OUT_TRNSFR_CNT) && usbdInfo.CLASS_CMD_Oflag && ((inp32(CEP_IRQ_STAT) & CEP_DATA_RxED_IS) == 0))
             {
                 /* Data Packet receive(OUT) */
