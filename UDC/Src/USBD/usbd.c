@@ -14,7 +14,7 @@
 #include "W55FA92_reg.h"
 #include "usbd.h"
 
-#define DATA_CODE  "20230504"
+#define DATA_CODE  "20230508"
 
 #if defined (__GNUC__)
 volatile USBD_INFO_T usbdInfo  __attribute__((aligned(4))) = {0};
@@ -23,6 +23,7 @@ volatile USBD_STATUS_T usbdStatus  __attribute__((aligned(4))) = {0};
 __align(4) volatile USBD_INFO_T usbdInfo = {0};
 __align(4) volatile USBD_STATUS_T usbdStatus = {0};
 #endif
+
 UINT32 g_u32Suspend_Flag = 0;
 PFN_USBD_CALLBACK pfnSuspend = NULL, pfnResume = NULL;
 
@@ -1120,6 +1121,7 @@ VOID usbd_isr(void)
 			g_bHostAttached = TRUE;	
             if(pfnResume != NULL)
                 pfnResume();
+            g_u32Suspend_Flag = 1;
 			outp32(USB_IRQ_ENB, (USB_RST_STS|USB_SUS_REQ|VBUS_IE));
 		}
 
