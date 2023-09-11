@@ -31,6 +31,8 @@
 #define FMISDIO_SD_CRC16_ERROR      (FMISDIO_ERR_ID|0x17)
 #define FMISDIO_SD_CRC_ERROR        (FMISDIO_ERR_ID|0x18)
 #define FMISDIO_SD_CMD8_ERROR       (FMISDIO_ERR_ID|0x19)
+#define FMISDIO_SD_DITO_ERROR       (FMISDIO_ERR_ID|0x1A)
+#define FMISDIO_SD_RITO_ERROR       (FMISDIO_ERR_ID|0x1B)
 
 typedef struct fmi_sdio_info_t
 {

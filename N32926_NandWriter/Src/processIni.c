@@ -10,9 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "wblib.h"
-#include "W55FA92_SIC.h"
 #include "NVTFAT.h"
-#include "Font.h"
 #include "writer.h"
 
 #if 1
@@ -124,6 +122,8 @@ int ProcessINI(char *fileName)
     Ini_Writer.NAND1_1_FAT  = FAT_MODE_FILE;
     Ini_Writer.NAND1_2_FAT  = FAT_MODE_FILE;
     Ini_Writer.NANDCARD_FAT = FAT_MODE_SKIP;    // skip program NANDCARD
+    Ini_Writer.TIMEOUT_SEC  = -1;
+    Ini_Writer.TurboWriter_INI[0] = 0;
 
     //--- open INI file
     strcpy(szNvtFullName, fileName);
@@ -314,17 +314,62 @@ NextMark2:
                 }
             } while (1);
         }
+        else if (strcmp(Cmd, "[TIMEOUT SECOND]") == 0)
+        {
+            do {
+                status = readLine(FileHandle, Cmd);
+                if (status < 0)
+                    break;          // use default value since error code from NVTFAT. Coulde be end of file.
+                else if (Cmd[0] == 0)
+                    continue;       // skip empty line
+                else if ((Cmd[0] == '/') && (Cmd[1] == '/'))
+                    continue;       // skip comment line
+                else if (Cmd[0] == '[')
+                    goto NextMark2; // use default value since no assign value before next keyword
+                else
+                {
+                    Ini_Writer.TIMEOUT_SEC = atoi(Cmd);
+                    break;
+                }
+            } while (1);
+        }
+        else if (strcmp(Cmd, "[TurboWriter INI]") == 0)
+        {
+            do {
+                status = readLine(FileHandle, Cmd);
+                if (status < 0)
+                    break;          // use default value since error code from NVTFAT. Coulde be end of file.
+                else if (Cmd[0] == 0)
+                    continue;       // skip empty line
+                else if ((Cmd[0] == '/') && (Cmd[1] == '/'))
+                    continue;       // skip comment line
+                else if (Cmd[0] == '[')
+                    goto NextMark2; // use default value since no assign value before next keyword
+                else
+                {
+                    if (strlen(Cmd) > 31)
+                    {
+                        sysprintf("ERROR: TurboWriter INI tag too long !! It must < 32 !!\n");
+                        return -1;
+                    }
+                    strcpy(Ini_Writer.TurboWriter_INI, Cmd);
+                    break;
+                }
+            } while (1);
+        }
     } while (status >= 0);  // keep parsing INI file
 
     //--- show final configuration
     dbgprintf("Process %s file ...\n", fileName);
-    dbgprintf("  NnandLoader = %s\n", Ini_Writer.NandLoader);
-    dbgprintf("  Logo        = %s\n", Ini_Writer.Logo);
-    dbgprintf("  NvtLoader   = %s\n", Ini_Writer.NVTLoader);
+    dbgprintf("  TurboWriter_INI= %s\n", Ini_Writer.TurboWriter_INI);
+    dbgprintf("  NnandLoader    = %s\n", Ini_Writer.NandLoader);
+    dbgprintf("  Logo           = %s\n", Ini_Writer.Logo);
+    dbgprintf("  NvtLoader      = %s\n", Ini_Writer.NVTLoader);
     dbgprintf("  SystemReservedMegaByte = %d\n", Ini_Writer.SystemReservedMegaByte);
-    dbgprintf("  NAND1_1_SIZE = %d\n", Ini_Writer.NAND1_1_SIZE);
-    dbgprintf("  NAND1_1_FAT  = %d\n", Ini_Writer.NAND1_1_FAT);
-    dbgprintf("  NAND1_2_FAT  = %d\n", Ini_Writer.NAND1_2_FAT);
-    dbgprintf("  NANDCARD_FAT = %d\n", Ini_Writer.NANDCARD_FAT);
+    dbgprintf("  NAND1_1_SIZE   = %d\n", Ini_Writer.NAND1_1_SIZE);
+    dbgprintf("  NAND1_1_FAT    = %d\n", Ini_Writer.NAND1_1_FAT);
+    dbgprintf("  NAND1_2_FAT    = %d\n", Ini_Writer.NAND1_2_FAT);
+    dbgprintf("  NANDCARD_FAT   = %d\n", Ini_Writer.NANDCARD_FAT);
+    dbgprintf("  TIMEOUT_SECOND = %d\n", Ini_Writer.TIMEOUT_SEC);
     return Successful;
 }

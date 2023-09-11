@@ -186,7 +186,7 @@ static int readLine(int FileHandle, char *Cmd)
  *---------------------------------------------------------------------------*/
 int ProcessOptionalINI(char *fileName)
 {
-    CHAR szNvtFullName[64], suNvtFullName[512], Cmd[256];
+    CHAR szNvtFullName[64], suNvtFullName[512], Cmd[256], TurboWriterTag[32];
     int FileHandle, status;
     int i;
     IBR_BOOT_OPTIONAL_STRUCT_T *ptr_Ini_Config;
@@ -216,7 +216,10 @@ int ProcessOptionalINI(char *fileName)
         if (status < 0)     // read file error. Coulde be end of file.
             break;
 NextMark2:
-        if ((strcmp(Cmd, "[USER_DEFINE]") == 0) || (strcmp(Cmd, "[N3292 USER_DEFINE]") == 0))
+        strcpy(TurboWriterTag, "[");
+        strcat(TurboWriterTag, Ini_Writer.TurboWriter_INI);
+        strcat(TurboWriterTag, "]");
+        if ((strcmp(Cmd, "[USER_DEFINE]") == 0) || (strcmp(Cmd, TurboWriterTag) == 0))
         {
             do {
                 status = readLine(FileHandle, Cmd);

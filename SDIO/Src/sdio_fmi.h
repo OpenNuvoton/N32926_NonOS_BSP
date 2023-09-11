@@ -14,7 +14,7 @@
 #include "wbio.h"
 
 // define DATE CODE and show it when running to make maintaining easy.
-#define SDIO_DATE_CODE      "20171124"
+#define SDIO_DATE_CODE      "20230904"
 
 /*-----------------------------------------------------------------------------
  * To define some flag for emulation or FPGA

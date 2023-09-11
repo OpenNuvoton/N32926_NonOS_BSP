@@ -6,8 +6,19 @@
  * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 
-#define MAJOR_VERSION_NUM   1
-#define MINOR_VERSION_NUM   11
+#ifndef _WRITER_H_
+#define _WRITER_H_
+
+#define MAJOR_VERSION_NUM   2
+#define MINOR_VERSION_NUM   0
+
+#define SUPPORT_INTERFACE   (1)
+#if (SUPPORT_INTERFACE)
+    #include "InterfaceCtl.h"
+#endif
+
+#include "W55FA92_SIC.h"
+#include "Font.h"
 
 extern UINT g_Font_Height, g_Font_Width, g_Font_Step;
 
@@ -53,8 +64,10 @@ typedef struct INI_Info {
     int  NAND1_1_FAT;
     int  NAND1_2_FAT;
     int  NANDCARD_FAT;
+    int  TIMEOUT_SEC;
+    char TurboWriter_INI[32];
 } INI_INFO_T;
-
+extern INI_INFO_T Ini_Writer;
 
 //----- Boot Code Optional Setting
 typedef struct IBR_boot_optional_pairs_struct_t
@@ -98,3 +111,5 @@ void Draw_Clear_Wait_Status(UINT32 u32x, UINT32 u32y);
 
 int ProcessINI(char *fileName);
 int ProcessOptionalINI(char *fileName);
+
+#endif  // _WRITER_H_

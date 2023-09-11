@@ -1537,6 +1537,8 @@
 #define REG_SDIOISR             (SDIOFMI_BA+0x02C)      /* SD interrupt status register */
 #define SDISR_CD1_Card          BIT17               // SDIO1 card detection pin status
 #define SDISR_SDIO1_IF          BIT11               // SDIO1 interrupt flag (SDIO issue interrupt via DAT[1]
+#define SDIOISR_DITO_IF         BIT13               // SDIO data input timeout interrupt flag
+#define SDIOISR_RITO_IF         BIT12               // SDIO response input timeout interrupt flag
 #define SDISR_CD1_IF            BIT9                // SDIO1 card detect interrupt flag
 #define REG_SDIORSP0                (SDIOFMI_BA+0x030)      /* SD receive response token register 0 */
 #define REG_SDIORSP1                (SDIOFMI_BA+0x034)      /* SD receive response token register 1 */
