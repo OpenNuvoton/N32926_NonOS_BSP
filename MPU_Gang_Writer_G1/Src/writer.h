@@ -1,15 +1,15 @@
 /**************************************************************************//**
  * @file     writer.h
- * @brief    NandWriter header file.
+ * @brief    MPU Gang Writer G1 header file.
  *
  * SPDX-License-Identifier: Apache-2.0
- * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+ * @copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 
 #ifndef _WRITER_H_
 #define _WRITER_H_
 
-#define MAJOR_VERSION_NUM   2
+#define MAJOR_VERSION_NUM   1
 #define MINOR_VERSION_NUM   0
 
 #define SUPPORT_INTERFACE   (1)

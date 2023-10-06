@@ -1,9 +1,9 @@
 /**************************************************************************//**
  * @file     processOptionalIni.c
- * @brief    NandWriter source code for TurboWriter.ini file process
+ * @brief    MPU Gang Writer G1 source code for TurboWriter.ini file process
  *
  * SPDX-License-Identifier: Apache-2.0
- * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+ * @copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 
 #include <stdio.h>

@@ -44,14 +44,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\NandWriter_Data\QVGA\</OutputDirectory>
-          <OutputName>NandWriter</OutputName>
+          <OutputDirectory>.\MPUGangWriterG1_Data\QVGA\</OutputDirectory>
+          <OutputName>MPUGangWriterG1</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\NandWriter_Data\QVGA\</ListingPath>
+          <ListingPath>.\MPUGangWriterG1_Data\QVGA\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>

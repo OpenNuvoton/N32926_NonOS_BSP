@@ -1,9 +1,9 @@
 /**************************************************************************//**
  * @file     writer.c
- * @brief    NandWriter source code.
+ * @brief    MPU Gang Writer G1 source code.
  *
  * SPDX-License-Identifier: Apache-2.0
- * @copyright (C) 2020 Nuvoton Technology Corp. All rights reserved.
+ * @copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -504,7 +504,7 @@ int main()
 
 #if 0
     // show clock setting
-    DBG_PRINTF("NandWriter extry.\n");
+    DBG_PRINTF("MPU Gang Writer G1 entry.\n");
     DBG_PRINTF("APLL   Clock = %dHz\n", sysGetPLLOutputHz(eSYS_APLL, sysGetExternalClock()));
     DBG_PRINTF("UPLL   Clock = %dHz\n", sysGetPLLOutputHz(eSYS_UPLL, sysGetExternalClock()));
     DBG_PRINTF("System Clock = %dHz\n", sysGetSystemClock());
@@ -585,7 +585,7 @@ int main()
     sysSetTimerReferenceClock(TIMER0, 12000000);
     sysStartTimer(TIMER0, 100, PERIODIC_MODE);
 
-    sysprintf("\n=====> W55FA92 NandWriter (v%d.%d) Begin [%d] <=====\n", MAJOR_VERSION_NUM, MINOR_VERSION_NUM, sysGetTicks(0));
+    sysprintf("\n=====> MPU Gang Writer G1 (v%d.%d) Begin [%d] <=====\n", MAJOR_VERSION_NUM, MINOR_VERSION_NUM, sysGetTicks(0));
 
     ltime.year = 2012;
     ltime.mon  = 04;
@@ -627,8 +627,8 @@ int main()
         goto _end_;
     }
 
-    // Get the NandWriter setting from INI file (NandWriter.ini)
-    status = ProcessINI("X:\\NandWriter.ini");
+    // Get the MPU Gang Writer G1 setting from INI file (MPUGangWriterG1.ini)
+    status = ProcessINI("X:\\MPUGangWriterG1.ini");
     if (status < 0)
     {
         Draw_Status(font_x+ u32SkipX*g_Font_Step, font_y, Fail);

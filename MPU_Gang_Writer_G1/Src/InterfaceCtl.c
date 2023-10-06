@@ -1,6 +1,6 @@
 /**************************************************************************//**
  * @file     InterfaceCtl.c
- * @brief    Source code for NandWriter interface control.
+ * @brief    Source code for MPU Gang Writer G1 interface control.
  *
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2023 Nuvoton Technology Corp. All rights reserved.
@@ -30,10 +30,10 @@ void Interface_LED_Y_ISR()
         //sysprintf("--> Interface_LED_Y_ISR(): TIMER1 ticks = %d\n", ticks);
         if (ticks > (TIMER1_TICKS_PER_SECOND * Ini_Writer.TIMEOUT_SEC))
         {
-            sysprintf("*** ERROR: NAND Writer timeout (> %d second) error !! Stop !!\n", Ini_Writer.TIMEOUT_SEC);
+            sysprintf("*** ERROR: MPU Gang Writer G1 timeout (> %d second) error !! Stop !!\n", Ini_Writer.TIMEOUT_SEC);
             Interface_NAND_Power_OFF();
             Interface_LED_Y_Stop();
-            Interface_LED_R_ON();   // NAND Writer FAIL
+            Interface_LED_R_ON();   // MPU Gang Writer G1 FAIL
             while(1);
         }
     }
@@ -141,8 +141,8 @@ void Interface_Wait_Start()
 #else
     unsigned short val;
 
-    /* Wait PB5 become LOW to start NAND Writer */
-    sysprintf("Press START button to start NAND Writer ...\n");
+    /* Wait PB5 become LOW to start MPU Gang Writer G1 */
+    sysprintf("Press START button to start MPU Gang Writer G1 ...\n");
     do
     {
         gpio_readport(GPIO_PORTB, &val);
