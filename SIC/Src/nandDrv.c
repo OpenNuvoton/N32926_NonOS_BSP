@@ -57,6 +57,13 @@
 // define the BCH parity code lenght for 1024 bytes data pattern
 #define BCH_PARITY_LEN_T24      45
 
+/* Return value of bad block checking */
+#define NAND_GOOD_BLOCK     (0)
+#define NAND_BAD_BLOCK      (1)
+
+/* Return value of dirty page checking */
+#define NAND_CLEAN_PAGE     (0)
+#define NAND_DIRTY_PAGE     (1)
 
 #if defined (OPT_SW_WP) || defined (__OPT_SW_WP_GPA0)
 #define SW_WP_DELAY_LOOP        3000
@@ -65,16 +72,19 @@
 BOOL volatile _fmi_bIsNandFirstAccess = TRUE;
 extern BOOL volatile _fmi_bIsSMDataReady;
 INT fmiSMCheckBootHeader(INT chipSel, FMI_SM_INFO_T *pSM);
+INT sicSMpread(INT chipSel, INT PBA, INT page, UINT8 *buff);
 static int _nand_init0 = 0, _nand_init1 = 0;
 
 #if defined (__GNUC__)
     UCHAR _fmi_ucSMBuffer[8192] __attribute__((aligned (4096)));
+    UCHAR _fmi_ucSMBuffer2[8192] __attribute__((aligned (4096)));
 #else
     __align(4096) UCHAR _fmi_ucSMBuffer[8192];
+    __align(4096) UCHAR _fmi_ucSMBuffer2[8192];
 #endif
 
-
 UINT8 *_fmi_pSMBuffer;
+UINT8 *_fmi_pSMBuffer2;
 
 extern void sicSMsetBCH(FMI_SM_INFO_T *pSM, int inIBR);
 
@@ -1824,110 +1834,80 @@ INT fmiSM_Read_large_page(FMI_SM_INFO_T *pSM, UINT32 uPage, UINT32 uDAddr)
  *---------------------------------------------------------------------------*/
 INT fmiCheckInvalidBlock(FMI_SM_INFO_T *pSM, UINT32 BlockNo)
 {
-    int volatile status=0;
-    unsigned int volatile sector;
-    unsigned char volatile data512=0xff, data517=0xff, blockStatus=0xff;
+    INT chipSel;
+    unsigned int volatile logical_block, physical_block;
+    unsigned char volatile byte0=0xFF, byte5=0xFF;
 
-    if (BlockNo == 0)
-        return 0;
+    physical_block = BlockNo;
+    logical_block = physical_block - pSM->uLibStartBlock;
 
-//    if (pSM->bIsMLCNand == TRUE)
-//        sector = (BlockNo+1) * pSM->uPagePerBlock - 1;
-//    else
-//        sector = BlockNo * pSM->uPagePerBlock;
+    if (pSM == pSM0)
+        chipSel = 0;
+    else
+        chipSel = 1;
+
+    // NAND flash guarantee block 0 is good block.
+    if (physical_block == 0)
+        return NAND_GOOD_BLOCK;
 
     //--- check first page ...
-    sector = BlockNo * pSM->uPagePerBlock;  // first page
-    if (pSM->nPageSize == NAND_PAGE_512B)
-        status = fmiSM_Read_RA_512(pSM, sector, 0);
-    else
-        status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-
-    if (status == GNERR_NAND_NOT_FOUND)
-        return status;
-    if (status < 0)
-    {
-        ERR_PRINTF("ERROR: fmiCheckInvalidBlock() read fail, for block %d, return 0x%x\n", BlockNo, status);
-        return 1;
-    }
+    _fmi_pSMBuffer2 = (UINT8 *)((UINT32)_fmi_ucSMBuffer2 | 0x80000000);
+    // read page 0 with ECC
+    sicSMpread(chipSel, logical_block, 0, _fmi_pSMBuffer2);
+    byte0 = (inpw(REG_SMRA_0) & 0x000000FF);
+    byte5 = (inpw(REG_SMRA_1) & 0x0000FF00) >> 8;
 
     // for 512B page size NAND
     if (pSM->nPageSize == NAND_PAGE_512B)
     {
-        data512 = inpw(REG_SMDATA) & 0xff;
-        data517 = inpw(REG_SMDATA);
-        data517 = inpw(REG_SMDATA);
-        data517 = inpw(REG_SMDATA);
-        data517 = inpw(REG_SMDATA);
-        data517 = inpw(REG_SMDATA) & 0xff;
-        if ((data512 == 0xFF) && (data517 == 0xFF)) // check byte 1 & 6
+        if ((byte0 == 0xFF) && (byte5 == 0xFF))
         {
             //--- first page PASS; check second page ...
             fmiSM_Reset(pSM);
-            status = fmiSM_Read_RA_512(pSM, sector+1, 0);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiCheckInvalidBlock() read fail, for block %d, return 0x%x\n", BlockNo, status);
-                return 1;
-            }
-            data512 = inpw(REG_SMDATA) & 0xff;
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA) & 0xff;
-            if ((data512 != 0xFF) || (data517 != 0xFF)) // check byte 1 & 6
+            sicSMpread(chipSel, logical_block, 1, _fmi_pSMBuffer2);
+            byte0 = inpw(REG_SMRA_0) & 0x000000FF;
+            byte5 = (inpw(REG_SMRA_1) & 0x0000FF00) >> 8;
+            if ((byte0 != 0xFF) || (byte5 != 0xFF))
             {
                 fmiSM_Reset(pSM);
-                return 1;   // invalid block
+                return NAND_BAD_BLOCK;
             }
         }
         else
         {
             fmiSM_Reset(pSM);
-            return 1;   // invalid block
+            return NAND_BAD_BLOCK;
         }
     }
     // for 2K/4K/8K page size NAND
     else
     {
-        blockStatus = inpw(REG_SMDATA) & 0xff;
-        if (blockStatus == 0xFF)    // check first byte
+        if (byte0 == 0xFF)
         {
-            if (pSM->bIsMLCNand == TRUE)
-                //--- first page PASS; check last page for MLC
-                sector = (BlockNo+1) * pSM->uPagePerBlock - 1;  // last page
-            else
-                //--- first page PASS; check second page for SLC
-                sector++;                                       // second page
-
             fmiSM_Reset(pSM);
-            status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiCheckInvalidBlock() read fail, for block %d, return 0x%x\n", BlockNo, status);
-                return 1;
-            }
-            blockStatus = inpw(REG_SMDATA) & 0xff;
-            if (blockStatus != 0xFF)    // check first byte
+            //--- first page PASS;
+            if (pSM->bIsMLCNand == TRUE)
+                // read last page with ECC for MLC NAND flash
+                sicSMpread(chipSel, logical_block, pSM->uPagePerBlock - 1, _fmi_pSMBuffer2);
+            else
+                // read page 1 with ECC for SLC NAND flash
+                sicSMpread(chipSel, logical_block, 1, _fmi_pSMBuffer2);
+            byte0 = inpw(REG_SMRA_0) & 0x000000FF;
+            if (byte0 != 0xFF)
             {
                 fmiSM_Reset(pSM);
-                return 1;   // invalid block
+                return NAND_BAD_BLOCK;
             }
         }
         else
         {
             fmiSM_Reset(pSM);
-            return 1;   // invalid block
+            return NAND_BAD_BLOCK;
         }
     }
 
     fmiSM_Reset(pSM);
-    return 0;   // valid block
+    return NAND_GOOD_BLOCK;
 }
 
 
@@ -1983,196 +1963,7 @@ static void sicSMselect(INT chipSel)
  *---------------------------------------------------------------------------*/
 static INT fmiNormalCheckBlock(FMI_SM_INFO_T *pSM, UINT32 BlockNo)
 {
-    int volatile status=0;
-    unsigned int volatile sector;
-    unsigned char data, data517;
-
-    _fmi_pSMBuffer = (UINT8 *)((UINT32)_fmi_ucSMBuffer | 0x80000000);
-
-    /* MLC check the 2048 byte of last page per block */
-    if (pSM->bIsMLCNand == TRUE)
-    {
-        if (pSM->nPageSize == NAND_PAGE_2KB)
-        {
-            sector = (BlockNo+1) * pSM->uPagePerBlock - 1;
-            status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiNormalCheckBlock() read fail, for block %d, status 0x%x\n", BlockNo, status);
-                return 1;
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data != 0xFF)
-                return 1;   // invalid block
-        }
-        else if (pSM->nPageSize == NAND_PAGE_4KB)
-        {
-            sector = (BlockNo+1) * pSM->uPagePerBlock - 1;
-            status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiNormalCheckBlock() read fail, for block %d, status 0x%x 0x%x\n", BlockNo, status);
-                return 1;
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data != 0xFF)
-                return 1;   // invalid block
-        }
-        // 2011/7/28, according to datasheet of Hynix H27UAG8T2B 8K page MLC NAND flash
-        // "Any block where the 1st Byte in the spare area of either the 1st or the last page does not contain FFh is a Bad Block."
-        else if (pSM->nPageSize == NAND_PAGE_8KB)
-        {
-            // check last page
-            sector = (BlockNo+1) * pSM->uPagePerBlock - 1;
-            status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiNormalCheckBlock() read fail, for block %d last page, return 0x%x\n", BlockNo, status);
-                return 1;   // invalid block
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data != 0xFF)
-                return 1;   // invalid block
-
-            // check 1st page
-            sector = BlockNo * pSM->uPagePerBlock;
-            status = fmiSM_Read_RA(pSM, sector, pSM->nPageSize);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                ERR_PRINTF("ERROR: fmiNormalCheckBlock() read fail, for block %d first page, return 0x%x\n", BlockNo, status);
-                return 1;   // invalid block
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data != 0xFF)
-                return 1;   // invalid block
-        }
-    }
-    /* SLC check the 2048 byte of 1st or 2nd page per block */
-    else    // SLC
-    {
-        sector = BlockNo * pSM->uPagePerBlock;
-        if (pSM->nPageSize == NAND_PAGE_4KB)
-        {
-            status = fmiSM_Read_RA(pSM, sector, 4096);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                return 1;
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data == 0xFF)
-            {
-                status = fmiSM_Read_RA(pSM, sector+1, 4096);
-                if (status == GNERR_NAND_NOT_FOUND)
-                    return status;
-                if (status < 0)
-                {
-                    DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                    return 1;
-                }
-                data = inpw(REG_SMDATA) & 0xff;
-                if (data != 0xFF)
-                {
-                    DBG_PRINTF("find bad block is conformed.\n");
-                    return 1;   // invalid block
-                }
-            }
-            else
-            {
-                DBG_PRINTF("find bad block is conformed.\n");
-                return 1;   // invalid block
-            }
-        }
-        else if (pSM->nPageSize == NAND_PAGE_2KB)
-        {
-            status = fmiSM_Read_RA(pSM, sector, 2048);
-            if (status == GNERR_NAND_NOT_FOUND)
-                return status;
-            if (status < 0)
-            {
-                DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                return 1;
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            if (data == 0xFF)
-            {
-                status = fmiSM_Read_RA(pSM, sector+1, 2048);
-                if (status == GNERR_NAND_NOT_FOUND)
-                    return status;
-                if (status < 0)
-                {
-                    DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                    return 1;
-                }
-                data = inpw(REG_SMDATA) & 0xff;
-                if (data != 0xFF)
-                {
-                    DBG_PRINTF("find bad block is conformed.\n");
-                    return 1;   // invalid block
-                }
-            }
-            else
-            {
-                    DBG_PRINTF("find bad block is conformed.\n");
-                    return 1;   // invalid block
-            }
-        }
-        else    /* page size 512B */
-        {
-            status = fmiSM_Read_RA_512(pSM, sector, 0);
-            if (status < 0)
-            {
-                DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                return 1;
-            }
-            data = inpw(REG_SMDATA) & 0xff;
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA);
-            data517 = inpw(REG_SMDATA) & 0xff;
-            if ((data == 0xFF) && (data517 == 0xFF))
-            {
-                fmiSM_Reset(pSM);
-                status = fmiSM_Read_RA_512(pSM, sector+1, 0);
-                if (status < 0)
-                {
-                    DBG_PRINTF("fmiNormalCheckBlock 0x%x\n", status);
-                    return 1;
-                }
-                data = inpw(REG_SMDATA) & 0xff;
-                data517 = inpw(REG_SMDATA);
-                data517 = inpw(REG_SMDATA);
-                data517 = inpw(REG_SMDATA);
-                data517 = inpw(REG_SMDATA);
-                data517 = inpw(REG_SMDATA) & 0xff;
-                if ((data != 0xFF) || (data517 != 0xFF))
-                {
-                    fmiSM_Reset(pSM);
-                    return 1;   // invalid block
-                }
-            }
-            else
-            {
-                    DBG_PRINTF("find bad block is conformed.\n");
-                    fmiSM_Reset(pSM);
-                    return 1;   // invalid block
-            }
-            fmiSM_Reset(pSM);
-        }
-    }
-
-    return 0;
+    return fmiCheckInvalidBlock(pSM, BlockNo);
 }
 
 
@@ -2663,54 +2454,36 @@ INT sicSMpwrite(INT chipSel, INT PBA, INT page, UINT8 *buff)
     return status;
 }
 
+/* Return the number of bit 1 within integer n */
+static int countBit1(int n)
+{
+    int count = 0;
+    while(n)
+    {
+        count += (n & 1);
+        n >>= 1;
+    }
+    return count;
+}
 
 static INT sicSM_is_page_dirty(INT chipSel, INT PBA, INT page)
 {
-    int result;
-    FMI_SM_INFO_T *pSM;
-    int pageNo;
-    UINT8 data0;
-    //UINT8 data1;
+    unsigned char volatile byte2=0xFF, byte3=0xFF;
 
-    sicSMselect(chipSel);
-    if (chipSel == 0)
-        pSM = pSM0;
+    _fmi_pSMBuffer2 = (UINT8 *)((UINT32)_fmi_ucSMBuffer2 | 0x80000000);
+    /* read page with ECC */
+    sicSMpread(chipSel, PBA, page, _fmi_pSMBuffer2);
+    byte2 = (inpw(REG_SMRA_0) & 0x00FF0000) >> 16;
+    byte3 = (inpw(REG_SMRA_0) & 0xFF000000) >> 24;
+
+    /* If bit 1 count value of byte 2 and byte 3 is greater than 8,
+       NAND controller will treat this page as none used page (clean page);
+       otherwise, it¡¦s used (dirty page). */
+    if (countBit1(byte2) + countBit1(byte3) > 8)
+        return NAND_CLEAN_PAGE;
     else
-        pSM = pSM1;
-
-    // enable SM
-    outpw(REG_FMICR, FMI_SM_EN);
-    fmiSM_Initial(pSM);     //removed by mhuko
-
-    PBA += pSM->uLibStartBlock;
-    pageNo = PBA * pSM->uPagePerBlock + page;
-
-    // if redundancy area is 0xFF 0xFF 0xFF 0xFF .... --> clean page
-    // if redundancy area is 0xFF 0xFF 0x00 0x00 .... --> dirty page
-    if (pSM->nPageSize == NAND_PAGE_512B)
-        result = fmiSM_Read_RA_512(pSM, pageNo, 2);
-    else
-        result = fmiSM_Read_RA(pSM, pageNo, pSM->nPageSize+2);   // read (page size + 2) bytes to ignore them
-    if (result == GNERR_NAND_NOT_FOUND)
-        return result;
-
-    data0 = inpw(REG_SMDATA);   // read 3rd bytes of redundancy area
-    //data1 = inpw(REG_SMDATA);   // read 4th bytes of redundancy area
-
-    if (pSM->nPageSize == NAND_PAGE_512B)
-        fmiSM_Reset(pSM);
-
-    //mhkuo
-//  if ((data0 == 0) && (data1 == 0x00))
-//  if ((data0 == 0) || (data1 == 0x00))
-    if (data0 == 0x00)
-        return 1;   // used page
-    else if (data0 != 0xff)
-        return 1;   // used page
-
-    return 0;   // un-used page
+        return NAND_DIRTY_PAGE;
 }
-
 
 static INT sicSM_is_valid_block(INT chipSel, INT PBA)
 {
