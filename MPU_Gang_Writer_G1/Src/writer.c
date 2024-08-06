@@ -310,6 +310,7 @@ int File_Copy(CHAR *suSrcName, CHAR *suDstName)
     if (hFileDst < 0)
     {
         fsCloseFile(hFileSrc);
+        fsFlushIOCache();
         return hFileDst;
     }
 
@@ -326,6 +327,7 @@ int File_Copy(CHAR *suSrcName, CHAR *suDstName)
     }
     fsCloseFile(hFileSrc);
     fsCloseFile(hFileDst);
+    fsFlushIOCache();
 
     if (nStatus == ERR_FILE_EOF)
         nStatus = 0;
@@ -344,7 +346,11 @@ int File_Compare(CHAR *suFileNameS, CHAR *suFileNameD)
 
     hFileD = fsOpenFile(suFileNameD, NULL, O_RDONLY);
     if (hFileD < 0)
+    {
+        fsCloseFile(hFileS);
+        fsFlushIOCache();
         return hFileD;
+    }
 
     while (1)
     {
@@ -356,6 +362,7 @@ int File_Compare(CHAR *suFileNameS, CHAR *suFileNameD)
         {
             fsCloseFile(hFileS);
             fsCloseFile(hFileD);
+            fsFlushIOCache();
             return 0;
         }
 
@@ -368,6 +375,7 @@ int File_Compare(CHAR *suFileNameS, CHAR *suFileNameD)
 
     fsCloseFile(hFileS);
     fsCloseFile(hFileD);
+    fsFlushIOCache();
     return -1;
 }
 
@@ -448,11 +456,13 @@ int nandCopyContent(CHAR *suDirName, CHAR *suTargetName)
             else
                 Draw_CurrentOperation(Array1,nStatus);
 
+            DBG_PRINTF("Comparing file %s\n", tFileInfo.szShortName);
             sprintf(Array1, "Comparing %s", tFileInfo.szShortName);
             nStatus = File_Compare(suSrcLongName, suDstLongName);
             if (nStatus < 0)
             {
                 Draw_CurrentOperation(Array1,nStatus);
+                ERR_PRINTF("    Compare file %s fail ! Status = 0x%x\n", tFileInfo.szShortName, nStatus);
                 return nStatus;
             }
             Draw_CurrentOperation(Array1,nStatus);
@@ -512,11 +522,6 @@ int main()
     DBG_PRINTF("HCLK1  Clock = %dHz\n", sysGetHCLK1Clock());
     DBG_PRINTF("APB    Clock = %dHz\n", sysGetAPBClock());
 #endif
-
-    //--- Reset SIC engine to make sure it under normal status.
-    outp32(REG_AHBCLK, inp32(REG_AHBCLK) | (SIC_CKE | NAND_CKE | SD_CKE));
-    outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) | SIC_RST);    // SIC engine reset is avtive
-    outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) & ~SIC_RST);   // SIC engine reset is no active. Reset completed.
 
     /* enable cache */
     sysDisableCache();
@@ -613,6 +618,11 @@ int main()
 
     Draw_Font(COLOR_RGB16_WHITE,  &s_sDemo_Font, font_x, font_y, "Mount SD Card:");
     u32SkipX = 14;
+
+    //--- Reset SIC engine to make sure it under normal status.
+    outp32(REG_AHBCLK, inp32(REG_AHBCLK) | (SIC_CKE | NAND_CKE | SD_CKE));
+    outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) | SIC_RST);    // SIC engine reset is avtive
+    outp32(REG_AHBIPRST, inp32(REG_AHBIPRST) & ~SIC_RST);   // SIC engine reset is no active. Reset completed.
 
     u32PllOutHz = sysGetPLLOutputHz(eSYS_UPLL, sysGetExternalClock());
     sicIoctl(SIC_SET_CLOCK, u32PllOutHz/1000, 0, 0);
@@ -861,6 +871,7 @@ int main()
     font_y += Next_Font_Height;
 
     fsCloseFile(hNvtFile);
+    fsFlushIOCache();
     hNvtFile = -1;
 
     FileInfoIdx++;
@@ -955,6 +966,7 @@ WriteLogo:
     font_y += Next_Font_Height;
 
     fsCloseFile(hNvtFile);
+    fsFlushIOCache();
     hNvtFile = -1;
 
     FileInfoIdx++;
@@ -1049,7 +1061,7 @@ WriteNVTLoader:
     font_y += Next_Font_Height;
 
     fsCloseFile(hNvtFile);
-
+    fsFlushIOCache();
     hNvtFile = -1;
 
 WriteSysteInfo:

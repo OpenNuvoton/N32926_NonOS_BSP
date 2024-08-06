@@ -10,7 +10,7 @@
 #define _WRITER_H_
 
 #define MAJOR_VERSION_NUM   1
-#define MINOR_VERSION_NUM   0
+#define MINOR_VERSION_NUM   1
 
 #define SUPPORT_INTERFACE   (1)
 #if (SUPPORT_INTERFACE)

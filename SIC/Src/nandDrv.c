@@ -318,6 +318,10 @@ INT fmiSM_ReadID(FMI_SM_INFO_T *pSM, NDISK_T *NDISK_info)
             NDISK_info->vendor_ID = 0xFF;   // fake vendor_ID
         }
     }
+    else
+    {
+        pSM->bIsCheckECC = TRUE;
+    }
 
     pSM->bIsNandECC4 = FALSE;
     pSM->bIsNandECC8 = FALSE;
